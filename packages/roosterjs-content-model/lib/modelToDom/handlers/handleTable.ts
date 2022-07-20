@@ -1,6 +1,6 @@
 import { applyFormat } from '../utils/applyFormat';
 import { ContentModelTable } from '../../publicTypes/block/ContentModelTable';
-import { FormatContext } from '../../publicTypes/format/FormatContext';
+import { FormatContext } from '../../formatHandlers/FormatContext';
 import { handleBlock } from './handleBlock';
 import { TableCellFormatHandlers } from '../../formatHandlers/TableCellFormatHandler';
 import { TableFormatHandlers } from '../../formatHandlers/TableFormatHandlers';
