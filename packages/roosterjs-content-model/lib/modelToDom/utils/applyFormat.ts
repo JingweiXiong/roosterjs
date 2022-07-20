@@ -1,4 +1,4 @@
-import { FormatContext } from '../../publicTypes/format/FormatContext';
+import { FormatContext } from '../../formatHandlers/FormatContext';
 import { FormatHandler } from '../../formatHandlers/FormatHandler';
 
 /**
