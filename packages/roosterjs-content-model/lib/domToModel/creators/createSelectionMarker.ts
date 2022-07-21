@@ -1,6 +1,6 @@
 import { ContentModelSegmentType } from '../../publicTypes/enum/SegmentType';
 import { ContentModelSelectionMarker } from '../../publicTypes/segment/ContentModelSelectionMarker';
-import { FormatContext } from '../types/FormatContext';
+import { FormatContext } from '../../formatHandlers/FormatContext';
 
 /**
  * @internal

@@ -6,18 +6,23 @@ import { ContentModelGeneralBlock } from '../../../lib/publicTypes/block/group/C
 import { ContentModelParagraph } from '../../../lib/publicTypes/block/ContentModelParagraph';
 import { ContentModelSegmentType } from '../../../lib/publicTypes/enum/SegmentType';
 import { createContentModelDocument } from '../../../lib/domToModel/creators/createContentModelDocument';
+import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
 import { createParagraph } from '../../../lib/domToModel/creators/createParagraph';
 import { createText } from '../../../lib/domToModel/creators/createText';
-import { FormatContext } from '../../../lib/domToModel/types/FormatContext';
-
-const formatContext: FormatContext = { blockFormat: {}, segmentFormat: {}, isInSelection: false };
+import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
 
 describe('addSegment', () => {
+    let context: FormatContext;
+
+    beforeEach(() => {
+        context = createFormatContext();
+    });
+
     it('Add segment to empty document', () => {
         const doc = createContentModelDocument(document);
-        const segment = createText(formatContext, 'test');
+        const segment = createText(context, 'test');
 
-        addSegment(doc, formatContext, segment);
+        addSegment(doc, context, segment);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
@@ -42,11 +47,11 @@ describe('addSegment', () => {
 
     it('Add segment to document contains an empty paragraph', () => {
         const doc = createContentModelDocument(document);
-        addBlock(doc, createParagraph(formatContext));
+        addBlock(doc, createParagraph(context));
 
-        const segment = createText(formatContext, 'test');
+        const segment = createText(context, 'test');
 
-        addSegment(doc, formatContext, segment);
+        addSegment(doc, context, segment);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
@@ -83,9 +88,9 @@ describe('addSegment', () => {
         };
         addBlock(doc, block);
 
-        const segment = createText(formatContext, 'test2');
+        const segment = createText(context, 'test2');
 
-        addSegment(doc, formatContext, segment);
+        addSegment(doc, context, segment);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
@@ -123,9 +128,9 @@ describe('addSegment', () => {
         };
         addBlock(doc, block);
 
-        const segment = createText(formatContext, 'test');
+        const segment = createText(context, 'test');
 
-        addSegment(doc, formatContext, segment);
+        addSegment(doc, context, segment);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,

@@ -2,17 +2,22 @@ import { ContentModelBlockGroupType } from '../../../lib/publicTypes/enum/BlockG
 import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
 import { ContentModelSegmentType } from '../../../lib/publicTypes/enum/SegmentType';
 import { createContentModelDocument } from '../../../lib/domToModel/creators/createContentModelDocument';
+import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
 import { createGeneralBlock } from '../../../lib/domToModel/creators/createGeneralBlock';
 import { createGeneralSegment } from '../../../lib/domToModel/creators/createGeneralSegment';
 import { createParagraph } from '../../../lib/domToModel/creators/createParagraph';
 import { createTable } from '../../../lib/domToModel/creators/createTable';
 import { createTableCell } from '../../../lib/domToModel/creators/createTableCell';
 import { createText } from '../../../lib/domToModel/creators/createText';
-import { FormatContext } from '../../../lib/domToModel/types/FormatContext';
-
-const formatContext: FormatContext = { blockFormat: {}, segmentFormat: {}, isInSelection: false };
+import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
 
 describe('Creators', () => {
+    let context: FormatContext;
+
+    beforeEach(() => {
+        context = createFormatContext();
+    });
+
     it('createContentModelDocument', () => {
         const result = createContentModelDocument(document);
 
@@ -38,7 +43,7 @@ describe('Creators', () => {
 
     it('createGeneralSegment', () => {
         const element = document.createElement('div');
-        const result = createGeneralSegment(formatContext, element);
+        const result = createGeneralSegment(context, element);
 
         expect(result).toEqual({
             segmentType: ContentModelSegmentType.General,
@@ -51,7 +56,7 @@ describe('Creators', () => {
     });
 
     it('createParagraph - not dummy block', () => {
-        const result = createParagraph(formatContext, false);
+        const result = createParagraph(context, false);
 
         expect(result).toEqual({
             blockType: ContentModelBlockType.Paragraph,
@@ -61,7 +66,7 @@ describe('Creators', () => {
     });
 
     it('createParagraph - dummy block', () => {
-        const result = createParagraph(formatContext, true);
+        const result = createParagraph(context, true);
 
         expect(result).toEqual({
             blockType: ContentModelBlockType.Paragraph,
@@ -73,7 +78,7 @@ describe('Creators', () => {
 
     it('createText', () => {
         const text = 'test';
-        const result = createText(formatContext, text);
+        const result = createText(context, text);
 
         expect(result).toEqual({
             segmentType: ContentModelSegmentType.Text,
@@ -83,16 +88,17 @@ describe('Creators', () => {
     });
 
     it('createTable', () => {
-        const tableModel = createTable(2);
+        const tableModel = createTable(context, 2);
 
         expect(tableModel).toEqual({
             blockType: ContentModelBlockType.Table,
             cells: [[], []],
+            format: {},
         });
     });
 
     it('createTableCell from Table Cell - no span', () => {
-        const tdModel = createTableCell(1 /*colSpan*/, 1 /*rowSpan*/, false /*isHeader*/);
+        const tdModel = createTableCell(context, 1 /*colSpan*/, 1 /*rowSpan*/, false /*isHeader*/);
         expect(tdModel).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
             blockGroupType: ContentModelBlockGroupType.TableCell,
@@ -100,11 +106,12 @@ describe('Creators', () => {
             spanLeft: false,
             spanAbove: false,
             isHeader: false,
+            format: {},
         });
     });
 
     it('createTableCell from Table Cell - span left', () => {
-        const tdModel = createTableCell(2 /*colSpan*/, 1 /*rowSpan*/, false /*isHeader*/);
+        const tdModel = createTableCell(context, 2 /*colSpan*/, 1 /*rowSpan*/, false /*isHeader*/);
         expect(tdModel).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
             blockGroupType: ContentModelBlockGroupType.TableCell,
@@ -112,11 +119,12 @@ describe('Creators', () => {
             spanLeft: true,
             spanAbove: false,
             isHeader: false,
+            format: {},
         });
     });
 
     it('createTableCell from Table Cell - span above', () => {
-        const tdModel = createTableCell(1 /*colSpan*/, 3 /*rowSpan*/, false /*isHeader*/);
+        const tdModel = createTableCell(context, 1 /*colSpan*/, 3 /*rowSpan*/, false /*isHeader*/);
         expect(tdModel).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
             blockGroupType: ContentModelBlockGroupType.TableCell,
@@ -124,11 +132,12 @@ describe('Creators', () => {
             spanLeft: false,
             spanAbove: true,
             isHeader: false,
+            format: {},
         });
     });
 
     it('createTableCell from Table Header', () => {
-        const tdModel = createTableCell(1 /*colSpan*/, 1 /*rowSpan*/, true /*isHeader*/);
+        const tdModel = createTableCell(context, 1 /*colSpan*/, 1 /*rowSpan*/, true /*isHeader*/);
         expect(tdModel).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
             blockGroupType: ContentModelBlockGroupType.TableCell,
@@ -136,6 +145,7 @@ describe('Creators', () => {
             spanLeft: false,
             spanAbove: false,
             isHeader: true,
+            format: {},
         });
     });
 });

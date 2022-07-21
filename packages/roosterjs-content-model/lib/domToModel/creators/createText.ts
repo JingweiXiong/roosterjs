@@ -1,6 +1,6 @@
 import { ContentModelSegmentType } from '../../publicTypes/enum/SegmentType';
 import { ContentModelText } from '../../publicTypes/segment/ContentModelText';
-import { FormatContext } from '../types/FormatContext';
+import { FormatContext } from '../../formatHandlers/FormatContext';
 
 /**
  * @internal

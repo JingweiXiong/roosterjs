@@ -1,4 +1,4 @@
-import { ContentModelSegmentFormat } from '../../publicTypes/format/SegmentFormat';
+import { ContentModelSegmentFormat } from '../../publicTypes/format/ContentModelSegmentFormat';
 
 const DummySegmentFormat: Required<ContentModelSegmentFormat> = {
     bold: false,
@@ -9,7 +9,7 @@ const DummySegmentFormat: Required<ContentModelSegmentFormat> = {
     strikethrough: false,
     fontFamily: '',
     fontSize: '',
-    color: '',
+    textColor: '',
     backgroundColor: '',
     linkHref: '',
     linkTarget: '',

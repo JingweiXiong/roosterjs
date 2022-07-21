@@ -1,12 +1,12 @@
 import { ContentModelBlockGroup } from '../../publicTypes/block/group/ContentModelBlockGroup';
-import { FormatContext } from '../types/FormatContext';
+import { FormatContext } from '../../formatHandlers/FormatContext';
 
 /**
  * @internal
  */
 export type ElementProcessor = (
     group: ContentModelBlockGroup,
-    context: FormatContext,
     element: HTMLElement,
+    context: FormatContext,
     defaultStyle: Partial<CSSStyleDeclaration>
 ) => void;

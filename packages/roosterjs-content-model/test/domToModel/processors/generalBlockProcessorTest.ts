@@ -4,14 +4,16 @@ import { ContentModelBlockGroupType } from '../../../lib/publicTypes/enum/BlockG
 import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
 import { ContentModelGeneralBlock } from '../../../lib/publicTypes/block/group/ContentModelGeneralBlock';
 import { createContentModelDocument } from '../../../lib/domToModel/creators/createContentModelDocument';
-import { FormatContext } from '../../../lib/domToModel/types/FormatContext';
+import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
+import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
 import { generalBlockProcessor } from '../../../lib/domToModel/processors/generalBlockProcessor';
 
-const formatContext: FormatContext = { blockFormat: {}, segmentFormat: {}, isInSelection: false };
-
 describe('generalBlockProcessor', () => {
+    let context: FormatContext;
+
     beforeEach(() => {
         spyOn(containerProcessor, 'containerProcessor');
+        context = createFormatContext();
     });
 
     it('Process a DIV element', () => {
@@ -25,7 +27,7 @@ describe('generalBlockProcessor', () => {
         };
 
         spyOn(createGeneralBlock, 'createGeneralBlock').and.returnValue(block);
-        generalBlockProcessor(doc, formatContext, div, {});
+        generalBlockProcessor(doc, div, context, {});
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
@@ -36,10 +38,6 @@ describe('generalBlockProcessor', () => {
         expect(createGeneralBlock.createGeneralBlock).toHaveBeenCalledTimes(1);
         expect(createGeneralBlock.createGeneralBlock).toHaveBeenCalledWith(div);
         expect(containerProcessor.containerProcessor).toHaveBeenCalledTimes(1);
-        expect(containerProcessor.containerProcessor).toHaveBeenCalledWith(
-            block,
-            div,
-            formatContext
-        );
+        expect(containerProcessor.containerProcessor).toHaveBeenCalledWith(block, div, context);
     });
 });

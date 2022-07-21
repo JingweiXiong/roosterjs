@@ -6,11 +6,11 @@ import { knownSegmentProcessor } from './knownSegmentProcessor';
 /**
  * @internal
  */
-export const generalProcessor: ElementProcessor = (group, context, element, defaultStyle) => {
+export const generalProcessor: ElementProcessor = (group, element, context, defaultStyle) => {
     const processor =
         BlockDisplay.indexOf(element.style.display || defaultStyle.display!) >= 0
             ? knownBlockProcessor
             : knownSegmentProcessor;
 
-    processor(group, context, element, defaultStyle);
+    processor(group, element, context, defaultStyle);
 };

@@ -1,6 +1,6 @@
 import { ContentModelBlockBase } from './ContentModelBlockBase';
 import { ContentModelBlockType } from '../enum/BlockType';
-import { ContentModelParagraphFormat } from '../format/ParagraphFormat';
+import { ContentModelParagraphFormat } from '../format/ContentModelParagraphFormat';
 import { ContentModelSegment } from '../segment/ContentModelSegment';
 import type { CompatibleContentModelBlockType } from '../compatibleEnum/BlockType';
 

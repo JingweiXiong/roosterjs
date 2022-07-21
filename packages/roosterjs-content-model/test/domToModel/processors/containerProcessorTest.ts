@@ -6,15 +6,16 @@ import { ContentModelBlockGroupType } from '../../../lib/publicTypes/enum/BlockG
 import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
 import { ContentModelDocument } from '../../../lib/publicTypes/block/group/ContentModelDocument';
 import { createContentModelDocument } from '../../../lib/domToModel/creators/createContentModelDocument';
-import { FormatContext } from '../../../lib/domToModel/types/FormatContext';
-
-const formatContext: FormatContext = { blockFormat: {}, segmentFormat: {}, isInSelection: false };
+import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
+import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
 
 describe('containerProcessor', () => {
     let doc: ContentModelDocument;
+    let context: FormatContext;
 
     beforeEach(() => {
         doc = createContentModelDocument(document);
+        context = createFormatContext();
         spyOn(generalBlockProcessor, 'generalBlockProcessor');
         spyOn(generalSegmentProcessor, 'generalSegmentProcessor');
         spyOn(textProcessor, 'textProcessor');
@@ -23,7 +24,7 @@ describe('containerProcessor', () => {
     it('Process a document fragment', () => {
         const fragment = document.createDocumentFragment();
 
-        containerProcessor(doc, fragment, formatContext);
+        containerProcessor(doc, fragment, context);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
@@ -39,7 +40,7 @@ describe('containerProcessor', () => {
     it('Process an empty DIV', () => {
         const div = document.createElement('div');
 
-        containerProcessor(doc, div, formatContext);
+        containerProcessor(doc, div, context);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
@@ -56,7 +57,7 @@ describe('containerProcessor', () => {
         const div = document.createElement('div');
         div.textContent = 'test';
 
-        containerProcessor(doc, div, formatContext);
+        containerProcessor(doc, div, context);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
@@ -67,7 +68,7 @@ describe('containerProcessor', () => {
         expect(generalBlockProcessor.generalBlockProcessor).not.toHaveBeenCalled();
         expect(generalSegmentProcessor.generalSegmentProcessor).not.toHaveBeenCalled();
         expect(textProcessor.textProcessor).toHaveBeenCalledTimes(1);
-        expect(textProcessor.textProcessor).toHaveBeenCalledWith(doc, 'test', formatContext);
+        expect(textProcessor.textProcessor).toHaveBeenCalledWith(doc, 'test', context);
     });
 
     xit('Process a DIV with SPAN node', () => {
@@ -75,7 +76,7 @@ describe('containerProcessor', () => {
         const span = document.createElement('span');
         div.appendChild(span);
 
-        containerProcessor(doc, div, formatContext);
+        containerProcessor(doc, div, context);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
@@ -87,8 +88,8 @@ describe('containerProcessor', () => {
         expect(generalSegmentProcessor.generalSegmentProcessor).toHaveBeenCalledTimes(1);
         expect(generalSegmentProcessor.generalSegmentProcessor).toHaveBeenCalledWith(
             doc,
-            formatContext,
             span,
+            context,
             {}
         );
         expect(textProcessor.textProcessor).not.toHaveBeenCalled();
@@ -103,7 +104,7 @@ describe('containerProcessor', () => {
         div.appendChild(innerDiv);
         div.appendChild(text);
 
-        containerProcessor(doc, div, formatContext);
+        containerProcessor(doc, div, context);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
@@ -114,18 +115,18 @@ describe('containerProcessor', () => {
         expect(generalBlockProcessor.generalBlockProcessor).toHaveBeenCalledTimes(1);
         expect(generalBlockProcessor.generalBlockProcessor).toHaveBeenCalledWith(
             doc,
-            formatContext,
             innerDiv,
+            context,
             {}
         );
         expect(generalSegmentProcessor.generalSegmentProcessor).toHaveBeenCalledTimes(1);
         expect(generalSegmentProcessor.generalSegmentProcessor).toHaveBeenCalledWith(
             doc,
-            formatContext,
             span,
+            context,
             {}
         );
         expect(textProcessor.textProcessor).toHaveBeenCalledTimes(1);
-        expect(textProcessor.textProcessor).toHaveBeenCalledWith(doc, 'test', formatContext);
+        expect(textProcessor.textProcessor).toHaveBeenCalledWith(doc, 'test', context);
     });
 });

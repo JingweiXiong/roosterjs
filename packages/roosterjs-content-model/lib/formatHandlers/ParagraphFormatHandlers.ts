@@ -1,21 +1,22 @@
-import { alignmentHandler } from './alignmentHandler';
-import { backColorHandler } from './backColorHandler';
-import { directionHandler } from './directionHandler';
-import { indentationHandler } from './indentationHandler';
-import { lineHeightHandler } from './lineHeightHandler';
-import { marginHandler } from './marginHandler';
-import { ParagraphFormatHandler } from './FormatHandler';
-import { whiteSpaceHandler } from './whiteSpaceHandler';
+import { backgroundColorFormatHandler } from './common/backgroundColorFormatHandler';
+import { ContentModelParagraphFormat } from '../publicTypes/format/ContentModelParagraphFormat';
+import { directionFormatHandler } from './paragraph/directionFormatHandler';
+import { FormatHandler } from './FormatHandler';
+import { indentFormatHandler } from './paragraph/indentFormatHandler';
+import { lineHeightFormatHandler } from './paragraph/lineHeightFormatHandler';
+import { marginFormatHandler } from './paragraph/marginFormatHandler';
+import { textAlignFormatHandler } from './common/textAlignFormatHandler';
+import { whiteSpaceFormatHandler } from './paragraph/whiteSpaceFormatHandler';
 
 /**
  * @internal
  */
-export const ParagraphFormatHandlers: ParagraphFormatHandler[] = [
-    backColorHandler,
-    directionHandler,
-    alignmentHandler,
-    marginHandler,
-    indentationHandler,
-    lineHeightHandler,
-    whiteSpaceHandler,
+export const ParagraphFormatHandlers: FormatHandler<ContentModelParagraphFormat>[] = [
+    backgroundColorFormatHandler,
+    directionFormatHandler,
+    textAlignFormatHandler,
+    marginFormatHandler,
+    indentFormatHandler,
+    lineHeightFormatHandler,
+    whiteSpaceFormatHandler,
 ];

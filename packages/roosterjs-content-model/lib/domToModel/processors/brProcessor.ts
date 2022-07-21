@@ -5,6 +5,6 @@ import { ElementProcessor } from './ElementProcessor';
 /**
  * @internal
  */
-export const brProcessor: ElementProcessor = (group, context) => {
+export const brProcessor: ElementProcessor = (group, element, context) => {
     addSegment(group, context, createBr(context));
 };

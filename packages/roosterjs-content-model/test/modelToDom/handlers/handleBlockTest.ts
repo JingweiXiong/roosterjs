@@ -2,19 +2,31 @@ import * as handleParagraph from '../../../lib/modelToDom/handlers/handleParagra
 import { ContentModelBlock } from '../../../lib/publicTypes/block/ContentModelBlock';
 import { ContentModelBlockGroupType } from '../../../lib/publicTypes/enum/BlockGroupType';
 import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
+import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
+import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
 import { handleBlock } from '../../../lib/modelToDom/handlers/handleBlock';
+import { SelectionInfo } from '../../../lib/modelToDom/types/SelectionInfo';
 
 describe('handleBlock', () => {
     let parent: HTMLElement;
+    let context: FormatContext;
+    let selectionInfo: SelectionInfo;
 
     beforeEach(() => {
+        context = createFormatContext();
+        selectionInfo = {
+            context: {
+                currentBlockNode: null,
+                currentSegmentNode: null,
+            },
+        };
         spyOn(handleParagraph, 'handleParagraph');
     });
 
     function runTest(block: ContentModelBlock, expectedInnerHTML: string) {
         parent = document.createElement('div');
 
-        handleBlock(document, parent, block, {});
+        handleBlock(document, parent, block, context, selectionInfo);
 
         expect(parent.innerHTML).toBe(expectedInnerHTML);
     }
@@ -33,7 +45,8 @@ describe('handleBlock', () => {
             document,
             parent,
             paragraph,
-            {}
+            context,
+            selectionInfo
         );
     });
 
@@ -72,7 +85,8 @@ describe('handleBlock', () => {
             document,
             element,
             paragraph,
-            {}
+            context,
+            selectionInfo
         );
     });
 });

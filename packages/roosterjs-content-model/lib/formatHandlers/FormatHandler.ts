@@ -1,33 +1,14 @@
-import { ContentModelParagraphFormat } from '../publicTypes/format/ParagraphFormat';
-import { ContentModelSegmentFormat } from '../publicTypes/format/SegmentFormat';
+import { FormatContext } from './FormatContext';
 
 /**
  * @internal
  */
-export interface FormatHandlerBase<
-    TFormat extends ContentModelParagraphFormat | ContentModelSegmentFormat
-> {
+export interface FormatHandler<TFormat> {
     parse: (
         format: TFormat,
         element: HTMLElement,
+        context: FormatContext,
         defaultStyle: Partial<CSSStyleDeclaration>
     ) => void;
-    writeBack: (format: TFormat, element: HTMLElement) => void;
+    apply: (format: TFormat, element: HTMLElement, context: FormatContext) => void;
 }
-
-/**
- * @internal
- */
-export type SegmentFormatHandler = FormatHandlerBase<ContentModelSegmentFormat>;
-
-/**
- * @internal
- */
-export type ParagraphFormatHandler = FormatHandlerBase<ContentModelParagraphFormat>;
-
-/**
- * @internal
- */
-export type FormatHandler = FormatHandlerBase<
-    ContentModelParagraphFormat | ContentModelSegmentFormat
->;

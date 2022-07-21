@@ -1,5 +1,6 @@
 import { ContentModelSegment } from '../../publicTypes/segment/ContentModelSegment';
 import { ContentModelSegmentType } from '../../publicTypes/enum/SegmentType';
+import { FormatContext } from '../../formatHandlers/FormatContext';
 import { getSelectionPosition } from '../utils/getSelectionPosition';
 import { handleBlock } from './handleBlock';
 import { SegmentFormatHandlers } from '../../formatHandlers/SegmentFormatHandlers';
@@ -12,6 +13,7 @@ export function handleSegment(
     doc: Document,
     parent: Node,
     segment: ContentModelSegment,
+    context: FormatContext,
     info: SelectionInfo
 ) {
     if (!info.start && segment.isSelected) {
@@ -54,7 +56,7 @@ export function handleSegment(
         case ContentModelSegmentType.General:
             info.context.currentSegmentNode = segment.element;
 
-            handleBlock(doc, parent, segment, info);
+            handleBlock(doc, parent, segment, context, info);
             break;
     }
 
@@ -62,7 +64,7 @@ export function handleSegment(
         parent.appendChild(element);
 
         SegmentFormatHandlers.forEach(handler => {
-            handler.writeBack(segment.format, element!);
+            handler.apply(segment.format, element!, context);
         });
     }
 }

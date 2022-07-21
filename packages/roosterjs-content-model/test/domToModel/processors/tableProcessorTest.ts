@@ -3,11 +3,16 @@ import { ContentModelBlock } from '../../../lib/publicTypes/block/ContentModelBl
 import { ContentModelBlockGroupType } from '../../../lib/publicTypes/enum/BlockGroupType';
 import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
 import { createContentModelDocument } from '../../../lib/domToModel/creators/createContentModelDocument';
+import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
 import { createTableCell } from '../../../lib/domToModel/creators/createTableCell';
+import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
 import { tableProcessor } from '../../../lib/domToModel/processors/tableProcessor';
 
 describe('tableProcessor', () => {
+    let context: FormatContext;
+
     beforeEach(() => {
+        context = createFormatContext(false, 1, false);
         spyOn(containerProcessor, 'containerProcessor');
     });
 
@@ -17,7 +22,7 @@ describe('tableProcessor', () => {
         const div = document.createElement('div');
         div.innerHTML = tableHTML;
 
-        tableProcessor(doc, div.firstChild as HTMLTableElement);
+        tableProcessor(doc, div.firstChild as HTMLTableElement, context, {});
 
         expect(doc.blocks[0]).toEqual(expectedModel);
     }
@@ -34,9 +39,11 @@ describe('tableProcessor', () => {
                         spanLeft: false,
                         isHeader: false,
                         blocks: [],
+                        format: {},
                     },
                 ],
             ],
+            format: {},
         });
     });
 
@@ -44,7 +51,7 @@ describe('tableProcessor', () => {
         const tdHTML = '<td></td>';
         const trHTML = `<tr>${tdHTML}${tdHTML}</tr>`;
         const tableHTML = `<table>${trHTML}${trHTML}</table>`;
-        const tdModel = createTableCell(1, 1, false);
+        const tdModel = createTableCell(context, 1, 1, false);
 
         runTest(tableHTML, {
             blockType: ContentModelBlockType.Table,
@@ -52,20 +59,22 @@ describe('tableProcessor', () => {
                 [tdModel, tdModel],
                 [tdModel, tdModel],
             ],
+            format: {},
         });
     });
 
     it('Process a 2*2 table with merged cell', () => {
         const tableHTML =
             '<table><tr><td></td><td></td></tr><tr><td colspan="2"></td></tr></table>';
-        const tdModel = createTableCell(1, 1, false);
+        const tdModel = createTableCell(context, 1, 1, false);
 
         runTest(tableHTML, {
             blockType: ContentModelBlockType.Table,
             cells: [
                 [tdModel, tdModel],
-                [tdModel, createTableCell(2, 1, false)],
+                [tdModel, createTableCell(context, 2, 1, false)],
             ],
+            format: {},
         });
     });
 
@@ -75,19 +84,21 @@ describe('tableProcessor', () => {
         runTest(tableHTML, {
             blockType: ContentModelBlockType.Table,
             cells: [
-                [createTableCell(1, 1, false), createTableCell(2, 1, false)],
-                [createTableCell(1, 2, false), createTableCell(2, 2, false)],
+                [createTableCell(context, 1, 1, false), createTableCell(context, 2, 1, false)],
+                [createTableCell(context, 1, 2, false), createTableCell(context, 2, 2, false)],
             ],
+            format: {},
         });
     });
 
     it('Process a 1*1 table with text content', () => {
         const tableHTML = '<table><tr><td>test</td></tr></table>';
-        const tdModel = createTableCell(1, 1, false);
+        const tdModel = createTableCell(context, 1, 1, false);
 
         runTest(tableHTML, {
             blockType: ContentModelBlockType.Table,
             cells: [[tdModel]],
+            format: {},
         });
 
         expect(containerProcessor.containerProcessor).toHaveBeenCalledTimes(1);
@@ -96,11 +107,12 @@ describe('tableProcessor', () => {
     it('Process a 1*2 table with element content', () => {
         const tableHTML =
             '<table><tr><td><span>test</span></td><td><span>test</span></td></tr></table>';
-        const tdModel = createTableCell(1, 1, false);
+        const tdModel = createTableCell(context, 1, 1, false);
 
         runTest(tableHTML, {
             blockType: ContentModelBlockType.Table,
             cells: [[tdModel, tdModel]],
+            format: {},
         });
 
         expect(containerProcessor.containerProcessor).toHaveBeenCalledTimes(2);
@@ -108,11 +120,12 @@ describe('tableProcessor', () => {
 
     it('Process a 1*2 table with element content in merged cell', () => {
         const tableHTML = '<table><tr><td colspan="2"><span>test</span></td></tr></table>';
-        const tdModel = createTableCell(1, 1, false);
+        const tdModel = createTableCell(context, 1, 1, false);
 
         runTest(tableHTML, {
             blockType: ContentModelBlockType.Table,
-            cells: [[tdModel, createTableCell(2, 1, false)]],
+            cells: [[tdModel, createTableCell(context, 2, 1, false)]],
+            format: {},
         });
 
         expect(containerProcessor.containerProcessor).toHaveBeenCalledTimes(1);

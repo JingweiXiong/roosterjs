@@ -6,7 +6,7 @@ import { ElementProcessor } from './ElementProcessor';
 /**
  * @internal
  */
-export const generalBlockProcessor: ElementProcessor = (group, context, element) => {
+export const generalBlockProcessor: ElementProcessor = (group, element, context) => {
     const block = createGeneralBlock(element);
     const originalBlockFormat = context.blockFormat;
     const originalSegmentFormat = context.segmentFormat;

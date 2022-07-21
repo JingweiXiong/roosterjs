@@ -2,7 +2,7 @@ import { ContentModelBlockGroupType } from '../../publicTypes/enum/BlockGroupTyp
 import { ContentModelBlockType } from '../../publicTypes/enum/BlockType';
 import { ContentModelGeneralSegment } from '../../publicTypes/segment/ContentModelGeneralSegment';
 import { ContentModelSegmentType } from '../../publicTypes/enum/SegmentType';
-import { FormatContext } from '../types/FormatContext';
+import { FormatContext } from '../../formatHandlers/FormatContext';
 
 /**
  * @internal

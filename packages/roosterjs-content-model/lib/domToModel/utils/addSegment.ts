@@ -5,7 +5,7 @@ import { ContentModelParagraph } from '../../publicTypes/block/ContentModelParag
 import { ContentModelSegment } from '../../publicTypes/segment/ContentModelSegment';
 import { ContentModelSegmentType } from '../../publicTypes/enum/SegmentType';
 import { createParagraph } from '../creators/createParagraph';
-import { FormatContext } from '../types/FormatContext';
+import { FormatContext } from '../../formatHandlers/FormatContext';
 
 /**
  * @internal

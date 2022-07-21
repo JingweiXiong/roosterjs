@@ -5,12 +5,12 @@ import { SegmentFormatHandlers } from '../../formatHandlers/SegmentFormatHandler
 /**
  * @internal
  */
-export const knownSegmentProcessor: ElementProcessor = (group, context, element, defaultStyle) => {
+export const knownSegmentProcessor: ElementProcessor = (group, element, context, defaultStyle) => {
     const originalSegmentFormat = context.segmentFormat;
 
     context.segmentFormat = { ...originalSegmentFormat };
     SegmentFormatHandlers.forEach(handler =>
-        handler.parse(context.segmentFormat, element, defaultStyle)
+        handler.parse(context.segmentFormat, element, context, defaultStyle)
     );
 
     containerProcessor(group, element, context);

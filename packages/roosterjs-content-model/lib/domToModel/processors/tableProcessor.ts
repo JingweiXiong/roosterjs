@@ -3,6 +3,10 @@ import { containerProcessor } from './containerProcessor';
 import { createTable } from '../creators/createTable';
 import { createTableCell } from '../creators/createTableCell';
 import { ElementProcessor } from './ElementProcessor';
+import { getDefaultStyle } from '../defaultStyles/getDefaultStyle';
+import { parseFormat } from '../utils/parseFormat';
+import { TableCellFormatHandlers } from '../../formatHandlers/TableCellFormatHandler';
+import { TableFormatHandlers } from '../../formatHandlers/TableFormatHandlers';
 
 /**
  * @internal
@@ -18,10 +22,11 @@ import { ElementProcessor } from './ElementProcessor';
  * 5. When write back to DOM, we create TD/TH elements for those non-spanned cells, and mark its colSpan/rowSpan value according
  * its neighbour cell's spanLeft/spanAbove attribute
  */
-export const tableProcessor: ElementProcessor = (group, context, element) => {
+export const tableProcessor: ElementProcessor = (group, element, context) => {
     const tableElement = element as HTMLTableElement;
     const table = createTable(context, tableElement.rows.length);
 
+    parseFormat(tableElement, TableFormatHandlers, table.format, context, {});
     addBlock(group, table);
 
     for (let row = 0; row < tableElement.rows.length; row++) {
@@ -39,6 +44,14 @@ export const tableProcessor: ElementProcessor = (group, context, element) => {
                     table.cells[row + rowSpan - 1][targetCol] = cell;
 
                     if (hasTd) {
+                        const defaultStyle = getDefaultStyle(td);
+                        parseFormat(
+                            td,
+                            TableCellFormatHandlers,
+                            cell.format,
+                            context,
+                            defaultStyle
+                        );
                         containerProcessor(cell, td, context);
                     }
                 }

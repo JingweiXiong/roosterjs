@@ -1,4 +1,4 @@
-import { ContentModelSegmentFormat } from '../format/SegmentFormat';
+import { ContentModelSegmentFormat } from '../format/ContentModelSegmentFormat';
 import { ContentModelSegmentType } from '../enum/SegmentType';
 import type { CompatibleContentModelSegmentType } from '../compatibleEnum/SegmentType';
 

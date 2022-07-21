@@ -2,10 +2,10 @@ import { addSegment } from '../utils/addSegment';
 import { BlockDisplay } from '../defaultStyles/BlockDisplay';
 import { ContentModelBlockGroup } from '../../publicTypes/block/group/ContentModelBlockGroup';
 import { createSelectionMarker } from '../creators/createSelectionMarker';
-import { DefaultStyleMap } from '../defaultStyles/DefaultStyleMap';
-import { FormatContext } from '../types/FormatContext';
+import { FormatContext } from '../../formatHandlers/FormatContext';
 import { generalBlockProcessor } from './generalBlockProcessor';
 import { generalSegmentProcessor } from './generalSegmentProcessor';
+import { getDefaultStyle } from '../defaultStyles/getDefaultStyle';
 import { getProcessor } from './getProcessor';
 import { isNodeOfType } from '../../domUtils/isNodeOfType';
 import { NodeType } from 'roosterjs-editor-types';
@@ -16,7 +16,7 @@ import { textProcessor } from './textProcessor';
  */
 export function containerProcessor(
     group: ContentModelBlockGroup,
-    parent: Node,
+    parent: ParentNode,
     context: FormatContext
 ) {
     let nodeStartOffset = context.startContainer == parent ? context.startOffset : -1;
@@ -38,15 +38,14 @@ export function containerProcessor(
         }
 
         if (isNodeOfType(child, NodeType.Element)) {
-            const style = DefaultStyleMap[child.tagName];
-            const format = style ? (typeof style === 'function' ? style(child) : style) : {};
+            const defaultStyle = getDefaultStyle(child);
             const processor =
                 getProcessor(child.tagName) ||
-                (BlockDisplay.indexOf(child.style.display || format.display || '') >= 0
+                (BlockDisplay.indexOf(child.style.display || defaultStyle.display || '') >= 0
                     ? generalBlockProcessor
                     : generalSegmentProcessor);
 
-            processor(group, context, child, format || {});
+            processor(group, child, context, defaultStyle);
         } else if (isNodeOfType(child, NodeType.Text)) {
             const textNode = child as Text;
 

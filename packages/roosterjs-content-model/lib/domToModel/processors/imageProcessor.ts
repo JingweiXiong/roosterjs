@@ -6,14 +6,14 @@ import { SegmentFormatHandlers } from '../../formatHandlers/SegmentFormatHandler
 /**
  * @internal
  */
-export const imageProcessor: ElementProcessor = (group, context, element, defaultStyle) => {
+export const imageProcessor: ElementProcessor = (group, element, context, defaultStyle) => {
     const imageElement = element as HTMLImageElement;
 
     const originalSegmentFormat = context.segmentFormat;
     context.segmentFormat = { ...originalSegmentFormat };
 
     SegmentFormatHandlers.forEach(handler =>
-        handler.parse(context.segmentFormat, imageElement, defaultStyle)
+        handler.parse(context.segmentFormat, imageElement, context, defaultStyle)
     );
 
     addSegment(group, context, createImage(context, imageElement));

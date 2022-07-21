@@ -1,17 +1,30 @@
 import * as handleBlock from '../../../lib/modelToDom/handlers/handleBlock';
 import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
 import { ContentModelTable } from '../../../lib/publicTypes/block/ContentModelTable';
+import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
 import { createTableCell } from '../../../lib/domToModel/creators/createTableCell';
+import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
 import { handleTable } from '../../../lib/modelToDom/handlers/handleTable';
+import { SelectionInfo } from '../../../lib/modelToDom/types/SelectionInfo';
 
 describe('handleTable', () => {
+    let context: FormatContext;
+    let selectionInfo: SelectionInfo;
+
     beforeEach(() => {
         spyOn(handleBlock, 'handleBlock');
+        context = createFormatContext();
+        selectionInfo = {
+            context: {
+                currentBlockNode: null,
+                currentSegmentNode: null,
+            },
+        };
     });
 
     function runTest(model: ContentModelTable, expectedInnerHTML: string) {
         const div = document.createElement('div');
-        handleTable(document, div, model);
+        handleTable(document, div, model, context, selectionInfo);
         expect(div.innerHTML).toBe(expectedInnerHTML);
     }
 
@@ -20,6 +33,7 @@ describe('handleTable', () => {
             {
                 blockType: ContentModelBlockType.Table,
                 cells: [],
+                format: {},
             },
             ''
         );
@@ -30,6 +44,7 @@ describe('handleTable', () => {
             {
                 blockType: ContentModelBlockType.Table,
                 cells: [[], []],
+                format: {},
             },
             ''
         );
@@ -39,14 +54,15 @@ describe('handleTable', () => {
         runTest(
             {
                 blockType: ContentModelBlockType.Table,
-                cells: [[createTableCell(1, 1, false)]],
+                cells: [[createTableCell(context, 1, 1, false)]],
+                format: {},
             },
             '<table><tbody><tr><td></td></tr></tbody></table>'
         );
     });
 
     it('Regular 2 * 2 table', () => {
-        const tdModel = createTableCell(1, 1, false);
+        const tdModel = createTableCell(context, 1, 1, false);
         runTest(
             {
                 blockType: ContentModelBlockType.Table,
@@ -54,45 +70,49 @@ describe('handleTable', () => {
                     [tdModel, tdModel],
                     [tdModel, tdModel],
                 ],
+                format: {},
             },
             '<table><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table>'
         );
     });
 
     it('3 * 1 table with empty row', () => {
-        const tdModel = createTableCell(1, 1, false);
+        const tdModel = createTableCell(context, 1, 1, false);
         runTest(
             {
                 blockType: ContentModelBlockType.Table,
                 cells: [[tdModel], [], [tdModel]],
+                format: {},
             },
             '<table><tbody><tr><td></td></tr><tr><td></td></tr></tbody></table>'
         );
     });
 
     it('Table with spanLeft cell', () => {
-        const tdModel = createTableCell(1, 1, false);
+        const tdModel = createTableCell(context, 1, 1, false);
         runTest(
             {
                 blockType: ContentModelBlockType.Table,
                 cells: [
-                    [tdModel, createTableCell(2, 1, false)],
+                    [tdModel, createTableCell(context, 2, 1, false)],
                     [tdModel, tdModel],
                 ],
+                format: {},
             },
             '<table><tbody><tr><td colspan="2"></td></tr><tr><td></td><td></td></tr></tbody></table>'
         );
     });
 
     it('Table with spanAbove cell', () => {
-        const tdModel = createTableCell(1, 1, false);
+        const tdModel = createTableCell(context, 1, 1, false);
         runTest(
             {
                 blockType: ContentModelBlockType.Table,
                 cells: [
                     [tdModel, tdModel],
-                    [createTableCell(1, 2, false), tdModel],
+                    [createTableCell(context, 1, 2, false), tdModel],
                 ],
+                format: {},
             },
             '<table><tbody><tr><td rowspan="2"></td><td></td></tr><tr><td></td></tr></tbody></table>'
         );
@@ -103,9 +123,10 @@ describe('handleTable', () => {
             {
                 blockType: ContentModelBlockType.Table,
                 cells: [
-                    [createTableCell(1, 1, false), createTableCell(2, 1, false)],
-                    [createTableCell(1, 2, false), createTableCell(2, 2, false)],
+                    [createTableCell(context, 1, 1, false), createTableCell(context, 2, 1, false)],
+                    [createTableCell(context, 1, 2, false), createTableCell(context, 2, 2, false)],
                 ],
+                format: {},
             },
             '<table><tbody><tr><td rowspan="2" colspan="2"></td></tr><tr></tr></tbody></table>'
         );
@@ -124,21 +145,22 @@ describe('handleTable', () => {
                 blockType: ContentModelBlockType.Table,
                 cells: [
                     [
-                        createTableCell(1, 1, false),
-                        createTableCell(1, 1, false),
-                        createTableCell(2, 1, false),
+                        createTableCell(context, 1, 1, false),
+                        createTableCell(context, 1, 1, false),
+                        createTableCell(context, 2, 1, false),
                     ],
                     [
-                        createTableCell(1, 2, false),
-                        createTableCell(1, 1, false),
-                        createTableCell(1, 1, false),
+                        createTableCell(context, 1, 2, false),
+                        createTableCell(context, 1, 1, false),
+                        createTableCell(context, 1, 1, false),
                     ],
                     [
-                        createTableCell(1, 1, false),
-                        createTableCell(2, 1, false),
-                        createTableCell(1, 2, false),
+                        createTableCell(context, 1, 1, false),
+                        createTableCell(context, 2, 1, false),
+                        createTableCell(context, 1, 2, false),
                     ],
                 ],
+                format: {},
             },
             '<table><tbody>' +
                 '<tr><td rowspan="2"></td><td colspan="2"></td></tr>' +
@@ -152,7 +174,11 @@ describe('handleTable', () => {
         runTest(
             {
                 blockType: ContentModelBlockType.Table,
-                cells: [[createTableCell(1, 1, true)], [createTableCell(1, 1, false)]],
+                cells: [
+                    [createTableCell(context, 1, 1, true)],
+                    [createTableCell(context, 1, 1, false)],
+                ],
+                format: {},
             },
             '<table><tbody><tr><th></th></tr><tr><td></td></tr></tbody></table>'
         );

@@ -1,6 +1,6 @@
 import { ContentModelBlockType } from '../../publicTypes/enum/BlockType';
 import { ContentModelParagraph } from '../../publicTypes/block/ContentModelParagraph';
-import { FormatContext } from '../types/FormatContext';
+import { FormatContext } from '../../formatHandlers/FormatContext';
 
 /**
  * @internal

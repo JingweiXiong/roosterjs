@@ -3,13 +3,25 @@ import { ContentModelBlockGroupType } from '../../../lib/publicTypes/enum/BlockG
 import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
 import { ContentModelSegment } from '../../../lib/publicTypes/segment/ContentModelSegment';
 import { ContentModelSegmentType } from '../../../lib/publicTypes/enum/SegmentType';
+import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
+import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
 import { handleSegment } from '../../../lib/modelToDom/handlers/handleSegment';
+import { SelectionInfo } from '../../../lib/modelToDom/types/SelectionInfo';
 
 describe('handleSegment', () => {
     let parent: HTMLElement;
+    let context: FormatContext;
+    let selectionInfo: SelectionInfo;
 
     beforeEach(() => {
         spyOn(handleBlock, 'handleBlock');
+        context = createFormatContext();
+        selectionInfo = {
+            context: {
+                currentBlockNode: null,
+                currentSegmentNode: null,
+            },
+        };
     });
 
     function runTest(
@@ -19,7 +31,7 @@ describe('handleSegment', () => {
     ) {
         parent = document.createElement('div');
 
-        handleSegment(document, parent, segment, {});
+        handleSegment(document, parent, segment, context, selectionInfo);
 
         expect(parent.innerHTML).toBe(expectedInnerHTML);
         expect(handleBlock.handleBlock).toHaveBeenCalledTimes(
@@ -49,6 +61,12 @@ describe('handleSegment', () => {
             format: {},
         };
         runTest(segment, '', 1);
-        expect(handleBlock.handleBlock).toHaveBeenCalledWith(document, parent, segment, {});
+        expect(handleBlock.handleBlock).toHaveBeenCalledWith(
+            document,
+            parent,
+            segment,
+            context,
+            selectionInfo
+        );
     });
 });

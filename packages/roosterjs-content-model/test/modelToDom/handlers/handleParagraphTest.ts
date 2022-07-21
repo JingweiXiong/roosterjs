@@ -4,14 +4,26 @@ import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
 import { ContentModelParagraph } from '../../../lib/publicTypes/block/ContentModelParagraph';
 import { ContentModelSegment } from '../../../lib/publicTypes/segment/ContentModelSegment';
 import { ContentModelSegmentType } from '../../../lib/publicTypes/enum/SegmentType';
+import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
+import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
 import { handleParagraph } from '../../../lib/modelToDom/handlers/handleParagraph';
+import { SelectionInfo } from '../../../lib/modelToDom/types/SelectionInfo';
 
 describe('handleParagraph', () => {
     let parent: HTMLElement;
+    let context: FormatContext;
+    let selectionInfo: SelectionInfo;
 
     beforeEach(() => {
         spyOn(handleSegment, 'handleSegment');
         parent = document.createElement('div');
+        context = createFormatContext();
+        selectionInfo = {
+            context: {
+                currentBlockNode: null,
+                currentSegmentNode: null,
+            },
+        };
     });
 
     function runTest(
@@ -19,7 +31,7 @@ describe('handleParagraph', () => {
         expectedInnerHTML: string,
         expectedCreateSegmentFromContentCalledTimes: number
     ) {
-        handleParagraph(document, parent, paragraph, {});
+        handleParagraph(document, parent, paragraph, context, selectionInfo);
 
         expect(parent.innerHTML).toBe(expectedInnerHTML);
         expect(handleSegment.handleSegment).toHaveBeenCalledTimes(
@@ -72,7 +84,8 @@ describe('handleParagraph', () => {
             document,
             parent.firstChild as HTMLElement,
             segment,
-            {}
+            context,
+            selectionInfo
         );
     });
 
@@ -93,7 +106,13 @@ describe('handleParagraph', () => {
             1
         );
 
-        expect(handleSegment.handleSegment).toHaveBeenCalledWith(document, parent, segment, {});
+        expect(handleSegment.handleSegment).toHaveBeenCalledWith(
+            document,
+            parent,
+            segment,
+            context,
+            selectionInfo
+        );
     });
 
     it('Handle multiple segments', () => {
@@ -124,13 +143,15 @@ describe('handleParagraph', () => {
             document,
             parent.firstChild as HTMLElement,
             segment1,
-            {}
+            context,
+            selectionInfo
         );
         expect(handleSegment.handleSegment).toHaveBeenCalledWith(
             document,
             parent.firstChild as HTMLElement,
             segment2,
-            {}
+            context,
+            selectionInfo
         );
     });
 });

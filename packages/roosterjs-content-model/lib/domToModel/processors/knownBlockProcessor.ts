@@ -8,7 +8,7 @@ import { SegmentFormatHandlers } from '../../formatHandlers/SegmentFormatHandler
 /**
  * @internal
  */
-export const knownBlockProcessor: ElementProcessor = (group, context, element, defaultStyle) => {
+export const knownBlockProcessor: ElementProcessor = (group, element, context, defaultStyle) => {
     const originalBlockFormat = context.blockFormat;
     const originalSegmentFormat = context.segmentFormat;
 
@@ -18,10 +18,10 @@ export const knownBlockProcessor: ElementProcessor = (group, context, element, d
     context.segmentFormat = { ...originalSegmentFormat };
 
     ParagraphFormatHandlers.forEach(handler =>
-        handler.parse(context.blockFormat, element, defaultStyle)
+        handler.parse(context.blockFormat, element, context, defaultStyle)
     );
     SegmentFormatHandlers.forEach(handler =>
-        handler.parse(context.segmentFormat, element, defaultStyle)
+        handler.parse(context.segmentFormat, element, context, defaultStyle)
     );
 
     addBlock(group, createParagraph(context, false));

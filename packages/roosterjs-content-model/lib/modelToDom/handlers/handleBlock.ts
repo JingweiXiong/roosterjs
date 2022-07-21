@@ -1,6 +1,7 @@
 import { ContentModelBlock } from '../../publicTypes/block/ContentModelBlock';
 import { ContentModelBlockGroupType } from '../../publicTypes/enum/BlockGroupType';
 import { ContentModelBlockType } from '../../publicTypes/enum/BlockType';
+import { FormatContext } from '../../formatHandlers/FormatContext';
 import { handleParagraph } from './handleParagraph';
 import { handleTable } from './handleTable';
 import { SelectionInfo } from '../types/SelectionInfo';
@@ -12,6 +13,7 @@ export function handleBlock(
     doc: Document,
     parent: Node,
     block: ContentModelBlock,
+    context: FormatContext,
     info: SelectionInfo
 ) {
     switch (block.blockType) {
@@ -19,7 +21,7 @@ export function handleBlock(
             break;
 
         case ContentModelBlockType.Table:
-            handleTable(doc, parent, block, info);
+            handleTable(doc, parent, block, context, info);
             break;
 
         case ContentModelBlockType.BlockGroup:
@@ -34,11 +36,13 @@ export function handleBlock(
                     break;
             }
 
-            block.blocks.forEach(childBlock => handleBlock(doc, newParent, childBlock, info));
+            block.blocks.forEach(childBlock =>
+                handleBlock(doc, newParent, childBlock, context, info)
+            );
 
             break;
         case ContentModelBlockType.Paragraph:
-            handleParagraph(doc, parent, block, info);
+            handleParagraph(doc, parent, block, context, info);
             break;
     }
 }

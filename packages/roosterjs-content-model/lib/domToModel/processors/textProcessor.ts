@@ -4,7 +4,7 @@ import { ContentModelBlockGroup } from '../../publicTypes/block/group/ContentMod
 import { ContentModelBlockType } from '../../publicTypes/enum/BlockType';
 import { ContentModelSegmentType } from '../../publicTypes/enum/SegmentType';
 import { createText } from '../creators/createText';
-import { FormatContext } from '../types/FormatContext';
+import { FormatContext } from '../../formatHandlers/FormatContext';
 
 /**
  * @internal
@@ -19,7 +19,7 @@ export function textProcessor(group: ContentModelBlockGroup, text: string, conte
         if (
             lastSegment &&
             lastSegment.segmentType == ContentModelSegmentType.Text &&
-            lastSegment.isSelected == context.isInSelection &&
+            !!lastSegment.isSelected == !!context.isInSelection &&
             areSameFormats(lastSegment.format, context.segmentFormat)
         ) {
             lastSegment.text += text;
