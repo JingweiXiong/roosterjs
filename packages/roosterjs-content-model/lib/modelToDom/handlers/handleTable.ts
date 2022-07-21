@@ -11,6 +11,11 @@ export function handleTable(
     table: ContentModelTable,
     info: SelectionInfo
 ) {
+    if (table.cells.length == 0 || table.cells.every(c => c.length == 0)) {
+        // Empty table, do not create TABLE element and just return
+        return;
+    }
+
     const tableNode = doc.createElement('table');
     parent.appendChild(tableNode);
 

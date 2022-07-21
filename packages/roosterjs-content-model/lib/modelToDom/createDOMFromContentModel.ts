@@ -2,10 +2,13 @@ import { ContentModelDocument } from '../publicTypes/block/group/ContentModelDoc
 import { createRange } from 'roosterjs-editor-dom';
 import { getSelectionPosition } from './utils/getSelectionPosition';
 import { handleBlock } from './handlers/handleBlock';
+import { handleBlock } from './handlers/handleBlock';
 import { isNodeOfType } from '../domUtils/isNodeOfType';
 import { NodeType, SelectionRangeEx, SelectionRangeTypes } from 'roosterjs-editor-types';
 import { optimize } from './optimizers/optimize';
+import { optimize } from './optimizers/optimize';
 import { SelectionInfo } from './types/SelectionInfo';
+import { SelectionRangeEx } from 'roosterjs-editor-types';
 
 /**
  * Create DOM tree from Content Model
