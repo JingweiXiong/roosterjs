@@ -20,9 +20,8 @@ const ResultMap = {
  * @internal
  */
 export const textAlignFormatHandler: FormatHandler<TextAlignFormat> = {
-    parse: (format, element, context, defaultStyle) => {
-        const align =
-            element.style.textAlign || element.getAttribute('align') || defaultStyle.textAlign;
+    parse: (format, element, context) => {
+        const align = element.style.textAlign || element.getAttribute('align');
 
         switch (align) {
             case 'center':
