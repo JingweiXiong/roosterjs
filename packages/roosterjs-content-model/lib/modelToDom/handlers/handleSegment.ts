@@ -1,5 +1,4 @@
 import { ContentModelSegment } from '../../publicTypes/segment/ContentModelSegment';
-import { ContentModelSegmentType } from '../../publicTypes/enum/SegmentType';
 import { FormatContext } from '../../formatHandlers/FormatContext';
 import { handleBlock } from './handleBlock';
 
@@ -15,14 +14,14 @@ export function handleSegment(
     let element: HTMLElement | null = null;
 
     switch (segment.segmentType) {
-        case ContentModelSegmentType.Text:
+        case 'Text':
             const txt = doc.createTextNode(segment.text);
 
             element = doc.createElement('span');
             element.appendChild(txt);
             break;
 
-        case ContentModelSegmentType.General:
+        case 'General':
             handleBlock(doc, parent, segment, context);
             break;
     }

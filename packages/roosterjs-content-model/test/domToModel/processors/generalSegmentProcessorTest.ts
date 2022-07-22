@@ -1,9 +1,6 @@
 import * as containerProcessor from '../../../lib/domToModel/processors/containerProcessor';
 import * as createGeneralSegment from '../../../lib/domToModel/creators/createGeneralSegment';
-import { ContentModelBlockGroupType } from '../../../lib/publicTypes/enum/BlockGroupType';
-import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
 import { ContentModelGeneralSegment } from '../../../lib/publicTypes/segment/ContentModelGeneralSegment';
-import { ContentModelSegmentType } from '../../../lib/publicTypes/enum/SegmentType';
 import { createContentModelDocument } from '../../../lib/domToModel/creators/createContentModelDocument';
 import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
 import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
@@ -21,9 +18,9 @@ describe('generalSegmentProcessor', () => {
         const doc = createContentModelDocument(document);
         const span = document.createElement('span');
         const segment: ContentModelGeneralSegment = {
-            segmentType: ContentModelSegmentType.General,
-            blockType: ContentModelBlockType.BlockGroup,
-            blockGroupType: ContentModelBlockGroupType.General,
+            segmentType: 'General',
+            blockType: 'BlockGroup',
+            blockGroupType: 'General',
             element: span,
             blocks: [],
         };
@@ -33,11 +30,11 @@ describe('generalSegmentProcessor', () => {
         generalSegmentProcessor(doc, span, context);
 
         expect(doc).toEqual({
-            blockType: ContentModelBlockType.BlockGroup,
-            blockGroupType: ContentModelBlockGroupType.Document,
+            blockType: 'BlockGroup',
+            blockGroupType: 'Document',
             blocks: [
                 {
-                    blockType: ContentModelBlockType.Paragraph,
+                    blockType: 'Paragraph',
                     isImplicit: true,
                     segments: [segment],
                 },

@@ -1,8 +1,5 @@
 import * as handleBlock from '../../../lib/modelToDom/handlers/handleBlock';
-import { ContentModelBlockGroupType } from '../../../lib/publicTypes/enum/BlockGroupType';
-import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
 import { ContentModelSegment } from '../../../lib/publicTypes/segment/ContentModelSegment';
-import { ContentModelSegmentType } from '../../../lib/publicTypes/enum/SegmentType';
 import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
 import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
 import { handleSegment } from '../../../lib/modelToDom/handlers/handleSegment';
@@ -34,7 +31,7 @@ describe('handleSegment', () => {
     it('Text segment', () => {
         runTest(
             {
-                segmentType: ContentModelSegmentType.Text,
+                segmentType: 'Text',
                 text: 'test',
             },
             '<span>test</span>',
@@ -44,9 +41,9 @@ describe('handleSegment', () => {
 
     it('general segment', () => {
         const segment: ContentModelSegment = {
-            segmentType: ContentModelSegmentType.General,
-            blockType: ContentModelBlockType.BlockGroup,
-            blockGroupType: ContentModelBlockGroupType.General,
+            segmentType: 'General',
+            blockType: 'BlockGroup',
+            blockGroupType: 'General',
             blocks: [],
             element: null!,
         };

@@ -1,7 +1,5 @@
 import * as containerProcessor from '../../../lib/domToModel/processors/containerProcessor';
 import { ContentModelBlock } from '../../../lib/publicTypes/block/ContentModelBlock';
-import { ContentModelBlockGroupType } from '../../../lib/publicTypes/enum/BlockGroupType';
-import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
 import { createContentModelDocument } from '../../../lib/domToModel/creators/createContentModelDocument';
 import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
 import { createTableCell } from '../../../lib/domToModel/creators/createTableCell';
@@ -29,12 +27,12 @@ describe('tableProcessor', () => {
 
     it('Process a regular 1*1 table', () => {
         runTest('<table><tr><td></td></tr></table>', {
-            blockType: ContentModelBlockType.Table,
+            blockType: 'Table',
             cells: [
                 [
                     {
-                        blockType: ContentModelBlockType.BlockGroup,
-                        blockGroupType: ContentModelBlockGroupType.TableCell,
+                        blockType: 'BlockGroup',
+                        blockGroupType: 'TableCell',
                         spanAbove: false,
                         spanLeft: false,
                         isHeader: false,
@@ -54,7 +52,7 @@ describe('tableProcessor', () => {
         const tdModel = createTableCell(1, 1, false);
 
         runTest(tableHTML, {
-            blockType: ContentModelBlockType.Table,
+            blockType: 'Table',
             cells: [
                 [tdModel, tdModel],
                 [tdModel, tdModel],
@@ -69,7 +67,7 @@ describe('tableProcessor', () => {
         const tdModel = createTableCell(1, 1, false);
 
         runTest(tableHTML, {
-            blockType: ContentModelBlockType.Table,
+            blockType: 'Table',
             cells: [
                 [tdModel, tdModel],
                 [tdModel, createTableCell(2, 1, false)],
@@ -82,7 +80,7 @@ describe('tableProcessor', () => {
         const tableHTML = '<table><tr><td colspan="2" rowspan="2"></td></tr><tr></tr></table>';
 
         runTest(tableHTML, {
-            blockType: ContentModelBlockType.Table,
+            blockType: 'Table',
             cells: [
                 [createTableCell(1, 1, false), createTableCell(2, 1, false)],
                 [createTableCell(1, 2, false), createTableCell(2, 2, false)],
@@ -96,7 +94,7 @@ describe('tableProcessor', () => {
         const tdModel = createTableCell(1, 1, false);
 
         runTest(tableHTML, {
-            blockType: ContentModelBlockType.Table,
+            blockType: 'Table',
             cells: [[tdModel]],
             format: {},
         });
@@ -110,7 +108,7 @@ describe('tableProcessor', () => {
         const tdModel = createTableCell(1, 1, false);
 
         runTest(tableHTML, {
-            blockType: ContentModelBlockType.Table,
+            blockType: 'Table',
             cells: [[tdModel, tdModel]],
             format: {},
         });
@@ -123,7 +121,7 @@ describe('tableProcessor', () => {
         const tdModel = createTableCell(1, 1, false);
 
         runTest(tableHTML, {
-            blockType: ContentModelBlockType.Table,
+            blockType: 'Table',
             cells: [[tdModel, createTableCell(2, 1, false)]],
             format: {},
         });

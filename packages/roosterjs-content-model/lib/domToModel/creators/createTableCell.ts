@@ -1,5 +1,3 @@
-import { ContentModelBlockGroupType } from '../../publicTypes/enum/BlockGroupType';
-import { ContentModelBlockType } from '../../publicTypes/enum/BlockType';
 import { ContentModelTableCell } from '../../publicTypes/block/group/ContentModelTableCell';
 
 /**
@@ -11,8 +9,8 @@ export function createTableCell(
     isHeader: boolean
 ): ContentModelTableCell {
     return {
-        blockType: ContentModelBlockType.BlockGroup,
-        blockGroupType: ContentModelBlockGroupType.TableCell,
+        blockType: 'BlockGroup',
+        blockGroupType: 'TableCell',
         blocks: [],
         format: {},
         spanLeft: colSpan > 1,

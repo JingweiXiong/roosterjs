@@ -1,14 +1,13 @@
 /**
  * Type of Segment in Content Model
  */
-export const enum ContentModelSegmentType {
+export type ContentModelSegmentType =
     /**
      * Represents a text node
      */
-    Text,
+    | 'Text'
 
     /**
      * Represents a general segment that doesn't have a special type
      */
-    General,
-}
+    | 'General';

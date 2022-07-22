@@ -1,6 +1,4 @@
 import { ContentModelBlock } from '../../publicTypes/block/ContentModelBlock';
-import { ContentModelBlockGroupType } from '../../publicTypes/enum/BlockGroupType';
-import { ContentModelBlockType } from '../../publicTypes/enum/BlockType';
 import { FormatContext } from '../../formatHandlers/FormatContext';
 import { handleParagraph } from './handleParagraph';
 import { handleTable } from './handleTable';
@@ -15,15 +13,15 @@ export function handleBlock(
     context: FormatContext
 ) {
     switch (block.blockType) {
-        case ContentModelBlockType.Table:
+        case 'Table':
             handleTable(doc, parent, block, context);
             break;
 
-        case ContentModelBlockType.BlockGroup:
+        case 'BlockGroup':
             let newParent = parent;
 
             switch (block.blockGroupType) {
-                case ContentModelBlockGroupType.General:
+                case 'General':
                     newParent = block.element.cloneNode();
                     parent.appendChild(newParent);
                     break;
@@ -34,7 +32,7 @@ export function handleBlock(
             block.blocks.forEach(childBlock => handleBlock(doc, newParent, childBlock, context));
 
             break;
-        case ContentModelBlockType.Paragraph:
+        case 'Paragraph':
             handleParagraph(doc, parent, block, context);
             break;
     }

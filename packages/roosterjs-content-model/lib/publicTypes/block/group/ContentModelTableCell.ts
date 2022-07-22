@@ -1,15 +1,10 @@
 import { ContentModelBlockGroupBase } from './ContentModelBlockGroupBase';
-import { ContentModelBlockGroupType } from '../../enum/BlockGroupType';
 import { ContentModelTableCellFormat } from '../../format/ContentModelTableCellFormat';
-import type { CompatibleContentModelBlockGroupType } from '../../compatibleEnum/BlockGroupType';
 
 /**
  * Content Model of Table Cell
  */
-export interface ContentModelTableCell
-    extends ContentModelBlockGroupBase<
-        ContentModelBlockGroupType.TableCell | CompatibleContentModelBlockGroupType.TableCell
-    > {
+export interface ContentModelTableCell extends ContentModelBlockGroupBase<'TableCell'> {
     /**
      * Format of this table cell
      */

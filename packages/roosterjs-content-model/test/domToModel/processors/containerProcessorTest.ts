@@ -2,8 +2,6 @@ import * as generalBlockProcessor from '../../../lib/domToModel/processors/gener
 import * as generalSegmentProcessor from '../../../lib/domToModel/processors/generalSegmentProcessor';
 import * as textProcessor from '../../../lib/domToModel/processors/textProcessor';
 import { containerProcessor } from '../../../lib/domToModel/processors/containerProcessor';
-import { ContentModelBlockGroupType } from '../../../lib/publicTypes/enum/BlockGroupType';
-import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
 import { ContentModelDocument } from '../../../lib/publicTypes/block/group/ContentModelDocument';
 import { createContentModelDocument } from '../../../lib/domToModel/creators/createContentModelDocument';
 import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
@@ -27,8 +25,8 @@ describe('containerProcessor', () => {
         containerProcessor(doc, fragment, context);
 
         expect(doc).toEqual({
-            blockType: ContentModelBlockType.BlockGroup,
-            blockGroupType: ContentModelBlockGroupType.Document,
+            blockType: 'BlockGroup',
+            blockGroupType: 'Document',
             blocks: [],
             document: document,
         });
@@ -43,8 +41,8 @@ describe('containerProcessor', () => {
         containerProcessor(doc, div, context);
 
         expect(doc).toEqual({
-            blockType: ContentModelBlockType.BlockGroup,
-            blockGroupType: ContentModelBlockGroupType.Document,
+            blockType: 'BlockGroup',
+            blockGroupType: 'Document',
             blocks: [],
             document: document,
         });
@@ -60,8 +58,8 @@ describe('containerProcessor', () => {
         containerProcessor(doc, div, context);
 
         expect(doc).toEqual({
-            blockType: ContentModelBlockType.BlockGroup,
-            blockGroupType: ContentModelBlockGroupType.Document,
+            blockType: 'BlockGroup',
+            blockGroupType: 'Document',
             blocks: [],
             document: document,
         });
@@ -79,8 +77,8 @@ describe('containerProcessor', () => {
         containerProcessor(doc, div, context);
 
         expect(doc).toEqual({
-            blockType: ContentModelBlockType.BlockGroup,
-            blockGroupType: ContentModelBlockGroupType.Document,
+            blockType: 'BlockGroup',
+            blockGroupType: 'Document',
             blocks: [],
             document: document,
         });
@@ -106,8 +104,8 @@ describe('containerProcessor', () => {
         containerProcessor(doc, div, context);
 
         expect(doc).toEqual({
-            blockType: ContentModelBlockType.BlockGroup,
-            blockGroupType: ContentModelBlockGroupType.Document,
+            blockType: 'BlockGroup',
+            blockGroupType: 'Document',
             blocks: [],
             document: document,
         });
