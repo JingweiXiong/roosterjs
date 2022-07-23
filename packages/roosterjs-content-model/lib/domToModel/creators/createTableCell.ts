@@ -12,7 +12,7 @@ export function createTableCell(
     rowSpan: number,
     isHeader: boolean
 ): ContentModelTableCell {
-    return {
+    const result: ContentModelTableCell = {
         blockType: ContentModelBlockType.BlockGroup,
         blockGroupType: ContentModelBlockGroupType.TableCell,
         blocks: [],
@@ -21,4 +21,10 @@ export function createTableCell(
         spanAbove: rowSpan > 1,
         isHeader,
     };
+
+    if (context.isInSelection) {
+        result.isSelected = true;
+    }
+
+    return result;
 }

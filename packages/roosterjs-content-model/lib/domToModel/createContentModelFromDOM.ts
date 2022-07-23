@@ -7,6 +7,7 @@ import { ContentModelSegment } from '../publicTypes/segment/ContentModelSegment'
 import { ContentModelSegmentType } from '../publicTypes/enum/SegmentType';
 import { createContentModelDocument } from './creators/createContentModelDocument';
 import { createFormatContext } from '../formatHandlers/createFormatContext';
+import { SelectionRangeEx } from 'roosterjs-editor-types';
 
 /**
  * Create Content Model from DOM node
@@ -20,7 +21,7 @@ import { createFormatContext } from '../formatHandlers/createFormatContext';
  */
 export default function createContentModelFromDOM(
     root: ParentNode,
-    range: Range | null,
+    range: SelectionRangeEx | null,
     isDarkMode: boolean,
     zoomScale: number,
     isRtl: boolean,

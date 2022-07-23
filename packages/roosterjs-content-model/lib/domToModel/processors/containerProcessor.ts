@@ -19,8 +19,12 @@ export function containerProcessor(
     parent: ParentNode,
     context: FormatContext
 ) {
-    let nodeStartOffset = context.startContainer == parent ? context.startOffset : -1;
-    let nodeEndOffset = context.endContainer == parent ? context.endOffset : -1;
+    let nodeStartOffset =
+        context.regularSelection?.startContainer == parent
+            ? context.regularSelection.startOffset
+            : -1;
+    let nodeEndOffset =
+        context.regularSelection?.endContainer == parent ? context.regularSelection.endOffset : -1;
     let index = 0;
 
     for (let child = parent.firstChild; child; child = child.nextSibling) {
@@ -31,7 +35,7 @@ export function containerProcessor(
         }
 
         if (index == nodeEndOffset) {
-            if (!context.isSelectionCollapsed) {
+            if (!context.regularSelection!.isSelectionCollapsed) {
                 addSegment(group, context, createSelectionMarker(context));
             }
             context.isInSelection = false;
@@ -50,8 +54,14 @@ export function containerProcessor(
             const textNode = child as Text;
 
             let txt = textNode.nodeValue || '';
-            let txtStartOffset = context.startContainer == textNode ? context.startOffset! : -1;
-            let txtEndOffset = context.endContainer == textNode ? context.endOffset! : -1;
+            let txtStartOffset =
+                context.regularSelection?.startContainer == textNode
+                    ? context.regularSelection.startOffset!
+                    : -1;
+            let txtEndOffset =
+                context.regularSelection?.endContainer == textNode
+                    ? context.regularSelection.endOffset!
+                    : -1;
 
             if (txtStartOffset >= 0) {
                 textProcessor(group, txt.substring(0, txtStartOffset), context);
@@ -66,7 +76,7 @@ export function containerProcessor(
             if (txtEndOffset >= 0) {
                 textProcessor(group, txt.substring(0, txtEndOffset), context);
 
-                if (!context.isSelectionCollapsed) {
+                if (!context.regularSelection!.isSelectionCollapsed) {
                     addSegment(group, context, createSelectionMarker(context));
                 }
 

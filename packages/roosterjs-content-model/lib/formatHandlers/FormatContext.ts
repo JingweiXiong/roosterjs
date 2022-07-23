@@ -1,5 +1,6 @@
 import { ContentModelParagraphFormat } from '../publicTypes/format/ContentModelParagraphFormat';
 import { ContentModelSegmentFormat } from '../publicTypes/format/ContentModelSegmentFormat';
+import { Coordinates } from 'roosterjs-editor-types';
 
 /**
  * Context of format, used for parse format from HTML element according to current context
@@ -31,9 +32,21 @@ export interface FormatContext {
     segmentFormat: ContentModelSegmentFormat;
     isInSelection: boolean;
 
-    isSelectionCollapsed?: boolean;
-    startContainer?: Node;
-    endContainer?: Node;
-    startOffset?: number;
-    endOffset?: number;
+    regularSelection?: {
+        isSelectionCollapsed?: boolean;
+        startContainer?: Node;
+        endContainer?: Node;
+        startOffset?: number;
+        endOffset?: number;
+    };
+
+    tableSelection?: {
+        table: HTMLTableElement;
+        firstCell: Coordinates;
+        lastCell: Coordinates;
+    };
+
+    imageSelection?: {
+        image: HTMLImageElement;
+    };
 }
