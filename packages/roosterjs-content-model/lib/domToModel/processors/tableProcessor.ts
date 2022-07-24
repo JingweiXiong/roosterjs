@@ -78,6 +78,10 @@ export const tableProcessor: ElementProcessor = (group, element, context) => {
                     }
                 }
             }
+
+            if (hasTableSelection) {
+                context.isInSelection = false;
+            }
         }
     }
 };
