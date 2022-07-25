@@ -78,7 +78,7 @@ describe('Creators', () => {
 
     it('createText', () => {
         const text = 'test';
-        const result = createText(context, text);
+        const result = createText(text, context);
 
         expect(result).toEqual({
             segmentType: ContentModelSegmentType.Text,

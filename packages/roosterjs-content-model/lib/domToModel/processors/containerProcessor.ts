@@ -26,12 +26,12 @@ export function containerProcessor(
         if (index == nodeStartOffset) {
             context.isInSelection = true;
 
-            addSegment(group, context, createSelectionMarker(context));
+            addSegment(group, createSelectionMarker(context), context);
         }
 
         if (index == nodeEndOffset) {
             if (!context.regularSelection!.isSelectionCollapsed) {
-                addSegment(group, context, createSelectionMarker(context));
+                addSegment(group, createSelectionMarker(context), context);
             }
             context.isInSelection = false;
         }
@@ -69,7 +69,7 @@ function processText(group: ContentModelBlockGroup, textNode: Text, context: For
         textProcessor(group, txt.substring(0, txtStartOffset), context);
         context.isInSelection = true;
 
-        addSegment(group, context, createSelectionMarker(context));
+        addSegment(group, createSelectionMarker(context), context);
 
         txt = txt.substring(txtStartOffset);
         txtEndOffset -= txtStartOffset;
@@ -79,7 +79,7 @@ function processText(group: ContentModelBlockGroup, textNode: Text, context: For
         textProcessor(group, txt.substring(0, txtEndOffset), context);
 
         if (!context.regularSelection!.isSelectionCollapsed) {
-            addSegment(group, context, createSelectionMarker(context));
+            addSegment(group, createSelectionMarker(context), context);
         }
 
         context.isInSelection = false;

@@ -5,7 +5,7 @@ import { FormatContext } from '../../formatHandlers/FormatContext';
 /**
  * @internal
  */
-export function createText(context: FormatContext, text: string): ContentModelText {
+export function createText(text: string, context: FormatContext): ContentModelText {
     const result: ContentModelText = {
         segmentType: ContentModelSegmentType.Text,
         text: text,

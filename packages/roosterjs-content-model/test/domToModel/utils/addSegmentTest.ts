@@ -20,7 +20,7 @@ describe('addSegment', () => {
 
     it('Add segment to empty document', () => {
         const doc = createContentModelDocument(document);
-        const segment = createText(context, 'test');
+        const segment = createText('test', context);
 
         addSegment(doc, context, segment);
 
@@ -49,7 +49,7 @@ describe('addSegment', () => {
         const doc = createContentModelDocument(document);
         addBlock(doc, createParagraph(false, context));
 
-        const segment = createText(context, 'test');
+        const segment = createText('test', context);
 
         addSegment(doc, context, segment);
 
@@ -88,7 +88,7 @@ describe('addSegment', () => {
         };
         addBlock(doc, block);
 
-        const segment = createText(context, 'test2');
+        const segment = createText('test2', context);
 
         addSegment(doc, context, segment);
 
@@ -128,7 +128,7 @@ describe('addSegment', () => {
         };
         addBlock(doc, block);
 
-        const segment = createText(context, 'test');
+        const segment = createText('test', context);
 
         addSegment(doc, context, segment);
 

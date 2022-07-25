@@ -12,8 +12,8 @@ import { FormatContext } from '../../formatHandlers/FormatContext';
  */
 export function addSegment(
     group: ContentModelBlockGroup,
-    context: FormatContext,
-    newSegment: ContentModelSegment
+    newSegment: ContentModelSegment,
+    context: FormatContext
 ) {
     const lastBlock = group.blocks[group.blocks.length - 1];
     let paragraph: ContentModelParagraph;

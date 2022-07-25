@@ -27,7 +27,7 @@ export function textProcessor(group: ContentModelBlockGroup, text: string, conte
             const originalSegmentFormat = context.segmentFormat;
 
             context.segmentFormat = { ...originalSegmentFormat };
-            addSegment(group, context, createText(context, text));
+            addSegment(group, context, createText(text, context));
             context.segmentFormat = originalSegmentFormat;
         }
     }

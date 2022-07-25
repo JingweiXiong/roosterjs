@@ -25,23 +25,8 @@ import { TableFormatHandlers } from '../../formatHandlers/TableFormatHandlers';
 export const tableProcessor: ElementProcessor = (group, element, context) => {
     const tableElement = element as HTMLTableElement;
     const table = createTable(tableElement.rows.length);
-    let x1 = -1;
-    let y1 = -1;
-    let x2 = -1;
-    let y2 = -1;
-    let hasTableSelection = false;
-
-    if (
-        context.tableSelection?.table == tableElement &&
-        context.tableSelection.firstCell &&
-        context.tableSelection.lastCell
-    ) {
-        x1 = context.tableSelection.firstCell.x;
-        y1 = context.tableSelection.firstCell.y;
-        x2 = context.tableSelection.lastCell.x;
-        y2 = context.tableSelection.lastCell.y;
-        hasTableSelection = true;
-    }
+    const { table: selectedTable, firstCell, lastCell } = context.tableSelection || {};
+    const hasTableSelection = selectedTable == tableElement && !!firstCell && !!lastCell;
 
     parseFormat(tableElement, TableFormatHandlers, table.format, context, {});
     addBlock(group, table);
@@ -55,7 +40,10 @@ export const tableProcessor: ElementProcessor = (group, element, context) => {
 
             if (hasTableSelection) {
                 context.isInSelection =
-                    row >= y1 && row <= y2 && sourceCol >= x1 && sourceCol <= x2;
+                    row >= firstCell.y &&
+                    row <= lastCell.y &&
+                    sourceCol >= firstCell.x &&
+                    sourceCol <= lastCell.x;
             }
 
             for (let colSpan = 1; colSpan <= td.colSpan; colSpan++, targetCol++) {
