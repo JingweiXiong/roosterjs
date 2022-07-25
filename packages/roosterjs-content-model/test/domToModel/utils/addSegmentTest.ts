@@ -22,7 +22,7 @@ describe('addSegment', () => {
         const doc = createContentModelDocument(document);
         const segment = createText('test', context);
 
-        addSegment(doc, context, segment);
+        addSegment(doc, segment, context);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
@@ -51,7 +51,7 @@ describe('addSegment', () => {
 
         const segment = createText('test', context);
 
-        addSegment(doc, context, segment);
+        addSegment(doc, segment, context);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
@@ -90,7 +90,7 @@ describe('addSegment', () => {
 
         const segment = createText('test2', context);
 
-        addSegment(doc, context, segment);
+        addSegment(doc, segment, context);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
@@ -130,7 +130,7 @@ describe('addSegment', () => {
 
         const segment = createText('test', context);
 
-        addSegment(doc, context, segment);
+        addSegment(doc, segment, context);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
