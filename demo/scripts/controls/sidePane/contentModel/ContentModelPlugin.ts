@@ -34,9 +34,10 @@ export default class ContentModelPlugin extends SidePanePluginImpl<
 
     onPluginEvent(e: PluginEvent) {
         if (
-            e.eventType == PluginEventType.ContentChanged &&
-            (e.source == ChangeSource.SwitchToDarkMode ||
-                e.source == ChangeSource.SwitchToLightMode)
+            e.eventType == PluginEventType.Input ||
+            (e.eventType == PluginEventType.ContentChanged &&
+                (e.source == ChangeSource.SwitchToDarkMode ||
+                    e.source == ChangeSource.SwitchToLightMode))
         ) {
             this.onModelChange();
         }
@@ -50,6 +51,7 @@ export default class ContentModelPlugin extends SidePanePluginImpl<
         return {
             ...baseProps,
             model: null,
+            serializer: 'react',
             onUpdateModel: this.onGetModel,
             onCreateDOM: this.onCreateDOM,
         };

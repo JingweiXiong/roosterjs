@@ -1,0 +1,63 @@
+@mixin contentModel {
+    border: solid 1px;
+    border-color: white gray gray white;
+    border-radius: 2px;
+    padding: 2px;
+    color: black;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.block {
+    @include contentModel;
+    background-color: #ddd;
+}
+
+.table {
+    @include contentModel;
+    background-color: #d90;
+}
+
+.tr {
+    @include contentModel;
+    background-color: #9f0;
+    padding-left: 10px;
+}
+
+.tableCell {
+    @include contentModel;
+    background-color: #dff;
+}
+
+.text {
+    @include contentModel;
+    background-color: #fcc;
+}
+
+.br {
+    @include contentModel;
+    background-color: #ccf;
+}
+
+.image {
+    @include contentModel;
+    background-color: #df0;
+}
+
+.selectionMarker {
+    @include contentModel;
+    background-color: #cfc;
+}
+
+.selected {
+    border-left: solid 10px #00f;
+}
+
+.child {
+    margin-left: 16px;
+}
+
+.button {
+    cursor: pointer;
+}
