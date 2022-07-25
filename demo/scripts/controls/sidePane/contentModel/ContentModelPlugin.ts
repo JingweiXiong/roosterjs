@@ -51,7 +51,6 @@ export default class ContentModelPlugin extends SidePanePluginImpl<
         return {
             ...baseProps,
             model: null,
-            serializer: 'react',
             onUpdateModel: this.onGetModel,
             onCreateDOM: this.onCreateDOM,
         };

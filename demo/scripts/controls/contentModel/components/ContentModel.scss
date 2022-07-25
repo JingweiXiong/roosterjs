@@ -1,0 +1,103 @@
+@mixin ContentModel {
+    border-radius: 4px;
+    margin-bottom: 2px;
+    padding: 1px;
+    display: flex;
+    font-family: Calibri;
+    font-size: 12pt;
+}
+
+.modelWrapper {
+    @include ContentModel;
+    background-color: #ddd;
+    border: solid 1px transparent;
+
+    &:hover {
+        border: solid 1px;
+        border-color: white gray gray white;
+    }
+}
+
+.selection {
+    width: 8px;
+    flex: 0 0 auto;
+}
+
+.childSelected {
+    background-color: #bbf;
+}
+
+.selected {
+    background-color: #00f;
+}
+
+.body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.titleBar {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.title {
+    font-weight: bold;
+    padding: 0 5px;
+    float: left;
+}
+
+.subTitle {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.titleWithBorder {
+    border-bottom: solid 1px #888;
+}
+
+.buttons {
+    float: right;
+}
+
+.button {
+    height: 20px;
+    vertical-align: top;
+    padding: 2px;
+    border-width: 1px;
+    border-color: #888;
+    background-color: #ccc;
+
+    &:hover {
+        background-color: white;
+    }
+}
+
+.buttonChecked {
+    font-weight: bold;
+    background-color: #eee;
+    border-bottom: none;
+}
+
+.expandedBody {
+    background-color: #eee;
+    padding: 4px;
+}
+
+.json {
+    background-color: #eee;
+    margin: 0;
+    font-size: 13px;
+    word-break: break-all;
+    white-space: pre-wrap;
+}
+
+.tableRow {
+    @include ContentModel;
+    display: block;
+    padding: 4px;
+    border: dotted 1px #777;
+}
