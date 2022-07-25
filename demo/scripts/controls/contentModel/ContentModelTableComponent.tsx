@@ -8,10 +8,10 @@ const styles = require('./ContentModel.scss');
 
 export default function ContentModelTableComponent(props: { table: ContentModelTable }) {
     const { table } = props;
-    const { isExpanded, button } = useExpandButton(false);
+    const { isExpanded, button } = useExpandButton(true);
 
     return (
-        <div className={styles.table}>
+        <div className={styles.block}>
             {useTitle('Block/Table')}
             {button}
 
