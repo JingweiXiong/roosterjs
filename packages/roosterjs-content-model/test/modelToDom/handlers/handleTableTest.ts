@@ -54,7 +54,7 @@ describe('handleTable', () => {
         runTest(
             {
                 blockType: ContentModelBlockType.Table,
-                cells: [[createTableCell(context, 1, 1, false)]],
+                cells: [[createTableCell(1, 1, false, context)]],
                 format: {},
             },
             '<table><tbody><tr><td></td></tr></tbody></table>'
@@ -62,7 +62,7 @@ describe('handleTable', () => {
     });
 
     it('Regular 2 * 2 table', () => {
-        const tdModel = createTableCell(context, 1, 1, false);
+        const tdModel = createTableCell(1, 1, false, context);
         runTest(
             {
                 blockType: ContentModelBlockType.Table,
@@ -77,7 +77,7 @@ describe('handleTable', () => {
     });
 
     it('3 * 1 table with empty row', () => {
-        const tdModel = createTableCell(context, 1, 1, false);
+        const tdModel = createTableCell(1, 1, false, context);
         runTest(
             {
                 blockType: ContentModelBlockType.Table,
@@ -89,12 +89,12 @@ describe('handleTable', () => {
     });
 
     it('Table with spanLeft cell', () => {
-        const tdModel = createTableCell(context, 1, 1, false);
+        const tdModel = createTableCell(1, 1, false, context);
         runTest(
             {
                 blockType: ContentModelBlockType.Table,
                 cells: [
-                    [tdModel, createTableCell(context, 2, 1, false)],
+                    [tdModel, createTableCell(2, 1, false, context)],
                     [tdModel, tdModel],
                 ],
                 format: {},
@@ -104,13 +104,13 @@ describe('handleTable', () => {
     });
 
     it('Table with spanAbove cell', () => {
-        const tdModel = createTableCell(context, 1, 1, false);
+        const tdModel = createTableCell(1, 1, false, context);
         runTest(
             {
                 blockType: ContentModelBlockType.Table,
                 cells: [
                     [tdModel, tdModel],
-                    [createTableCell(context, 1, 2, false), tdModel],
+                    [createTableCell(1, 2, false, context), tdModel],
                 ],
                 format: {},
             },
@@ -123,8 +123,8 @@ describe('handleTable', () => {
             {
                 blockType: ContentModelBlockType.Table,
                 cells: [
-                    [createTableCell(context, 1, 1, false), createTableCell(context, 2, 1, false)],
-                    [createTableCell(context, 1, 2, false), createTableCell(context, 2, 2, false)],
+                    [createTableCell(1, 1, false, context), createTableCell(2, 1, false, context)],
+                    [createTableCell(1, 2, false, context), createTableCell(2, 2, false, context)],
                 ],
                 format: {},
             },
@@ -145,19 +145,19 @@ describe('handleTable', () => {
                 blockType: ContentModelBlockType.Table,
                 cells: [
                     [
-                        createTableCell(context, 1, 1, false),
-                        createTableCell(context, 1, 1, false),
-                        createTableCell(context, 2, 1, false),
+                        createTableCell(1, 1, false, context),
+                        createTableCell(1, 1, false, context),
+                        createTableCell(2, 1, false, context),
                     ],
                     [
-                        createTableCell(context, 1, 2, false),
-                        createTableCell(context, 1, 1, false),
-                        createTableCell(context, 1, 1, false),
+                        createTableCell(1, 2, false, context),
+                        createTableCell(1, 1, false, context),
+                        createTableCell(1, 1, false, context),
                     ],
                     [
-                        createTableCell(context, 1, 1, false),
-                        createTableCell(context, 2, 1, false),
-                        createTableCell(context, 1, 2, false),
+                        createTableCell(1, 1, false, context),
+                        createTableCell(2, 1, false, context),
+                        createTableCell(1, 2, false, context),
                     ],
                 ],
                 format: {},
@@ -175,8 +175,8 @@ describe('handleTable', () => {
             {
                 blockType: ContentModelBlockType.Table,
                 cells: [
-                    [createTableCell(context, 1, 1, true)],
-                    [createTableCell(context, 1, 1, false)],
+                    [createTableCell(1, 1, true, context)],
+                    [createTableCell(1, 1, false, context)],
                 ],
                 format: {},
             },

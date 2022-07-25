@@ -21,7 +21,7 @@ export function addSegment(
     if (lastBlock?.blockType == ContentModelBlockType.Paragraph) {
         paragraph = lastBlock;
     } else {
-        paragraph = createParagraph(context, true);
+        paragraph = createParagraph(true, context);
         addBlock(group, paragraph);
     }
 

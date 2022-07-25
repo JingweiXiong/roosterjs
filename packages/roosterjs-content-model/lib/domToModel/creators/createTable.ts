@@ -1,12 +1,11 @@
 import { ContentModelBlockType } from '../../publicTypes/enum/BlockType';
 import { ContentModelTable } from '../../publicTypes/block/ContentModelTable';
 import { ContentModelTableCell } from '../../publicTypes/block/group/ContentModelTableCell';
-import { FormatContext } from '../../formatHandlers/FormatContext';
 
 /**
  * @internal
  */
-export function createTable(context: FormatContext, rowCount: number): ContentModelTable {
+export function createTable(rowCount: number): ContentModelTable {
     const rows: ContentModelTableCell[][] = [];
 
     for (let i = 0; i < rowCount; i++) {

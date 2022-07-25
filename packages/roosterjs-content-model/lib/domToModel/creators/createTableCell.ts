@@ -7,10 +7,10 @@ import { FormatContext } from '../../formatHandlers/FormatContext';
  * @internal
  */
 export function createTableCell(
-    context: FormatContext,
     colSpan: number,
     rowSpan: number,
-    isHeader: boolean
+    isHeader: boolean,
+    context: FormatContext
 ): ContentModelTableCell {
     const result: ContentModelTableCell = {
         blockType: ContentModelBlockType.BlockGroup,

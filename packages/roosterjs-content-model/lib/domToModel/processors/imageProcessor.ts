@@ -16,7 +16,7 @@ export const imageProcessor: ElementProcessor = (group, element, context, defaul
         handler.parse(context.segmentFormat, imageElement, context, defaultStyle)
     );
 
-    addSegment(group, context, createImage(context, imageElement));
+    addSegment(group, context, createImage(imageElement, context));
 
     context.segmentFormat = originalSegmentFormat;
 };

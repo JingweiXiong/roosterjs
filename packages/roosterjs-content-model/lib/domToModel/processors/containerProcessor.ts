@@ -19,12 +19,7 @@ export function containerProcessor(
     parent: ParentNode,
     context: FormatContext
 ) {
-    let nodeStartOffset =
-        context.regularSelection?.startContainer == parent
-            ? context.regularSelection.startOffset
-            : -1;
-    let nodeEndOffset =
-        context.regularSelection?.endContainer == parent ? context.regularSelection.endOffset : -1;
+    const [nodeStartOffset, nodeEndOffset] = getRegularSelectionOffsets(context, parent);
     let index = 0;
 
     for (let child = parent.firstChild; child; child = child.nextSibling) {
@@ -42,51 +37,70 @@ export function containerProcessor(
         }
 
         if (isNodeOfType(child, NodeType.Element)) {
-            const defaultStyle = getDefaultStyle(child);
-            const processor =
-                getProcessor(child.tagName) ||
-                (BlockDisplay.indexOf(child.style.display || defaultStyle.display || '') >= 0
-                    ? generalBlockProcessor
-                    : generalSegmentProcessor);
-
-            processor(group, child, context, defaultStyle);
+            processElement(group, child, context);
         } else if (isNodeOfType(child, NodeType.Text)) {
-            const textNode = child as Text;
-
-            let txt = textNode.nodeValue || '';
-            let txtStartOffset =
-                context.regularSelection?.startContainer == textNode
-                    ? context.regularSelection.startOffset!
-                    : -1;
-            let txtEndOffset =
-                context.regularSelection?.endContainer == textNode
-                    ? context.regularSelection.endOffset!
-                    : -1;
-
-            if (txtStartOffset >= 0) {
-                textProcessor(group, txt.substring(0, txtStartOffset), context);
-                context.isInSelection = true;
-
-                addSegment(group, context, createSelectionMarker(context));
-
-                txt = txt.substring(txtStartOffset);
-                txtEndOffset -= txtStartOffset;
-            }
-
-            if (txtEndOffset >= 0) {
-                textProcessor(group, txt.substring(0, txtEndOffset), context);
-
-                if (!context.regularSelection!.isSelectionCollapsed) {
-                    addSegment(group, context, createSelectionMarker(context));
-                }
-
-                context.isInSelection = false;
-                txt = txt.substring(txtEndOffset);
-            }
-
-            textProcessor(group, txt, context);
+            processText(group, child, context);
         }
 
         index++;
     }
+}
+
+function processElement(
+    group: ContentModelBlockGroup,
+    element: HTMLElement,
+    context: FormatContext
+) {
+    const defaultStyle = getDefaultStyle(element);
+    const processor =
+        getProcessor(element.tagName) ||
+        (BlockDisplay.indexOf(element.style.display || defaultStyle.display || '') >= 0
+            ? generalBlockProcessor
+            : generalSegmentProcessor);
+
+    processor(group, element, context, defaultStyle);
+}
+
+function processText(group: ContentModelBlockGroup, textNode: Text, context: FormatContext) {
+    let txt = textNode.nodeValue || '';
+    let [txtStartOffset, txtEndOffset] = getRegularSelectionOffsets(context, textNode);
+
+    if (txtStartOffset >= 0) {
+        textProcessor(group, txt.substring(0, txtStartOffset), context);
+        context.isInSelection = true;
+
+        addSegment(group, context, createSelectionMarker(context));
+
+        txt = txt.substring(txtStartOffset);
+        txtEndOffset -= txtStartOffset;
+    }
+
+    if (txtEndOffset >= 0) {
+        textProcessor(group, txt.substring(0, txtEndOffset), context);
+
+        if (!context.regularSelection!.isSelectionCollapsed) {
+            addSegment(group, context, createSelectionMarker(context));
+        }
+
+        context.isInSelection = false;
+        txt = txt.substring(txtEndOffset);
+    }
+
+    textProcessor(group, txt, context);
+}
+
+function getRegularSelectionOffsets(
+    context: FormatContext,
+    currentContainer: Node
+): [number, number] {
+    let startOffset =
+        context.regularSelection?.startContainer == currentContainer
+            ? context.regularSelection.startOffset!
+            : -1;
+    let endOffset =
+        context.regularSelection?.endContainer == currentContainer
+            ? context.regularSelection.endOffset!
+            : -1;
+
+    return [startOffset, endOffset];
 }

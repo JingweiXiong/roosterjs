@@ -5,7 +5,7 @@ import { FormatContext } from '../../formatHandlers/FormatContext';
 /**
  * @internal
  */
-export function createImage(context: FormatContext, img: HTMLImageElement): ContentModelImage {
+export function createImage(img: HTMLImageElement, context: FormatContext): ContentModelImage {
     const result: ContentModelImage = {
         segmentType: ContentModelSegmentType.Image,
         format: context.segmentFormat,

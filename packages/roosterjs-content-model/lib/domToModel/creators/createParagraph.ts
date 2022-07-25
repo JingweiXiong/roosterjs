@@ -6,8 +6,8 @@ import { FormatContext } from '../../formatHandlers/FormatContext';
  * @internal
  */
 export function createParagraph(
-    context: FormatContext,
-    isImplicit?: boolean
+    isImplicit: boolean,
+    context: FormatContext
 ): ContentModelParagraph {
     const result: ContentModelParagraph = {
         blockType: ContentModelBlockType.Paragraph,

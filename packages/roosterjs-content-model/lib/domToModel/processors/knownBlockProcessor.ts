@@ -24,11 +24,11 @@ export const knownBlockProcessor: ElementProcessor = (group, element, context, d
         handler.parse(context.segmentFormat, element, context, defaultStyle)
     );
 
-    addBlock(group, createParagraph(context, false));
+    addBlock(group, createParagraph(false /*isImplicit*/, context));
 
     containerProcessor(group, element, context);
     context.blockFormat = originalBlockFormat;
     context.segmentFormat = originalSegmentFormat;
 
-    addBlock(group, createParagraph(context, false));
+    addBlock(group, createParagraph(false /*isImplicit*/, context));
 };

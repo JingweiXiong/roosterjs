@@ -8,8 +8,8 @@ import { FormatContext } from '../../formatHandlers/FormatContext';
  * @internal
  */
 export function createGeneralSegment(
-    context: FormatContext,
-    element: HTMLElement
+    element: HTMLElement,
+    context: FormatContext
 ): ContentModelGeneralSegment {
     const result: ContentModelGeneralSegment = {
         blockType: ContentModelBlockType.BlockGroup,

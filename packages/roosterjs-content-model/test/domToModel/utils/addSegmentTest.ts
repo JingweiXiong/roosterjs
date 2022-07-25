@@ -47,7 +47,7 @@ describe('addSegment', () => {
 
     it('Add segment to document contains an empty paragraph', () => {
         const doc = createContentModelDocument(document);
-        addBlock(doc, createParagraph(context));
+        addBlock(doc, createParagraph(false, context));
 
         const segment = createText(context, 'test');
 
