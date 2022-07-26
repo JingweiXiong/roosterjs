@@ -27,12 +27,12 @@ export default function ContentModel(props: {
 }) {
     const { model, isExpanded } = props;
     const [title, subTitle] = getTitleOfModel(model);
-    const [bodyState, setBodyState] = React.useState<'collapsed' | 'content' | 'format' | 'json'>(
-        isExpanded ? 'content' : 'collapsed'
+    const [bodyState, setBodyState] = React.useState<'collapsed' | 'children' | 'format' | 'json'>(
+        isExpanded ? 'children' : 'collapsed'
     );
 
     const toggleVisual = React.useCallback(() => {
-        setBodyState(bodyState == 'content' ? 'collapsed' : 'content');
+        setBodyState(bodyState == 'children' ? 'collapsed' : 'children');
     }, [bodyState]);
 
     const toggleFormat = React.useCallback(() => {
@@ -44,7 +44,7 @@ export default function ContentModel(props: {
     }, [bodyState]);
 
     return (
-        <div className={styles.modelWrapper}>
+        <div className={styles.modelWrapper + ' ' + getModelContainerClassName(model)}>
             <div
                 className={css(styles.selection, {
                     [styles.childSelected]: isChildSelected(model),
@@ -75,7 +75,7 @@ export default function ContentModel(props: {
                 </div>
                 {bodyState == 'json' ? (
                     <ContentModelJson model={model} />
-                ) : bodyState == 'content' ? (
+                ) : bodyState == 'children' ? (
                     <ContentModelContent model={model} />
                 ) : bodyState == 'format' ? (
                     <ContentModelFormat model={model} />
@@ -83,6 +83,41 @@ export default function ContentModel(props: {
             </div>
         </div>
     );
+}
+
+function getModelContainerClassName(model: ContentModelBlock | ContentModelSegment) {
+    if (isBlock(model)) {
+        switch (model.blockType) {
+            case ContentModelBlockType.BlockGroup:
+                switch (model.blockGroupType) {
+                    case ContentModelBlockGroupType.Document:
+                        return styles.modelDocument;
+                    case ContentModelBlockGroupType.TableCell:
+                        return styles.modelTableCell;
+                    default:
+                        return '';
+                }
+            case ContentModelBlockType.Paragraph:
+                return styles.modelParagraph;
+            case ContentModelBlockType.Table:
+                return styles.modelTable;
+            default:
+                return '';
+        }
+    } else {
+        switch (model.segmentType) {
+            case ContentModelSegmentType.Br:
+                return styles.modelBr;
+            case ContentModelSegmentType.Image:
+                return styles.modelImage;
+            case ContentModelSegmentType.SelectionMarker:
+                return styles.modelSelectionMarker;
+            case ContentModelSegmentType.Text:
+                return styles.modelText;
+            default:
+                return '';
+        }
+    }
 }
 
 function ContentModelJson(props: { model: ContentModelBlock | ContentModelSegment }) {
@@ -102,7 +137,7 @@ function ContentModelFormat(props: { model: ContentModelBlock | ContentModelSegm
 
 function ButtonGroup(props: {
     model: ContentModelBlock | ContentModelSegment;
-    bodyState: 'content' | 'format' | 'json' | 'collapsed';
+    bodyState: 'children' | 'format' | 'json' | 'collapsed';
     toggleVisual: () => void;
     toggleFormat: () => void;
     toggleJson: () => void;
@@ -114,9 +149,9 @@ function ButtonGroup(props: {
             <button
                 onClick={toggleVisual}
                 className={css(styles.button, {
-                    [styles.buttonChecked]: bodyState == 'content',
+                    [styles.buttonChecked]: bodyState == 'children',
                 })}>
-                Visual
+                Child models
             </button>
             {hasFormat(model) ? (
                 <button
@@ -240,7 +275,7 @@ function getSubModels(model: ContentModelBlock | ContentModelSegment) {
 
                     default:
                         return model.blocks.map(block => (
-                            <ContentModel model={block} isExpanded={false} />
+                            <ContentModel model={block} isExpanded={true} />
                         ));
                 }
 
@@ -267,7 +302,13 @@ function getSubModels(model: ContentModelBlock | ContentModelSegment) {
                 return null;
 
             case ContentModelSegmentType.Image:
-                return <div>{model.src}</div>;
+                return (
+                    <div>
+                        <input type="text" value={model.src} />
+                        <br />
+                        <img src={model.src} style={{ maxWidth: '100px' }} />
+                    </div>
+                );
 
             case ContentModelSegmentType.SelectionMarker:
                 return (
@@ -337,11 +378,166 @@ function getFormats(model: ContentModelBlock | ContentModelSegment) {
 }
 
 function TableCellFormatPane(props: { format: ContentModelTableCellFormat }) {
-    return <div></div>;
+    const { format } = props;
+    return (
+        <table>
+            <tr>
+                <td>Width</td>
+                <td>
+                    <input type="number" value={format.width} />
+                </td>
+            </tr>
+            <tr>
+                <td>Height</td>
+                <td>
+                    <input type="number" value={format.height} />
+                </td>
+            </tr>
+            <tr>
+                <td>BorderWidth</td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>Top:</td>
+                            <td>
+                                <input type="text" value={format.borderWidth[0]} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Right: </td>
+                            <td>
+                                <input type="text" value={format.borderWidth[1]} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bottom:</td>
+                            <td>
+                                <input type="text" value={format.borderWidth[2]} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Left:</td>
+                            <td>
+                                <input type="text" value={format.borderWidth[3]} />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>BorderStyle</td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>Top:</td>
+                            <td>
+                                <input type="text" value={format.borderStyle[0]} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Right:</td>
+                            <td>
+                                <input type="text" value={format.borderStyle[1]} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bottom:</td>
+                            <td>
+                                <input type="text" value={format.borderStyle[2]} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Left:</td>
+                            <td>
+                                <input type="text" value={format.borderStyle[3]} />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>BorderColor</td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>Top:</td>
+                            <td>
+                                <input type="text" value={format.borderColor[0]} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Right:</td>
+                            <td>
+                                <input type="text" value={format.borderColor[1]} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bottom:</td>
+                            <td>
+                                <input type="text" value={format.borderColor[2]} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Left:</td>
+                            <td>
+                                <input type="text" value={format.borderColor[3]} />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>BackgroundColor</td>
+                <td>
+                    <input type="text" value={format.backgroundColor} />
+                </td>
+            </tr>
+            <tr>
+                <td>TextAlign</td>
+                <td>
+                    <input type="text" value={format.textAlign} />
+                </td>
+            </tr>
+            <tr>
+                <td>VerticalAlign</td>
+                <td>
+                    <input type="text" value={format.verticalAlign} />
+                </td>
+            </tr>
+        </table>
+    );
 }
 
 function TableFormatPane(props: { format: ContentModelTableFormat }) {
-    return <div></div>;
+    const { format } = props;
+    return (
+        <table>
+            <tr>
+                <td>Id</td>
+                <td>
+                    <input type="text" value={format.id} />
+                </td>
+            </tr>
+            <tr>
+                <td>BorderCollapsed</td>
+                <td>
+                    <input type="checkbox" checked={format.borderCollapse} />
+                </td>
+            </tr>
+            <tr>
+                <td>BackgroundColor</td>
+                <td>
+                    <input type="text" value={format.backgroundColor} />
+                </td>
+            </tr>
+            <tr>
+                <td>Metadata</td>
+                <td>
+                    <textarea>{JSON.stringify(format.metadata, null, 2)}</textarea>
+                </td>
+            </tr>
+        </table>
+    );
 }
 
 function ParagraphFormatPane(props: { format: ContentModelParagraphFormat }) {

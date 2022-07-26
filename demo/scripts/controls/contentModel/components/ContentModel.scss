@@ -9,13 +9,37 @@
 
 .modelWrapper {
     @include ContentModel;
-    background-color: #ddd;
     border: solid 1px transparent;
 
     &:hover {
         border: solid 1px;
         border-color: white gray gray white;
     }
+}
+
+.modelDocument {
+    background-color: #ddd;
+}
+.modelTableCell {
+    background-color: #f6d;
+}
+.modelParagraph {
+    background-color: #8df;
+}
+.modelTable {
+    background-color: #df8;
+}
+.modelBr {
+    background-color: #8fd;
+}
+.modelImage {
+    background-color: #ff3;
+}
+.modelSelectionMarker {
+    background-color: #7ef;
+}
+.modelText {
+    background-color: #fa0;
 }
 
 .selection {
