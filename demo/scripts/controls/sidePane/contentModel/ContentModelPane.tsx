@@ -1,6 +1,10 @@
 import * as React from 'react';
 import ContentModel from '../../contentModel/components/ContentModel';
 import { ContentModelDocument } from 'roosterjs-content-model';
+import { getExportButton } from './buttons/export';
+import { getRefreshButton } from './buttons/refresh';
+import { insertTable } from './buttons/insertTable';
+import { InsertTableButtonStringKey, Ribbon, RibbonButton, RibbonPlugin } from 'roosterjs-react';
 import { SidePaneElementProps } from '../SidePaneElement';
 
 export interface ContentModelPaneState {
@@ -10,14 +14,25 @@ export interface ContentModelPaneState {
 export interface ContentModelPaneProps extends ContentModelPaneState, SidePaneElementProps {
     onUpdateModel: () => ContentModelDocument;
     onCreateDOM: (model: ContentModelDocument) => void;
+    ribbonPlugin: RibbonPlugin;
 }
 
 export default class ContentModelPane extends React.Component<
     ContentModelPaneProps,
     ContentModelPaneState
 > {
+    private contentModelButtons: RibbonButton<
+        InsertTableButtonStringKey | 'buttonNameRefresh' | 'buttonNameExport'
+    >[];
+
     constructor(props: ContentModelPaneProps) {
         super(props);
+
+        this.contentModelButtons = [
+            getRefreshButton(this.onRefresh),
+            getExportButton(this.onCreateDOM),
+            insertTable,
+        ];
 
         this.state = {
             model: null,
@@ -31,15 +46,14 @@ export default class ContentModelPane extends React.Component<
     }
 
     render() {
-        return this.state.model ? (
+        return (
             <>
-                <div>
-                    <button onClick={this.onRefresh}>Refresh Content Model</button>&nbsp;
-                    <button onClick={this.onCreateDOM}>Create DOM tree</button>
-                </div>
-                <ContentModel model={this.state.model} isExpanded={true} />
+                <Ribbon buttons={this.contentModelButtons} plugin={this.props.ribbonPlugin} />
+                {this.state.model ? (
+                    <ContentModel model={this.state.model} isExpanded={true} />
+                ) : null}
             </>
-        ) : null;
+        );
     }
 
     private onCreateDOM = () => {

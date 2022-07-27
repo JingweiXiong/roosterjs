@@ -23,7 +23,7 @@ export default function createDOMFromContentModel(
     isDarkMode: boolean,
     zoomScale: number,
     isRtl: boolean,
-    getDarkColor: (lightColor: string) => string,
+    getDarkColor?: (lightColor: string) => string,
     optimizeLevel: number = 2
 ): [DocumentFragment, SelectionRangeEx | undefined] {
     const fragment = model.document.createDocumentFragment();

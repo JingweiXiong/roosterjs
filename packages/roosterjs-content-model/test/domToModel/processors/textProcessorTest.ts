@@ -150,4 +150,110 @@ describe('textProcessor', () => {
             document: document,
         });
     });
+
+    it('Handle text with selection 1', () => {
+        const doc = createContentModelDocument(document);
+        doc.blocks.push({
+            blockType: ContentModelBlockType.Paragraph,
+            segments: [
+                {
+                    segmentType: ContentModelSegmentType.Text,
+                    text: 'test1',
+                    format: {},
+                },
+            ],
+            format: {},
+        });
+
+        context.isInSelection = true;
+
+        textProcessor(doc, 'test2', context);
+
+        expect(doc.blocks[0]).toEqual({
+            blockType: ContentModelBlockType.Paragraph,
+            segments: [
+                {
+                    segmentType: ContentModelSegmentType.Text,
+                    text: 'test1',
+                    format: {},
+                },
+                {
+                    segmentType: ContentModelSegmentType.Text,
+                    text: 'test2',
+                    isSelected: true,
+                    format: {},
+                },
+            ],
+            format: {},
+        });
+    });
+
+    it('Handle text with selection 2', () => {
+        const doc = createContentModelDocument(document);
+        doc.blocks.push({
+            blockType: ContentModelBlockType.Paragraph,
+            segments: [
+                {
+                    segmentType: ContentModelSegmentType.Text,
+                    text: 'test1',
+                    isSelected: true,
+                    format: {},
+                },
+            ],
+            format: {},
+        });
+
+        textProcessor(doc, 'test2', context);
+
+        expect(doc.blocks[0]).toEqual({
+            blockType: ContentModelBlockType.Paragraph,
+            segments: [
+                {
+                    segmentType: ContentModelSegmentType.Text,
+                    text: 'test1',
+                    isSelected: true,
+                    format: {},
+                },
+                {
+                    segmentType: ContentModelSegmentType.Text,
+                    text: 'test2',
+                    format: {},
+                },
+            ],
+            format: {},
+        });
+    });
+
+    it('Handle text with selection 3', () => {
+        const doc = createContentModelDocument(document);
+        doc.blocks.push({
+            blockType: ContentModelBlockType.Paragraph,
+            segments: [
+                {
+                    segmentType: ContentModelSegmentType.Text,
+                    text: 'test1',
+                    isSelected: true,
+                    format: {},
+                },
+            ],
+            format: {},
+        });
+
+        context.isInSelection = true;
+
+        textProcessor(doc, 'test2', context);
+
+        expect(doc.blocks[0]).toEqual({
+            blockType: ContentModelBlockType.Paragraph,
+            segments: [
+                {
+                    segmentType: ContentModelSegmentType.Text,
+                    text: 'test1test2',
+                    isSelected: true,
+                    format: {},
+                },
+            ],
+            format: {},
+        });
+    });
 });
