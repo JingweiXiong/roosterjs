@@ -73,6 +73,22 @@ describe('Creators', () => {
         });
     });
 
+    it('createGeneralSegment with selection', () => {
+        context.isInSelection = true;
+
+        const element = document.createElement('div');
+        const result = createGeneralSegment(element, context);
+
+        expect(result).toEqual({
+            segmentType: ContentModelSegmentType.General,
+            blocks: [],
+            element: element,
+            blockType: ContentModelBlockType.BlockGroup,
+            blockGroupType: ContentModelBlockGroupType.General,
+            isSelected: true,
+        });
+    });
+
     it('createParagraph - not dummy block', () => {
         const result = createParagraph(false, context);
 
@@ -117,6 +133,20 @@ describe('Creators', () => {
 
             isSelected: true,
             format: {},
+        });
+    });
+
+    it('createText with selection', () => {
+        context.isInSelection = true;
+
+        const text = 'test';
+        const result = createText(text, context);
+
+        expect(result).toEqual({
+            segmentType: ContentModelSegmentType.Text,
+            text: text,
+
+            isSelected: true,
         });
     });
 
