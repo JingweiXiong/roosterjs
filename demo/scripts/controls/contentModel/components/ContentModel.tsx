@@ -212,7 +212,18 @@ function getTitleOfModel(model: ContentModelBlock | ContentModelSegment): [strin
                         return ['Document', model.document.location.href];
 
                     case ContentModelBlockGroupType.TableCell:
-                        return ['TableCell', ''];
+                        return [
+                            'TableCell',
+                            model.spanAbove && model.spanLeft
+                                ? '↖'
+                                : model.spanLeft
+                                ? '←'
+                                : model.spanAbove
+                                ? '↑'
+                                : model.isHeader
+                                ? 'TH'
+                                : 'TD',
+                        ];
 
                     default:
                         return ['BlockGroup', ''];
@@ -400,25 +411,25 @@ function TableCellFormatPane(props: { format: ContentModelTableCellFormat }) {
                         <tr>
                             <td>Top:</td>
                             <td>
-                                <input type="text" value={format.borderWidth[0]} />
+                                <input type="text" value={format.borderWidth?.[0]} />
                             </td>
                         </tr>
                         <tr>
                             <td>Right: </td>
                             <td>
-                                <input type="text" value={format.borderWidth[1]} />
+                                <input type="text" value={format.borderWidth?.[1]} />
                             </td>
                         </tr>
                         <tr>
                             <td>Bottom:</td>
                             <td>
-                                <input type="text" value={format.borderWidth[2]} />
+                                <input type="text" value={format.borderWidth?.[2]} />
                             </td>
                         </tr>
                         <tr>
                             <td>Left:</td>
                             <td>
-                                <input type="text" value={format.borderWidth[3]} />
+                                <input type="text" value={format.borderWidth?.[3]} />
                             </td>
                         </tr>
                     </table>
@@ -431,25 +442,25 @@ function TableCellFormatPane(props: { format: ContentModelTableCellFormat }) {
                         <tr>
                             <td>Top:</td>
                             <td>
-                                <input type="text" value={format.borderStyle[0]} />
+                                <input type="text" value={format.borderStyle?.[0]} />
                             </td>
                         </tr>
                         <tr>
                             <td>Right:</td>
                             <td>
-                                <input type="text" value={format.borderStyle[1]} />
+                                <input type="text" value={format.borderStyle?.[1]} />
                             </td>
                         </tr>
                         <tr>
                             <td>Bottom:</td>
                             <td>
-                                <input type="text" value={format.borderStyle[2]} />
+                                <input type="text" value={format.borderStyle?.[2]} />
                             </td>
                         </tr>
                         <tr>
                             <td>Left:</td>
                             <td>
-                                <input type="text" value={format.borderStyle[3]} />
+                                <input type="text" value={format.borderStyle?.[3]} />
                             </td>
                         </tr>
                     </table>
@@ -462,25 +473,25 @@ function TableCellFormatPane(props: { format: ContentModelTableCellFormat }) {
                         <tr>
                             <td>Top:</td>
                             <td>
-                                <input type="text" value={format.borderColor[0]} />
+                                <input type="text" value={format.borderColor?.[0]} />
                             </td>
                         </tr>
                         <tr>
                             <td>Right:</td>
                             <td>
-                                <input type="text" value={format.borderColor[1]} />
+                                <input type="text" value={format.borderColor?.[1]} />
                             </td>
                         </tr>
                         <tr>
                             <td>Bottom:</td>
                             <td>
-                                <input type="text" value={format.borderColor[2]} />
+                                <input type="text" value={format.borderColor?.[2]} />
                             </td>
                         </tr>
                         <tr>
                             <td>Left:</td>
                             <td>
-                                <input type="text" value={format.borderColor[3]} />
+                                <input type="text" value={format.borderColor?.[3]} />
                             </td>
                         </tr>
                     </table>

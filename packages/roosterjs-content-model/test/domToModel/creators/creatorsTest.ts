@@ -86,6 +86,7 @@ describe('Creators', () => {
             blockType: ContentModelBlockType.BlockGroup,
             blockGroupType: ContentModelBlockGroupType.General,
             isSelected: true,
+            format: {},
         });
     });
 
@@ -145,8 +146,8 @@ describe('Creators', () => {
         expect(result).toEqual({
             segmentType: ContentModelSegmentType.Text,
             text: text,
-
             isSelected: true,
+            format: {},
         });
     });
 
