@@ -3,6 +3,7 @@ import { addSegment } from '../../domToModel/utils/addSegment';
 import { ChangeSource, TableFormat } from 'roosterjs-editor-types';
 import { createBr } from '../../domToModel/creators/createBr';
 import { createContentModelDocument } from '../../domToModel/creators/createContentModelDocument';
+import { createDomToModelContext } from '../../domToModel/context/createDomToModelContext';
 import { createTable } from '../../domToModel/creators/createTable';
 import { createTableCell } from '../../domToModel/creators/createTableCell';
 import { IExperimentalContentModelEditor } from '../../publicTypes/IExperimentalContentModelEditor';
@@ -22,7 +23,8 @@ export default function insertTable(
     rows: number,
     format?: TableFormat
 ) {
-    const context = editor.createFormatContext();
+    const contentModelContext = editor.createContentModelContext();
+    const context = createDomToModelContext(contentModelContext);
     const doc = createContentModelDocument(editor.getDocument());
     const table = createTable(rows);
     const width = getTableCellWidth(columns);
@@ -43,7 +45,7 @@ export default function insertTable(
 
     applyTableFormat(table, format);
 
-    const fragment = editor.getDOMFromContentModel(doc);
+    const fragment = editor.createFragmentFromContentModel(doc);
 
     editor.addUndoSnapshot(
         () => {

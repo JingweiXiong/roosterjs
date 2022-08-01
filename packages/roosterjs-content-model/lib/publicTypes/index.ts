@@ -10,6 +10,7 @@ export { ContentModelParagraph } from './block/ContentModelParagraph';
 export { ContentModelSegmentBase } from './segment/ContentModelSegmentBase';
 export { ContentModelSelectionMarker } from './segment/ContentModelSelectionMarker';
 export { ContentModelText } from './segment/ContentModelText';
+export { ContentModelBr } from './segment/ContentModelBr';
 export { ContentModelGeneralSegment } from './segment/ContentModelGeneralSegment';
 export { ContentModelSegment } from './segment/ContentModelSegment';
 
@@ -26,3 +27,4 @@ export { SizeFormat } from './format/formatParts/SizeFormat';
 export { SpacingFormat } from './format/formatParts/SpacingFormat';
 
 export { IExperimentalContentModelEditor } from './IExperimentalContentModelEditor';
+export { ContentModelContext } from './ContentModelContext';

@@ -5,18 +5,17 @@ import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
 import { ContentModelDocument } from '../../../lib/publicTypes/block/group/ContentModelDocument';
 import { ContentModelSegmentType } from '../../../lib/publicTypes/enum/SegmentType';
 import { ContentModelTable } from '../../../lib/publicTypes/block/ContentModelTable';
-import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
 import { IExperimentalContentModelEditor } from '../../../lib/publicTypes/IExperimentalContentModelEditor';
 
 describe('insertTable', () => {
     it('insert 1*1 table', () => {
-        const context: FormatContext = {
+        const context = {
             isDarkMode: false,
             isInSelection: false,
             zoomScale: 1,
             isRightToLeft: false,
         };
-        const getDOMFromContentModel = jasmine.createSpy('getDOMFromContentModel');
+        const createFragmentFromContentModel = jasmine.createSpy('createFragmentFromContentModel');
         const insertNode = jasmine.createSpy('insertNode');
         const editor = ({
             getDocument: () => document,
@@ -33,16 +32,16 @@ describe('insertTable', () => {
                 expect(additionalData.formatApiName).toBe('insertTable');
             },
             insertNode: insertNode,
-            createFormatContext: () => context,
-            getDOMFromContentModel: getDOMFromContentModel,
+            createContentModelContext: () => context,
+            createFragmentFromContentModel: createFragmentFromContentModel,
         } as any) as IExperimentalContentModelEditor;
 
         insertTable(editor, 1, 1);
 
         expect(insertNode).toHaveBeenCalledTimes(1);
-        expect(getDOMFromContentModel).toHaveBeenCalledTimes(1);
+        expect(createFragmentFromContentModel).toHaveBeenCalledTimes(1);
 
-        const docModel = getDOMFromContentModel.calls.argsFor(0)[0] as ContentModelDocument;
+        const docModel = createFragmentFromContentModel.calls.argsFor(0)[0] as ContentModelDocument;
         const tableModel = docModel.blocks[0] as ContentModelTable;
 
         expect(tableModel.blockType).toBe(ContentModelBlockType.Table);

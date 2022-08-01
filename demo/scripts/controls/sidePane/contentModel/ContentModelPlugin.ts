@@ -49,7 +49,9 @@ export default class ContentModelPlugin extends SidePanePluginImpl<
 
     private onModelChange = () => {
         this.getComponent(component => {
-            const model = isContentModelEditor(this.editor) ? this.editor.getContentModel() : null;
+            const model = isContentModelEditor(this.editor)
+                ? this.editor.createContentModel()
+                : null;
             component.setContentModel(model);
             setCurrentContentModel(this.editor, model);
         });

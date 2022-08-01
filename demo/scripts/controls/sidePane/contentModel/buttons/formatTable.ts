@@ -34,13 +34,13 @@ export const formatTable: RibbonButton<'ribbonButtonTableFormat'> = {
 
         editor.addUndoSnapshot(() => {
             if (table && isContentModelEditor(editor) && format && parent) {
-                const model = editor.getContentModel(table);
+                const model = editor.createContentModel(table);
                 const tableModel = model.blocks[0];
 
                 if (tableModel?.blockType == ContentModelBlockType.Table) {
                     applyTableFormat(tableModel, format);
 
-                    const newFragment = editor.getDOMFromContentModel(model);
+                    const newFragment = editor.createFragmentFromContentModel(model);
 
                     parent.replaceChild(newFragment, table);
                 }
