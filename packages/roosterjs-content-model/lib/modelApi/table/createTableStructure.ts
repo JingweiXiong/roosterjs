@@ -18,34 +18,17 @@ export function createTableStructure(
     contentModelContext: ContentModelContext
 ): ContentModelTable {
     const table = createTable(rows);
-    const width = getTableCellWidth(columns);
     const context = createDomToModelContext(contentModelContext);
 
     addBlock(parent, table);
 
-    table.format.borderCollapse = true;
-    table.format.useBorderBox = true;
     table.cells.forEach(row => {
         for (let i = 0; i < columns; i++) {
             const cell = createTableCell(1 /*colSpan*/, 1 /*rowSpan*/, false /*isHeader*/, context);
 
-            addSegment(cell, createBr(context));
             row.push(cell);
-
-            cell.format.width = width;
-            cell.format.useBorderBox = true;
         }
     });
 
     return table;
-}
-
-function getTableCellWidth(columns: number): number {
-    if (columns <= 4) {
-        return 120;
-    } else if (columns <= 6) {
-        return 100;
-    } else {
-        return 70;
-    }
 }

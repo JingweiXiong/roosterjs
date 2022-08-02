@@ -6,6 +6,7 @@ import { insertTableButton } from './buttons/insertTableButton';
 import { refreshButton } from './buttons/refreshButton';
 import { Ribbon, RibbonButton, RibbonPlugin } from 'roosterjs-react';
 import { safeInstanceOf } from 'roosterjs-editor-dom';
+import { setTableCellShadeButton } from './buttons/setTableCellShadeButton';
 import { SidePaneElementProps } from '../SidePaneElement';
 
 const styles = require('./ContentModelPane.scss');
@@ -32,6 +33,7 @@ export default class ContentModelPane extends React.Component<
             exportButton,
             insertTableButton,
             formatTableButton,
+            setTableCellShadeButton,
         ];
 
         this.state = {

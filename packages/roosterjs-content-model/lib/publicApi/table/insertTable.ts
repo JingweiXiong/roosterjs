@@ -3,6 +3,7 @@ import { ChangeSource, TableFormat } from 'roosterjs-editor-types';
 import { createContentModelDocument } from '../../domToModel/creators/createContentModelDocument';
 import { createTableStructure } from '../../modelApi/table/createTableStructure';
 import { IExperimentalContentModelEditor } from '../../publicTypes/IExperimentalContentModelEditor';
+import { normalizeTable } from '../../modelApi/table/normalizeTable';
 
 /**
  * Insert table into editor at current selection
@@ -25,6 +26,8 @@ export default function insertTable(
             const doc = createContentModelDocument(editor.getDocument());
 
             const table = createTableStructure(doc, columns, rows, contentModelContext);
+
+            normalizeTable(table);
             applyTableFormat(table, format);
 
             const fragment = editor.createFragmentFromContentModel(doc);
