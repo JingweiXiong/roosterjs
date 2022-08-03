@@ -2,10 +2,10 @@ import { addBlock } from './addBlock';
 import { ContentModelBlockGroup } from '../../publicTypes/block/group/ContentModelBlockGroup';
 import { ContentModelBlockType } from '../../publicTypes/enum/BlockType';
 import { ContentModelParagraph } from '../../publicTypes/block/ContentModelParagraph';
+import { ContentModelParagraphFormat } from '../../publicTypes/format/ContentModelParagraphFormat';
 import { ContentModelSegment } from '../../publicTypes/segment/ContentModelSegment';
 import { ContentModelSegmentType } from '../../publicTypes/enum/SegmentType';
 import { createParagraph } from '../creators/createParagraph';
-import { DomToModelContext } from '../../domToModel/context/DomToModelContext';
 
 /**
  * @internal
@@ -13,7 +13,7 @@ import { DomToModelContext } from '../../domToModel/context/DomToModelContext';
 export function addSegment(
     group: ContentModelBlockGroup,
     newSegment: ContentModelSegment,
-    context: DomToModelContext
+    blockFormat?: ContentModelParagraphFormat
 ) {
     const lastBlock = group.blocks[group.blocks.length - 1];
     let paragraph: ContentModelParagraph;
@@ -21,7 +21,7 @@ export function addSegment(
     if (lastBlock?.blockType == ContentModelBlockType.Paragraph) {
         paragraph = lastBlock;
     } else {
-        paragraph = createParagraph(true, context);
+        paragraph = createParagraph(true, blockFormat);
         addBlock(group, paragraph);
     }
 

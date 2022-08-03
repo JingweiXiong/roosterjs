@@ -74,7 +74,7 @@ describe('containerProcessor', () => {
         expect(textProcessor.textProcessor).toHaveBeenCalledWith(doc, 'test', context);
     });
 
-    xit('Process a DIV with SPAN node', () => {
+    it('Process a DIV with SPAN node', () => {
         const div = document.createElement('div');
         const span = document.createElement('span');
         div.appendChild(span);
@@ -143,13 +143,13 @@ describe('containerProcessor', () => {
         context = createDomToModelContext();
         spyOn(generalSegmentProcessor, 'generalSegmentProcessor').and.callFake(
             (group, element, context) => {
-                const segment = createText(element.textContent!, context) as any;
+                const segment = createText(element.textContent!) as any;
 
                 if (context.isInSelection) {
                     segment.isSelected = true;
                 }
 
-                addSegment(group, segment, context);
+                addSegment(group, segment);
             }
         );
     });
@@ -208,8 +208,7 @@ describe('containerProcessor', () => {
                     isSelected: true,
                     format: {},
                 },
-                { segmentType: ContentModelSegmentType.Text, text: 'test2', format: {} },
-                { segmentType: ContentModelSegmentType.Text, text: 'test3', format: {} },
+                { segmentType: ContentModelSegmentType.Text, text: 'test2test3', format: {} },
             ],
             isImplicit: true,
             format: {},
@@ -278,7 +277,7 @@ describe('containerProcessor', () => {
     });
 
     // Skip this test for now, we will reenable it once we are ready to write e2e test case of creating model from dom
-    xit('Process a DIV with mixed selection', () => {
+    it('Process a DIV with mixed selection', () => {
         const div = document.createElement('div');
         div.innerHTML = '<span>test1</span>test2test3';
         context.regularSelection = {

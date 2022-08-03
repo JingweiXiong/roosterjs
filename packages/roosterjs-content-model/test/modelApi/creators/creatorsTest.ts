@@ -3,7 +3,6 @@ import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
 import { ContentModelSegmentType } from '../../../lib/publicTypes/enum/SegmentType';
 import { createBr } from '../../../lib/modelApi/creators/createBr';
 import { createContentModelDocument } from '../../../lib/modelApi/creators/createContentModelDocument';
-import { createDomToModelContext } from '../../../lib/domToModel/context/createDomToModelContext';
 import { createGeneralBlock } from '../../../lib/modelApi/creators/createGeneralBlock';
 import { createGeneralSegment } from '../../../lib/modelApi/creators/createGeneralSegment';
 import { createParagraph } from '../../../lib/modelApi/creators/createParagraph';
@@ -11,15 +10,8 @@ import { createSelectionMarker } from '../../../lib/modelApi/creators/createSele
 import { createTable } from '../../../lib/modelApi/creators/createTable';
 import { createTableCell } from '../../../lib/modelApi/creators/createTableCell';
 import { createText } from '../../../lib/modelApi/creators/createText';
-import { DomToModelContext } from '../../../lib/domToModel/context/DomToModelContext';
 
 describe('Creators', () => {
-    let context: DomToModelContext;
-
-    beforeEach(() => {
-        context = createDomToModelContext();
-    });
-
     it('createContentModelDocument', () => {
         const result = createContentModelDocument(document);
 
@@ -70,7 +62,7 @@ describe('Creators', () => {
     });
 
     it('createParagraph - not dummy block', () => {
-        const result = createParagraph(false, context);
+        const result = createParagraph(false);
 
         expect(result).toEqual({
             blockType: ContentModelBlockType.Paragraph,
@@ -80,7 +72,7 @@ describe('Creators', () => {
     });
 
     it('createParagraph - dummy block', () => {
-        const result = createParagraph(true, context);
+        const result = createParagraph(true);
 
         expect(result).toEqual({
             blockType: ContentModelBlockType.Paragraph,
@@ -92,7 +84,7 @@ describe('Creators', () => {
 
     it('createText', () => {
         const text = 'test';
-        const result = createText(text, context);
+        const result = createText(text);
 
         expect(result).toEqual({
             segmentType: ContentModelSegmentType.Text,
@@ -164,7 +156,7 @@ describe('Creators', () => {
     });
 
     it('createSelectionMarker', () => {
-        const marker = createSelectionMarker(context);
+        const marker = createSelectionMarker();
 
         expect(marker).toEqual({
             segmentType: ContentModelSegmentType.SelectionMarker,
@@ -174,7 +166,7 @@ describe('Creators', () => {
     });
 
     it('createBr', () => {
-        const br = createBr(context);
+        const br = createBr();
 
         expect(br).toEqual({
             segmentType: ContentModelSegmentType.Br,

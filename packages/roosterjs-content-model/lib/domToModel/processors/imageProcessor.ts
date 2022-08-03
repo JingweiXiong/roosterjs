@@ -21,13 +21,13 @@ export const imageProcessor: ElementProcessor = (group, element, context, defaul
         )
     );
 
-    const image = createImage(imageElement, context);
+    const image = createImage(imageElement, context.segmentFormat);
 
     if (context.isInSelection) {
         image.isSelected = true;
     }
 
-    addSegment(group, image, context);
+    addSegment(group, image, context.blockFormat);
 
     context.segmentFormat = originalSegmentFormat;
 };

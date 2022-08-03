@@ -1,8 +1,8 @@
-import { ContentModelBlockGroup } from '../publicTypes/block/group/ContentModelBlockGroup';
-import { ContentModelBlockType } from '../publicTypes/enum/BlockType';
-import { ContentModelDocument } from '../publicTypes/block/group/ContentModelDocument';
-import { ContentModelParagraph } from '../publicTypes/block/ContentModelParagraph';
-import { ContentModelSegment } from '../publicTypes/segment/ContentModelSegment';
+import { ContentModelBlockGroup } from '../../publicTypes/block/group/ContentModelBlockGroup';
+import { ContentModelBlockType } from '../../publicTypes/enum/BlockType';
+import { ContentModelDocument } from '../../publicTypes/block/group/ContentModelDocument';
+import { ContentModelParagraph } from '../../publicTypes/block/ContentModelParagraph';
+import { ContentModelSegment } from '../../publicTypes/segment/ContentModelSegment';
 
 /**
  * Get all selected segments to do formatting

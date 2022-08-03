@@ -1,14 +1,17 @@
 import { ContentModelImage } from '../../publicTypes/segment/ContentModelImage';
+import { ContentModelSegmentFormat } from '../../publicTypes/format/ContentModelSegmentFormat';
 import { ContentModelSegmentType } from '../../publicTypes/enum/SegmentType';
-import { DomToModelContext } from '../../domToModel/context/DomToModelContext';
 
 /**
  * @internal
  */
-export function createImage(img: HTMLImageElement, context: DomToModelContext): ContentModelImage {
+export function createImage(
+    img: HTMLImageElement,
+    format?: ContentModelSegmentFormat
+): ContentModelImage {
     return {
         segmentType: ContentModelSegmentType.Image,
-        format: context.segmentFormat,
+        format: format || {},
         src: img.src,
     };
 }

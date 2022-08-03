@@ -16,7 +16,7 @@ export const generalSegmentProcessor: ElementProcessor = (group, element, contex
 
     context.segmentFormat = {};
 
-    addSegment(group, segment, context);
+    addSegment(group, segment, context.blockFormat);
     containerProcessor(segment, element, context);
 
     context.segmentFormat = originalSegmentFormat;

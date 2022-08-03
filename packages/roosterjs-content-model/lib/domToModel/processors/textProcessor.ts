@@ -29,7 +29,7 @@ export function textProcessor(
             lastSegment.text += text;
         } else {
             const originalSegmentFormat = context.segmentFormat;
-            const textModel = createText(text, context);
+            const textModel = createText(text, context.segmentFormat);
 
             context.segmentFormat = { ...originalSegmentFormat };
 
@@ -37,7 +37,7 @@ export function textProcessor(
                 textModel.isSelected = true;
             }
 
-            addSegment(group, textModel, context);
+            addSegment(group, textModel, context.blockFormat);
             context.segmentFormat = originalSegmentFormat;
         }
     }

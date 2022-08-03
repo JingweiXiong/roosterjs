@@ -1,18 +1,18 @@
 import { ContentModelBlockType } from '../../publicTypes/enum/BlockType';
 import { ContentModelParagraph } from '../../publicTypes/block/ContentModelParagraph';
-import { DomToModelContext } from '../../domToModel/context/DomToModelContext';
+import { ContentModelParagraphFormat } from '../../publicTypes/format/ContentModelParagraphFormat';
 
 /**
  * @internal
  */
 export function createParagraph(
     isImplicit: boolean,
-    context: DomToModelContext
+    format?: ContentModelParagraphFormat
 ): ContentModelParagraph {
     const result: ContentModelParagraph = {
         blockType: ContentModelBlockType.Paragraph,
         segments: [],
-        format: context.blockFormat,
+        format: format || {},
     };
 
     if (isImplicit) {

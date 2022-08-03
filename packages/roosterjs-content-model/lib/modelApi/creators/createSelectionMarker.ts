@@ -1,14 +1,16 @@
+import { ContentModelSegmentFormat } from '../../publicTypes/format/ContentModelSegmentFormat';
 import { ContentModelSegmentType } from '../../publicTypes/enum/SegmentType';
 import { ContentModelSelectionMarker } from '../../publicTypes/segment/ContentModelSelectionMarker';
-import { DomToModelContext } from '../../domToModel/context/DomToModelContext';
 
 /**
  * @internal
  */
-export function createSelectionMarker(context: DomToModelContext): ContentModelSelectionMarker {
+export function createSelectionMarker(
+    format?: ContentModelSegmentFormat
+): ContentModelSelectionMarker {
     return {
         segmentType: ContentModelSegmentType.SelectionMarker,
         isSelected: true,
-        format: context.segmentFormat,
+        format: format || {},
     };
 }

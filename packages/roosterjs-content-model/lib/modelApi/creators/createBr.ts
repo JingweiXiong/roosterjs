@@ -1,13 +1,13 @@
 import { ContentModelBr } from '../../publicTypes/segment/ContentModelBr';
+import { ContentModelSegmentFormat } from '../../publicTypes/format/ContentModelSegmentFormat';
 import { ContentModelSegmentType } from '../../publicTypes/enum/SegmentType';
-import { DomToModelContext } from '../../domToModel/context/DomToModelContext';
 
 /**
  * @internal
  */
-export function createBr(context: DomToModelContext): ContentModelBr {
+export function createBr(format?: ContentModelSegmentFormat): ContentModelBr {
     return {
         segmentType: ContentModelSegmentType.Br,
-        format: context.segmentFormat,
+        format: format || {},
     };
 }

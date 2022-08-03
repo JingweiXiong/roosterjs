@@ -1,19 +1,18 @@
 import { addSegment } from '../../modelApi/common/addSegment';
 import { ContentModelTable } from '../../publicTypes/block/ContentModelTable';
 import { createBr } from '../../modelApi/creators/createBr';
-import { DomToModelContext } from '../../domToModel/context/DomToModelContext';
 
 /**
  * @internal
  */
-export function normalizeTable(table: ContentModelTable, context: DomToModelContext) {
+export function normalizeTable(table: ContentModelTable) {
     table.format.borderCollapse = true;
     table.format.useBorderBox = true;
 
     table.cells.forEach(row =>
         row.forEach(cell => {
             if (cell.blocks.length == 0) {
-                addSegment(cell, createBr(context), context);
+                addSegment(cell, createBr());
             }
 
             if (typeof cell.format.width === 'undefined') {

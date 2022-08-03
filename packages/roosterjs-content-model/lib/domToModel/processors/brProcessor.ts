@@ -6,11 +6,11 @@ import { ElementProcessor } from './ElementProcessor';
  * @internal
  */
 export const brProcessor: ElementProcessor = (group, element, context) => {
-    const br = createBr(context);
+    const br = createBr(context.segmentFormat);
 
     if (context.isInSelection) {
         br.isSelected = true;
     }
 
-    addSegment(group, br, context);
+    addSegment(group, br, context.blockFormat);
 };
