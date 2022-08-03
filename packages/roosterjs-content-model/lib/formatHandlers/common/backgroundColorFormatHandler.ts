@@ -11,7 +11,7 @@ export const backgroundColorFormatHandler: FormatHandler<BackgroundColorFormat> 
             getColor(element, true /*isBackground*/, context.isDarkMode) ||
             defaultStyle.backgroundColor;
 
-        if (backgroundColor && backgroundColor != 'transparent') {
+        if (backgroundColor) {
             format.backgroundColor = backgroundColor;
         }
     },

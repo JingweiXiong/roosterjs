@@ -5,6 +5,7 @@ import { createContentModelDocument } from '../modelApi/creators/createContentMo
 import { createDomToModelContext } from '../domToModel/context/createDomToModelContext';
 import { createModelToDomContext } from '../modelToDom/context/createModelToDomContext';
 import { Editor } from 'roosterjs-editor-core';
+import { EditorOptions, NodeType } from 'roosterjs-editor-types';
 import { getComputedStyles } from 'roosterjs-editor-dom';
 import { getDefaultStyle } from '../domToModel/defaultStyles/getDefaultStyle';
 import { getSelectionPosition } from '../modelToDom/utils/getSelectionPosition';
@@ -15,7 +16,6 @@ import { normalizeModel } from '../modelApi/common/normalizeContentModel';
 import { optimize } from '../modelToDom/optimizers/optimize';
 import { SelectionInfo } from '../modelToDom/types/SelectionInfo';
 import { singleElementProcessor } from '../domToModel/processors/singleElementProcessor';
-import { EditorOptions, NodeType } from 'roosterjs-editor-types';
 
 /**
  * !!! This is a temporary interface and will be removed in the future !!!
