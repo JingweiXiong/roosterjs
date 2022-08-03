@@ -44,20 +44,19 @@ export function ContentModel(props: {
     }, [bodyState]);
 
     return (
-        <div className={css(styles.modelWrapper, className)}>
-            <div
-                className={css(styles.selection, {
-                    [styles.childSelected]: hasSelection,
-                    [styles.selected]: isSelection,
-                })}></div>
-            <div className={styles.body}>
-                <div className={styles.titleBar}>
-                    <div
-                        className={css(styles.title, {
-                            [styles.titleWithBorder]: bodyState != 'collapsed',
-                        })}>
-                        {title}
-                    </div>
+        <div
+            className={css(styles.modelWrapper, className, {
+                [styles.childSelected]: hasSelection,
+                [styles.selected]: isSelection,
+            })}>
+            <div className={styles.titleBar}>
+                <div
+                    className={css(styles.title, {
+                        [styles.titleWithBorder]: bodyState != 'collapsed',
+                    })}>
+                    {title}
+                </div>
+                <div className={styles.buttonGroup}>
                     <ButtonGroup
                         hasFormat={!!getFormat}
                         bodyState={bodyState}
@@ -65,22 +64,22 @@ export function ContentModel(props: {
                         toggleFormat={toggleFormat}
                         toggleVisual={toggleVisual}
                     />
-                    <div
-                        className={css(styles.subTitle, {
-                            [styles.titleWithBorder]: bodyState != 'collapsed',
-                        })}
-                        title={subTitle}>
-                        {subTitle || '\u00a0'}
-                    </div>
                 </div>
-                {bodyState == 'json' ? (
-                    <ContentModelJson jsonSource={jsonSource} />
-                ) : bodyState == 'children' ? (
-                    <div className={styles.expandedBody}>{getContent?.() || null}</div>
-                ) : bodyState == 'format' && !!getFormat ? (
-                    <div className={styles.expandedBody}>{getFormat()}</div>
-                ) : null}
+                <div
+                    className={css(styles.subTitle, {
+                        [styles.titleWithBorder]: bodyState != 'collapsed',
+                    })}
+                    title={subTitle}>
+                    {subTitle || '\u00a0'}
+                </div>
             </div>
+            {bodyState == 'json' ? (
+                <ContentModelJson jsonSource={jsonSource} />
+            ) : bodyState == 'children' ? (
+                <div className={styles.expandedBody}>{getContent?.() || null}</div>
+            ) : bodyState == 'format' && !!getFormat ? (
+                <div className={styles.expandedBody}>{getFormat()}</div>
+            ) : null}
         </div>
     );
 }

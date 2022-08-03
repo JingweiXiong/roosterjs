@@ -13,7 +13,7 @@ export function ButtonGroup(props: {
     const { hasFormat, bodyState, toggleFormat, toggleJson, toggleVisual } = props;
 
     return (
-        <div className={styles.buttons}>
+        <div>
             <button
                 onClick={toggleVisual}
                 className={css(styles.button, {

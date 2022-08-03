@@ -1,41 +1,33 @@
 .modelWrapper {
-    border-radius: 4px;
     margin-bottom: 2px;
-    padding: 1px;
     display: flex;
     font-family: Calibri;
     font-size: 12pt;
-    border: solid 1px transparent;
+    border: solid 2px gray;
 
-    &:hover {
-        border: solid 1px;
-        border-color: white gray gray white;
-    }
-}
-
-.selection {
-    width: 8px;
-    flex: 0 0 auto;
-}
-
-.childSelected {
-    background-color: #bbf;
-}
-
-.selected {
-    background-color: #00f;
-}
-
-.body {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+
+    &.childSelected {
+        border-color: #0aa;
+    }
+
+    .selected {
+        border-color: #00f;
+    }
 }
 
 .titleBar {
     flex: 0 0 auto;
     white-space: nowrap;
     overflow: hidden;
+    padding: 3px 0 0 0;
+    height: 20px;
+
+    &:hover .buttonGroup {
+        display: block;
+    }
 }
 
 .title {
@@ -48,6 +40,11 @@
     flex: 1 1 auto;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.buttonGroup {
+    float: right;
+    display: none;
 }
 
 .titleWithBorder {
