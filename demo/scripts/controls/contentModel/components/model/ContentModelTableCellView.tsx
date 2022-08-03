@@ -1,10 +1,30 @@
 import * as React from 'react';
+import { BackgroundColorFormatRenderer } from '../format/formatPart/BackgroundColorFormatRenderer';
+import { BorderFormatRenderers } from '../format/formatPart/BorderFormatRenderers';
 import { ContentModel } from '../ContentModel';
 import { ContentModelBlockView } from './ContentModelBlockView';
-import { ContentModelTableCell, hasSelectionInBlock } from 'roosterjs-content-model';
-import { TableCellFormatView } from '../format/TableCellFormatView';
+import { createMetadataFormatRenderer } from '../format/formatPart/MetadataFormatRenderer';
+import { FormatRenderer } from '../format/utils/FormatRenderer';
+import { FormatView } from '../format/FormatView';
+import { SizeFormatRenderers } from '../format/formatPart/SizeFormatRenderers';
+import { TextAlignFormatRenderer } from '../format/formatPart/TextAlignFormatRenderer';
+import { VerticalAlignFormatRenderer } from '../format/formatPart/VerticalAlignFormatRenderer';
+import {
+    ContentModelTableCell,
+    ContentModelTableCellFormat,
+    hasSelectionInBlock,
+} from 'roosterjs-content-model';
 
 const styles = require('./ContentModelTableCellView.scss');
+
+const TableCellFormatRenderers: FormatRenderer<ContentModelTableCellFormat>[] = [
+    ...SizeFormatRenderers,
+    ...BorderFormatRenderers,
+    BackgroundColorFormatRenderer,
+    TextAlignFormatRenderer,
+    VerticalAlignFormatRenderer,
+    createMetadataFormatRenderer(null),
+];
 
 export function ContentModelTableCellView(props: { cell: ContentModelTableCell }) {
     const { cell } = props;
@@ -31,7 +51,7 @@ export function ContentModelTableCellView(props: { cell: ContentModelTableCell }
     }, [cell]);
 
     const getFormat = React.useCallback(() => {
-        return <TableCellFormatView format={cell.format} />;
+        return <FormatView format={cell.format} renderers={TableCellFormatRenderers} />;
     }, [cell.format]);
 
     return (

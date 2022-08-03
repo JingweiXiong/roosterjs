@@ -1,10 +1,28 @@
 import * as React from 'react';
+import { BackgroundColorFormatRenderer } from '../format/formatPart/BackgroundColorFormatRenderer';
 import { ContentModel } from '../ContentModel';
 import { ContentModelBlockView } from './ContentModelBlockView';
-import { ContentModelTable, hasSelectionInBlock } from 'roosterjs-content-model';
-import { TableFormatView } from '../format/TableFormatView';
+import { createMetadataFormatRenderer } from '../format/formatPart/MetadataFormatRenderer';
+import { FormatRenderer } from '../format/utils/FormatRenderer';
+import { FormatView } from '../format/FormatView';
+import { IdFormatRenderer } from '../format/formatPart/IdFormatRenderer';
+import { SizeFormatRenderers } from '../format/formatPart/SizeFormatRenderers';
+import { SpacingFormatRenderer } from '../format/formatPart/SpacingFormatRenderer';
+import {
+    ContentModelTable,
+    ContentModelTableFormat,
+    hasSelectionInBlock,
+} from 'roosterjs-content-model';
 
 const styles = require('./ContentModelTableView.scss');
+
+const TableFormatRenderers: FormatRenderer<ContentModelTableFormat>[] = [
+    IdFormatRenderer,
+    SpacingFormatRenderer,
+    BackgroundColorFormatRenderer,
+    createMetadataFormatRenderer(null),
+    ...SizeFormatRenderers,
+];
 
 export function ContentModelTableView(props: { table: ContentModelTable }) {
     const { table } = props;
@@ -23,7 +41,7 @@ export function ContentModelTableView(props: { table: ContentModelTable }) {
     }, [table]);
 
     const getFormat = React.useCallback(() => {
-        return <TableFormatView format={table.format} />;
+        return <FormatView format={table.format} renderers={TableFormatRenderers} />;
     }, [table.format]);
 
     return (

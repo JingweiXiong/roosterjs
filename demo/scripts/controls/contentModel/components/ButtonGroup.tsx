@@ -16,28 +16,30 @@ export function ButtonGroup(props: {
         <div>
             <button
                 onClick={toggleVisual}
+                title="Content"
                 className={css(styles.button, {
                     [styles.buttonChecked]: bodyState == 'children',
                 })}>
-                Content
+                🔎
             </button>
             {hasFormat ? (
                 <button
                     onClick={toggleFormat}
+                    title="Format"
                     className={css(styles.button, {
                         [styles.buttonChecked]: bodyState == 'format',
                     })}>
-                    Format
+                    🖹
                 </button>
             ) : null}
             <button
                 onClick={toggleJson}
+                title="JSON"
                 className={css(styles.button, {
                     [styles.buttonChecked]: bodyState == 'json',
                 })}>
-                JSON
+                🅙
             </button>
-            <button className={styles.button}>❌</button>
         </div>
     );
 }

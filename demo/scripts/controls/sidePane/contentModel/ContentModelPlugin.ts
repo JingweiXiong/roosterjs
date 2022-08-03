@@ -21,12 +21,14 @@ export default class ContentModelPlugin extends SidePanePluginImpl<
         super.initialize(editor);
 
         this.contentModelRibbon.initialize(editor);
-        editor.getDocument().addEventListener('selectionchange', this.onModelChange);
+        editor.getDocument().addEventListener('selectionchange', this.onModelChangeFromSelection);
     }
 
     dispose(): void {
         this.contentModelRibbon.dispose();
-        this.editor.getDocument().removeEventListener('selectionchange', this.onModelChange);
+        this.editor
+            .getDocument()
+            .removeEventListener('selectionchange', this.onModelChangeFromSelection);
 
         super.dispose();
     }
@@ -46,6 +48,12 @@ export default class ContentModelPlugin extends SidePanePluginImpl<
             ribbonPlugin: this.contentModelRibbon,
         };
     }
+
+    private onModelChangeFromSelection = () => {
+        if (this.editor.hasFocus()) {
+            this.onModelChange();
+        }
+    };
 
     private onModelChange = () => {
         this.getComponent(component => {

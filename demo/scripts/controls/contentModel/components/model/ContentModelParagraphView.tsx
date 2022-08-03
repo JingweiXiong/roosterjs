@@ -1,10 +1,32 @@
 import * as React from 'react';
+import { BackgroundColorFormatRenderer } from '../format/formatPart/BackgroundColorFormatRenderer';
 import { ContentModel } from '../ContentModel';
-import { ContentModelParagraph, hasSelectionInBlock } from 'roosterjs-content-model';
 import { ContentModelSegmentView } from './ContentModelSegmentView';
-import { ParagraphFormatView } from '../format/ParagraphFormatView';
+import { DirectionFormatRenderer } from '../format/formatPart/DirectionFormat';
+import { FormatRenderer } from '../format/utils/FormatRenderer';
+import { FormatView } from '../format/FormatView';
+import { IndentationFormatRenderer } from '../format/formatPart/IndentationFormatRenderer';
+import { LineHeightFormatRenderer } from '../format/formatPart/LineHeightFormatRenderer';
+import { MarginFormatRenderers } from '../format/formatPart/MarginFormatRenderers';
+import { TextAlignFormatRenderer } from '../format/formatPart/TextAlignFormatRenderer';
+import { WhiteSpaceFormatRenderer } from '../format/formatPart/WhiteSpaceFormatRenderer';
+import {
+    ContentModelParagraph,
+    ContentModelParagraphFormat,
+    hasSelectionInBlock,
+} from 'roosterjs-content-model';
 
 const styles = require('./ContentModelParagraphView.scss');
+
+const ParagraphFormatRenders: FormatRenderer<ContentModelParagraphFormat>[] = [
+    BackgroundColorFormatRenderer,
+    DirectionFormatRenderer,
+    TextAlignFormatRenderer,
+    ...MarginFormatRenderers,
+    IndentationFormatRenderer,
+    LineHeightFormatRenderer,
+    WhiteSpaceFormatRenderer,
+];
 
 export function ContentModelParagraphView(props: { paragraph: ContentModelParagraph }) {
     const { paragraph } = props;
@@ -19,7 +41,7 @@ export function ContentModelParagraphView(props: { paragraph: ContentModelParagr
     }, [paragraph]);
 
     const getFormat = React.useCallback(() => {
-        return <ParagraphFormatView format={paragraph.format} />;
+        return <FormatView format={paragraph.format} renderers={ParagraphFormatRenders} />;
     }, [paragraph.format]);
 
     return (

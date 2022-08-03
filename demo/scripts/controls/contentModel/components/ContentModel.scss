@@ -1,9 +1,9 @@
 .modelWrapper {
     margin-bottom: 2px;
     display: flex;
-    font-family: Calibri;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 12pt;
-    border: solid 2px gray;
+    border: solid 2px #ccc;
 
     flex: 1 1 auto;
     display: flex;
@@ -52,6 +52,6 @@
 }
 
 .expandedBody {
-    background-color: #eee;
+    background-color: #fff;
     padding: 4px;
 }

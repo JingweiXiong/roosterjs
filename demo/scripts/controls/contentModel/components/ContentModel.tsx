@@ -74,7 +74,9 @@ export function ContentModel(props: {
                 </div>
             </div>
             {bodyState == 'json' ? (
-                <ContentModelJson jsonSource={jsonSource} />
+                <div className={styles.expandedBody}>
+                    <ContentModelJson jsonSource={jsonSource} />
+                </div>
             ) : bodyState == 'children' ? (
                 <div className={styles.expandedBody}>{getContent?.() || null}</div>
             ) : bodyState == 'format' && !!getFormat ? (

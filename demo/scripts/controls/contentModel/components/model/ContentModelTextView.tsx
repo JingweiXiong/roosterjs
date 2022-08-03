@@ -8,7 +8,12 @@ const styles = require('./ContentModelTextView.scss');
 export function ContentModelTextView(props: { text: ContentModelText }) {
     const { text } = props;
     const getContent = React.useCallback(() => {
-        return <input type="input" value={text.text} />;
+        return (
+            <>
+                Text: <br />
+                <textarea>{text.text}</textarea>
+            </>
+        );
     }, [text]);
 
     const getFormat = React.useCallback(() => {
