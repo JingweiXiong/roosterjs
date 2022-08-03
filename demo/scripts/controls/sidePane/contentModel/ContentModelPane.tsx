@@ -1,10 +1,12 @@
 import * as React from 'react';
 import ContentModel from '../../contentModel/components/ContentModel';
 import { ContentModelDocument } from 'roosterjs-content-model';
-import { getExportButton } from './buttons/export';
-import { getRefreshButton } from './buttons/refresh';
-import { insertTable } from './buttons/insertTable';
-import { InsertTableButtonStringKey, Ribbon, RibbonButton, RibbonPlugin } from 'roosterjs-react';
+import { exportButton } from './buttons/exportButton';
+import { formatTableButton } from './buttons/formatTableButton';
+import { insertTableButton } from './buttons/insertTableButton';
+import { refreshButton } from './buttons/refreshButton';
+import { Ribbon, RibbonButton, RibbonPlugin } from 'roosterjs-react';
+import { setTableCellShadeButton } from './buttons/setTableCellShadeButton';
 import { SidePaneElementProps } from '../SidePaneElement';
 
 export interface ContentModelPaneState {
@@ -12,8 +14,6 @@ export interface ContentModelPaneState {
 }
 
 export interface ContentModelPaneProps extends ContentModelPaneState, SidePaneElementProps {
-    onUpdateModel: () => ContentModelDocument;
-    onCreateDOM: (model: ContentModelDocument) => void;
     ribbonPlugin: RibbonPlugin;
 }
 
@@ -21,17 +21,17 @@ export default class ContentModelPane extends React.Component<
     ContentModelPaneProps,
     ContentModelPaneState
 > {
-    private contentModelButtons: RibbonButton<
-        InsertTableButtonStringKey | 'buttonNameRefresh' | 'buttonNameExport'
-    >[];
+    private contentModelButtons: RibbonButton<any>[];
 
     constructor(props: ContentModelPaneProps) {
         super(props);
 
         this.contentModelButtons = [
-            getRefreshButton(this.onRefresh),
-            getExportButton(this.onCreateDOM),
-            insertTable,
+            refreshButton,
+            exportButton,
+            insertTableButton,
+            formatTableButton,
+            setTableCellShadeButton,
         ];
 
         this.state = {
@@ -55,13 +55,4 @@ export default class ContentModelPane extends React.Component<
             </>
         );
     }
-
-    private onCreateDOM = () => {
-        this.props.onCreateDOM(this.state.model);
-    };
-
-    private onRefresh = () => {
-        const model = this.props.onUpdateModel();
-        this.setContentModel(model);
-    };
 }

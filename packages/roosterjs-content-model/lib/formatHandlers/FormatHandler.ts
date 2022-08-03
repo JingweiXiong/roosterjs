@@ -1,4 +1,4 @@
-import { FormatContext } from './FormatContext';
+import { ContentModelContext } from '../publicTypes/ContentModelContext';
 
 /**
  * @internal
@@ -7,8 +7,8 @@ export interface FormatHandler<TFormat> {
     parse: (
         format: TFormat,
         element: HTMLElement,
-        context: FormatContext,
+        context: ContentModelContext,
         defaultStyle: Partial<CSSStyleDeclaration>
     ) => void;
-    apply: (format: TFormat, element: HTMLElement, context: FormatContext) => void;
+    apply: (format: TFormat, element: HTMLElement, context: ContentModelContext) => void;
 }

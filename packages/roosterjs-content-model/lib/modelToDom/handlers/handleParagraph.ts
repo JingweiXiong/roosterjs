@@ -1,6 +1,6 @@
 import { ContentModelParagraph } from '../../publicTypes/block/ContentModelParagraph';
-import { FormatContext } from '../../formatHandlers/FormatContext';
 import { handleSegment } from './handleSegment';
+import { ModelToDomContext } from '../context/ModelToDomContext';
 import { ParagraphFormatHandlers } from '../../formatHandlers/ParagraphFormatHandlers';
 import { SelectionInfo } from '../types/SelectionInfo';
 
@@ -11,7 +11,7 @@ export function handleParagraph(
     doc: Document,
     parent: Node,
     paragraph: ContentModelParagraph,
-    context: FormatContext,
+    context: ModelToDomContext,
     info: SelectionInfo
 ) {
     let container: HTMLElement;
@@ -22,7 +22,7 @@ export function handleParagraph(
         container = doc.createElement('div');
         parent.appendChild(container);
         ParagraphFormatHandlers.forEach(handler =>
-            handler.apply(paragraph.format, container, context)
+            handler.apply(paragraph.format, container, context.contentModelContext)
         );
     }
 

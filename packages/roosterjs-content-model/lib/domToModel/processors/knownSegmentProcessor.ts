@@ -10,7 +10,7 @@ export const knownSegmentProcessor: ElementProcessor = (group, element, context,
 
     context.segmentFormat = { ...originalSegmentFormat };
     SegmentFormatHandlers.forEach(handler =>
-        handler.parse(context.segmentFormat, element, context, defaultStyle)
+        handler.parse(context.segmentFormat, element, context.contentModelContext, defaultStyle)
     );
 
     containerProcessor(group, element, context);

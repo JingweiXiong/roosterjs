@@ -1,5 +1,5 @@
-import { addSegment } from '../utils/addSegment';
-import { createImage } from '../creators/createImage';
+import { addSegment } from '../../modelApi/common/addSegment';
+import { createImage } from '../../modelApi/creators/createImage';
 import { ElementProcessor } from './ElementProcessor';
 import { SegmentFormatHandlers } from '../../formatHandlers/SegmentFormatHandlers';
 
@@ -13,10 +13,21 @@ export const imageProcessor: ElementProcessor = (group, element, context, defaul
     context.segmentFormat = { ...originalSegmentFormat };
 
     SegmentFormatHandlers.forEach(handler =>
-        handler.parse(context.segmentFormat, imageElement, context, defaultStyle)
+        handler.parse(
+            context.segmentFormat,
+            imageElement,
+            context.contentModelContext,
+            defaultStyle
+        )
     );
 
-    addSegment(group, createImage(imageElement, context), context);
+    const image = createImage(imageElement, context);
+
+    if (context.isInSelection) {
+        image.isSelected = true;
+    }
+
+    addSegment(group, image, context);
 
     context.segmentFormat = originalSegmentFormat;
 };

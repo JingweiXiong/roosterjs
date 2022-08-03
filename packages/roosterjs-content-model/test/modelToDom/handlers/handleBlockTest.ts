@@ -2,18 +2,18 @@ import * as handleParagraph from '../../../lib/modelToDom/handlers/handleParagra
 import { ContentModelBlock } from '../../../lib/publicTypes/block/ContentModelBlock';
 import { ContentModelBlockGroupType } from '../../../lib/publicTypes/enum/BlockGroupType';
 import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
-import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
-import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
+import { createDomToModelContext } from '../../../lib/domToModel/context/createDomToModelContext';
+import { DomToModelContext } from '../../../lib/domToModel/context/DomToModelContext';
 import { handleBlock } from '../../../lib/modelToDom/handlers/handleBlock';
 import { SelectionInfo } from '../../../lib/modelToDom/types/SelectionInfo';
 
 describe('handleBlock', () => {
     let parent: HTMLElement;
-    let context: FormatContext;
+    let context: DomToModelContext;
     let selectionInfo: SelectionInfo;
 
     beforeEach(() => {
-        context = createFormatContext();
+        context = createDomToModelContext();
         selectionInfo = {
             context: {
                 currentBlockNode: null,

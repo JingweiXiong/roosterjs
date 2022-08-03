@@ -1,8 +1,8 @@
 import { ContentModelSegment } from '../../publicTypes/segment/ContentModelSegment';
 import { ContentModelSegmentType } from '../../publicTypes/enum/SegmentType';
-import { FormatContext } from '../../formatHandlers/FormatContext';
 import { getSelectionPosition } from '../utils/getSelectionPosition';
 import { handleBlock } from './handleBlock';
+import { ModelToDomContext } from '../context/ModelToDomContext';
 import { SegmentFormatHandlers } from '../../formatHandlers/SegmentFormatHandlers';
 import { SelectionInfo } from '../types/SelectionInfo';
 
@@ -13,7 +13,7 @@ export function handleSegment(
     doc: Document,
     parent: Node,
     segment: ContentModelSegment,
-    context: FormatContext,
+    context: ModelToDomContext,
     info: SelectionInfo
 ) {
     if (!info.start && segment.isSelected) {
@@ -64,7 +64,7 @@ export function handleSegment(
         parent.appendChild(element);
 
         SegmentFormatHandlers.forEach(handler => {
-            handler.apply(segment.format, element!, context);
+            handler.apply(segment.format, element!, context.contentModelContext);
         });
     }
 }

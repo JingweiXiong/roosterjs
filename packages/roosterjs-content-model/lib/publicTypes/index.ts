@@ -23,7 +23,7 @@ export { ContentModelGeneralSegment } from './segment/ContentModelGeneralSegment
 export { ContentModelSegment } from './segment/ContentModelSegment';
 
 export { ContentModelTableFormat } from './format/ContentModelTableFormat';
-export { ContentModelTableCellFormat } from './format/ContentModelTableCellFormat';
+export { ContentModelTableCellFormat, TableCellFormat } from './format/ContentModelTableCellFormat';
 export { ContentModelParagraphFormat } from './format/ContentModelParagraphFormat';
 export { ContentModelSegmentFormat } from './format/ContentModelSegmentFormat';
 
@@ -35,3 +35,6 @@ export { IdFormat } from './format/formatParts/IdFormat';
 export { MetadataFormat } from './format/formatParts/MetadataFormat';
 export { SizeFormat } from './format/formatParts/SizeFormat';
 export { SpacingFormat } from './format/formatParts/SpacingFormat';
+
+export { IExperimentalContentModelEditor } from './IExperimentalContentModelEditor';
+export { ContentModelContext } from './ContentModelContext';

@@ -1,14 +1,10 @@
-import { addSegment } from '../utils/addSegment';
-import { BlockDisplay } from '../defaultStyles/BlockDisplay';
+import { addSegment } from '../../modelApi/common/addSegment';
 import { ContentModelBlockGroup } from '../../publicTypes/block/group/ContentModelBlockGroup';
-import { createSelectionMarker } from '../creators/createSelectionMarker';
-import { FormatContext } from '../../formatHandlers/FormatContext';
-import { generalBlockProcessor } from './generalBlockProcessor';
-import { generalSegmentProcessor } from './generalSegmentProcessor';
-import { getDefaultStyle } from '../defaultStyles/getDefaultStyle';
-import { getProcessor } from './getProcessor';
+import { createSelectionMarker } from '../../modelApi/creators/createSelectionMarker';
+import { DomToModelContext } from '../context/DomToModelContext';
 import { isNodeOfType } from '../../domUtils/isNodeOfType';
 import { NodeType } from 'roosterjs-editor-types';
+import { singleElementProcessor } from './singleElementProcessor';
 import { textProcessor } from './textProcessor';
 
 /**
@@ -17,7 +13,7 @@ import { textProcessor } from './textProcessor';
 export function containerProcessor(
     group: ContentModelBlockGroup,
     parent: ParentNode,
-    context: FormatContext
+    context: DomToModelContext
 ) {
     const [nodeStartOffset, nodeEndOffset] = getRegularSelectionOffsets(context, parent);
     let index = 0;
@@ -37,31 +33,20 @@ export function containerProcessor(
         }
 
         if (isNodeOfType(child, NodeType.Element)) {
-            processElement(group, child, context);
+            singleElementProcessor(group, child, context, {});
         } else if (isNodeOfType(child, NodeType.Text)) {
-            processText(group, child, context);
+            textNodeProcessor(group, child, context);
         }
 
         index++;
     }
 }
 
-function processElement(
+function textNodeProcessor(
     group: ContentModelBlockGroup,
-    element: HTMLElement,
-    context: FormatContext
+    textNode: Text,
+    context: DomToModelContext
 ) {
-    const defaultStyle = getDefaultStyle(element);
-    const processor =
-        getProcessor(element.tagName) ||
-        (BlockDisplay.indexOf(element.style.display || defaultStyle.display || '') >= 0
-            ? generalBlockProcessor
-            : generalSegmentProcessor);
-
-    processor(group, element, context, defaultStyle);
-}
-
-function processText(group: ContentModelBlockGroup, textNode: Text, context: FormatContext) {
     let txt = textNode.nodeValue || '';
     let [txtStartOffset, txtEndOffset] = getRegularSelectionOffsets(context, textNode);
 
@@ -90,7 +75,7 @@ function processText(group: ContentModelBlockGroup, textNode: Text, context: For
 }
 
 function getRegularSelectionOffsets(
-    context: FormatContext,
+    context: DomToModelContext,
     currentContainer: Node
 ): [number, number] {
     let startOffset =

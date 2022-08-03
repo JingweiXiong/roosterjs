@@ -1,9 +1,9 @@
 import { ContentModelBlock } from '../../publicTypes/block/ContentModelBlock';
 import { ContentModelBlockGroupType } from '../../publicTypes/enum/BlockGroupType';
 import { ContentModelBlockType } from '../../publicTypes/enum/BlockType';
-import { FormatContext } from '../../formatHandlers/FormatContext';
 import { handleParagraph } from './handleParagraph';
 import { handleTable } from './handleTable';
+import { ModelToDomContext } from '../context/ModelToDomContext';
 import { SelectionInfo } from '../types/SelectionInfo';
 
 /**
@@ -13,7 +13,7 @@ export function handleBlock(
     doc: Document,
     parent: Node,
     block: ContentModelBlock,
-    context: FormatContext,
+    context: ModelToDomContext,
     info: SelectionInfo
 ) {
     switch (block.blockType) {

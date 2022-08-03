@@ -1,7 +1,7 @@
 import { applyFormat } from '../utils/applyFormat';
 import { ContentModelTable } from '../../publicTypes/block/ContentModelTable';
-import { FormatContext } from '../../formatHandlers/FormatContext';
 import { handleBlock } from './handleBlock';
+import { ModelToDomContext } from '../context/ModelToDomContext';
 import { SelectionInfo } from '../types/SelectionInfo';
 import { TableCellFormatHandlers } from '../../formatHandlers/TableCellFormatHandler';
 import { TableFormatHandlers } from '../../formatHandlers/TableFormatHandlers';
@@ -13,7 +13,7 @@ export function handleTable(
     doc: Document,
     parent: Node,
     table: ContentModelTable,
-    context: FormatContext,
+    context: ModelToDomContext,
     info: SelectionInfo
 ) {
     if (table.cells.length == 0 || table.cells.every(c => c.length == 0)) {
@@ -23,7 +23,7 @@ export function handleTable(
 
     const tableNode = doc.createElement('table');
     parent.appendChild(tableNode);
-    applyFormat(tableNode, TableFormatHandlers, table.format, context);
+    applyFormat(tableNode, TableFormatHandlers, table.format, context.contentModelContext);
 
     const tbody = doc.createElement('tbody');
     tableNode.appendChild(tbody);
@@ -43,7 +43,7 @@ export function handleTable(
             if (!cell.spanAbove && !cell.spanLeft) {
                 const td = doc.createElement(cell.isHeader ? 'th' : 'td');
                 tr.appendChild(td);
-                applyFormat(td, TableCellFormatHandlers, cell.format, context);
+                applyFormat(td, TableCellFormatHandlers, cell.format, context.contentModelContext);
 
                 let rowSpan = 1;
                 let colSpan = 1;

@@ -4,20 +4,20 @@ import { ContentModelBlockType } from '../../../lib/publicTypes/enum/BlockType';
 import { ContentModelParagraph } from '../../../lib/publicTypes/block/ContentModelParagraph';
 import { ContentModelSegment } from '../../../lib/publicTypes/segment/ContentModelSegment';
 import { ContentModelSegmentType } from '../../../lib/publicTypes/enum/SegmentType';
-import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
-import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
+import { createDomToModelContext } from '../../../lib/domToModel/context/createDomToModelContext';
+import { DomToModelContext } from '../../../lib/domToModel/context/DomToModelContext';
 import { handleParagraph } from '../../../lib/modelToDom/handlers/handleParagraph';
 import { SelectionInfo } from '../../../lib/modelToDom/types/SelectionInfo';
 
 describe('handleParagraph', () => {
     let parent: HTMLElement;
-    let context: FormatContext;
+    let context: DomToModelContext;
     let selectionInfo: SelectionInfo;
 
     beforeEach(() => {
         spyOn(handleSegment, 'handleSegment');
         parent = document.createElement('div');
-        context = createFormatContext();
+        context = createDomToModelContext();
         selectionInfo = {
             context: {
                 currentBlockNode: null,

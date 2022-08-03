@@ -1,15 +1,18 @@
-import { createFormatContext } from '../../../lib/formatHandlers/createFormatContext';
-import { FormatContext } from '../../../lib/formatHandlers/FormatContext';
+import { ContentModelContext } from '../../../lib/publicTypes';
 import { SizeFormat } from '../../../lib/publicTypes/format/formatParts/SizeFormat';
 import { sizeFormatHandler } from '../../../lib/formatHandlers/common/sizeFormatHandler';
 
 describe('sizeFormatHandler.parse', () => {
     let format: SizeFormat;
-    let context: FormatContext;
+    let context: ContentModelContext;
 
     beforeEach(() => {
         format = {};
-        context = createFormatContext();
+        context = {
+            isDarkMode: false,
+            zoomScale: 1,
+            isRightToLeft: false,
+        };
     });
 
     it('Not able to get size', () => {
@@ -41,17 +44,35 @@ describe('sizeFormatHandler.parse', () => {
         sizeFormatHandler.parse(format, fake, context, {});
         expect(format).toEqual({ width: 10, height: 20 });
     });
+
+    it('UseBorderBox', () => {
+        const fake = ({
+            getBoundingClientRect: () => ({
+                width: 0,
+                height: 0,
+            }),
+            style: {
+                boxSizing: 'border-box',
+            },
+        } as any) as HTMLElement;
+        sizeFormatHandler.parse(format, fake, context, {});
+        expect(format).toEqual({ useBorderBox: true });
+    });
 });
 
 describe('sizeFormatHandler.apply', () => {
     let div: HTMLElement;
     let format: SizeFormat;
-    let context: FormatContext;
+    let context: ContentModelContext;
 
     beforeEach(() => {
         div = document.createElement('div');
         format = {};
-        context = createFormatContext();
+        context = {
+            isDarkMode: false,
+            zoomScale: 1,
+            isRightToLeft: false,
+        };
     });
 
     it('No size', () => {
@@ -76,5 +97,11 @@ describe('sizeFormatHandler.apply', () => {
         format.height = 20;
         sizeFormatHandler.apply(format, div, context);
         expect(div.outerHTML).toBe('<div style="width: 10px; height: 20px;"></div>');
+    });
+
+    it('UseBorderBox', () => {
+        format.useBorderBox = true;
+        sizeFormatHandler.apply(format, div, context);
+        expect(div.outerHTML).toBe('<div style="box-sizing: border-box;"></div>');
     });
 });
