@@ -162,8 +162,10 @@ describe('setTableCellBackgroundColor', () => {
                                     {
                                         segmentType: ContentModelSegmentType.SelectionMarker,
                                         isSelected: true,
+                                        format: {},
                                     },
                                 ],
+                                format: {},
                             },
                         ],
                         spanAbove: false,
@@ -199,8 +201,10 @@ describe('setTableCellBackgroundColor', () => {
                                     {
                                         segmentType: ContentModelSegmentType.SelectionMarker,
                                         isSelected: true,
+                                        format: {},
                                     },
                                 ],
+                                format: {},
                             },
                         ],
                         spanAbove: false,

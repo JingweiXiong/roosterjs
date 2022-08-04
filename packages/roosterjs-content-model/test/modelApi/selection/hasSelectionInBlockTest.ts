@@ -9,6 +9,7 @@ describe('hasSelectionInBlock', () => {
         const block: ContentModelBlock = {
             blockType: ContentModelBlockType.Paragraph,
             segments: [],
+            format: {},
         };
 
         const result = hasSelectionInBlock(block);
@@ -22,12 +23,15 @@ describe('hasSelectionInBlock', () => {
             segments: [
                 {
                     segmentType: ContentModelSegmentType.Br,
+                    format: {},
                 },
                 {
                     segmentType: ContentModelSegmentType.Br,
+                    format: {},
                     isSelected: true,
                 },
             ],
+            format: {},
         };
 
         const result = hasSelectionInBlock(block);
@@ -118,8 +122,10 @@ describe('hasSelectionInBlock', () => {
                                     {
                                         segmentType: ContentModelSegmentType.Br,
                                         isSelected: true,
+                                        format: {},
                                     },
                                 ],
+                                format: {},
                             },
                         ],
                         format: {},
@@ -149,8 +155,10 @@ describe('hasSelectionInBlock', () => {
                         {
                             segmentType: ContentModelSegmentType.Br,
                             isSelected: true,
+                            format: {},
                         },
                     ],
+                    format: {},
                 },
             ],
         };
@@ -185,8 +193,10 @@ describe('hasSelectionInBlock', () => {
                         {
                             segmentType: ContentModelSegmentType.Br,
                             isSelected: true,
+                            format: {},
                         },
                     ],
+                    format: {},
                 },
             ],
         };

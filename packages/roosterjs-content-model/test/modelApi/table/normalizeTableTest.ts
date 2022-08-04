@@ -61,8 +61,10 @@ describe('normalizeTable', () => {
                                 segments: [
                                     {
                                         segmentType: ContentModelSegmentType.Br,
+                                        format: {},
                                     },
                                 ],
+                                format: {},
                             },
                         ],
                     },

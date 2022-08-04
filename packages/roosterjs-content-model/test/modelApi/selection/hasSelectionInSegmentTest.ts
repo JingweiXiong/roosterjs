@@ -9,6 +9,7 @@ describe('hasSelectionInSegment', () => {
         const segment: ContentModelSegment = {
             segmentType: ContentModelSegmentType.Text,
             text: '',
+            format: {},
         };
         const result = hasSelectionInSegment(segment);
         expect(result).toBeFalse();
@@ -19,6 +20,7 @@ describe('hasSelectionInSegment', () => {
             segmentType: ContentModelSegmentType.Text,
             text: '',
             isSelected: true,
+            format: {},
         };
         const result = hasSelectionInSegment(segment);
         expect(result).toBeTrue();
@@ -27,6 +29,7 @@ describe('hasSelectionInSegment', () => {
     it('Simple BR segment', () => {
         const segment: ContentModelSegment = {
             segmentType: ContentModelSegmentType.Br,
+            format: {},
         };
         const result = hasSelectionInSegment(segment);
         expect(result).toBeFalse();
@@ -36,6 +39,7 @@ describe('hasSelectionInSegment', () => {
         const segment: ContentModelSegment = {
             segmentType: ContentModelSegmentType.Br,
             isSelected: true,
+            format: {},
         };
         const result = hasSelectionInSegment(segment);
         expect(result).toBeTrue();
@@ -45,6 +49,7 @@ describe('hasSelectionInSegment', () => {
         const segment: ContentModelSegment = {
             segmentType: ContentModelSegmentType.SelectionMarker,
             isSelected: true,
+            format: {},
         };
         const result = hasSelectionInSegment(segment);
         expect(result).toBeTrue();
@@ -57,6 +62,7 @@ describe('hasSelectionInSegment', () => {
             blockGroupType: ContentModelBlockGroupType.General,
             blocks: [],
             element: null!,
+            format: {},
         };
         const result = hasSelectionInSegment(segment);
         expect(result).toBeFalse();
@@ -70,6 +76,7 @@ describe('hasSelectionInSegment', () => {
             blocks: [],
             element: null!,
             isSelected: true,
+            format: {},
         };
         const result = hasSelectionInSegment(segment);
         expect(result).toBeTrue();
@@ -84,8 +91,10 @@ describe('hasSelectionInSegment', () => {
                 {
                     blockType: ContentModelBlockType.Paragraph,
                     segments: [],
+                    format: {},
                 },
             ],
+            format: {},
             element: null!,
         };
         const result = hasSelectionInSegment(segment);
@@ -104,11 +113,14 @@ describe('hasSelectionInSegment', () => {
                         {
                             segmentType: ContentModelSegmentType.Br,
                             isSelected: true,
+                            format: {},
                         },
                     ],
+                    format: {},
                 },
             ],
             element: null!,
+            format: {},
         };
         const result = hasSelectionInSegment(segment);
         expect(result).toBeTrue();
