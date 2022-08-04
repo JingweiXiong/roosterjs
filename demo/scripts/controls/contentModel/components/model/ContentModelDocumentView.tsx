@@ -3,7 +3,7 @@ import { ContentModel } from '../ContentModel';
 import { ContentModelBlockView } from './ContentModelBlockView';
 import { ContentModelDocument, hasSelectionInBlock } from 'roosterjs-content-model';
 
-const styles = require('./ContentModelDocument.scss');
+const styles = require('./ContentModelDocumentView.scss');
 
 export function ContentModelDocumentView(props: { doc: ContentModelDocument }) {
     const { doc } = props;
@@ -21,7 +21,7 @@ export function ContentModelDocumentView(props: { doc: ContentModelDocument }) {
         <ContentModel
             title="Document"
             subTitle={doc.document.location.href}
-            isExpanded={true}
+            isExpanded={false}
             className={styles.modelDocument}
             hasSelection={hasSelectionInBlock(doc)}
             isSelected={false}

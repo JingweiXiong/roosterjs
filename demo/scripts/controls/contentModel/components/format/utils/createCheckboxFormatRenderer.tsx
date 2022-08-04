@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { FormatRenderer } from './FormatRenderer';
 
+const styles = require('../FormatView.scss');
+
 function CheckboxFormatItem<TFormat>(props: {
     name: string;
     format: TFormat;
@@ -9,17 +11,21 @@ function CheckboxFormatItem<TFormat>(props: {
 }) {
     const { name, getter, setter, format } = props;
     const checkbox = React.useRef<HTMLInputElement>(null);
+    const [value, setValue] = React.useState<boolean>(getter(format));
+
     const onChange = React.useCallback(() => {
-        setter?.(format, checkbox.current.checked);
-    }, [format, setter]);
+        const newValue = checkbox.current.checked;
+        setValue(newValue);
+        setter?.(format, newValue);
+    }, [format, setter, setValue]);
 
     return (
-        <tr>
-            <td>{name}</td>
-            <td>
-                <input type="checkbox" ref={checkbox} checked={getter(format)} onClick={onChange} />
-            </td>
-        </tr>
+        <div className={styles.formatRow}>
+            <div className={styles.formatName}>{name}</div>
+            <div className={styles.formatValue}>
+                <input type="checkbox" ref={checkbox} checked={value} onClick={onChange} />
+            </div>
+        </div>
     );
 }
 

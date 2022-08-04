@@ -7,5 +7,8 @@ export const WhiteSpaceFormatRenderer: FormatRenderer<WhiteSpaceFormat> = create
 >(
     'White space',
     format => format.whiteSpace,
-    (format, value) => (format.whiteSpace = value)
+    (format, value) => {
+        format.whiteSpace = value;
+        return undefined;
+    }
 );

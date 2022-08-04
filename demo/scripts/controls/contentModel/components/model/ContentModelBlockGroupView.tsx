@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ContentModelBlockGroup, ContentModelBlockGroupType } from 'roosterjs-content-model';
-import { ContentModelDocumentView } from './ContentModelDocument';
+import { ContentModelDocumentView } from './ContentModelDocumentView';
 import { ContentModelTableCellView } from './ContentModelTableCellView';
 
 export function ContentModelBlockGroupView(props: { group: ContentModelBlockGroup }) {

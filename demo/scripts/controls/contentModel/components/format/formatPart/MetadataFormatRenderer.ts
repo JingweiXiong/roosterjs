@@ -11,9 +11,22 @@ export function createMetadataFormatRenderer<T>(
         'Metadata',
         format => JSON.stringify(format.metadata, null, 2),
         (format, value) => {
-            const metadata = JSON.parse(value);
-            if (validate(metadata, def)) {
-                format.metadata = metadata;
+            if (value == '') {
+                delete format.metadata;
+                return undefined;
+            } else {
+                try {
+                    const metadata = JSON.parse(value);
+
+                    if (!def || validate(metadata, def)) {
+                        format.metadata = metadata;
+                        return undefined;
+                    } else {
+                        return 'Fail to validate metadata';
+                    }
+                } catch (e) {
+                    return 'Fail to parse JSON: ' + e;
+                }
             }
         },
         'multiline'

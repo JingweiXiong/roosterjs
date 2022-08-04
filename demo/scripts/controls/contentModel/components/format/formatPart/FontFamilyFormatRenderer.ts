@@ -7,5 +7,8 @@ export const FontFamilyFormatRenderer: FormatRenderer<FontFamilyFormat> = create
 >(
     'Font family',
     format => format.fontFamily,
-    (format, value) => (format.fontFamily = value)
+    (format, value) => {
+        format.fontFamily = value;
+        return undefined;
+    }
 );

@@ -6,11 +6,17 @@ export const HyperLinkFormatRenderers: FormatRenderer<HyperLinkFormat>[] = [
     createTextFormatRenderer<HyperLinkFormat>(
         'Link href',
         format => format.linkHref,
-        (format, value) => (format.linkHref = value)
+        (format, value) => {
+            format.linkHref = value;
+            return undefined;
+        }
     ),
     createTextFormatRenderer<HyperLinkFormat>(
         'Link target',
         format => format.linkTarget,
-        (format, value) => (format.linkTarget = value)
+        (format, value) => {
+            format.linkTarget = value;
+            return undefined;
+        }
     ),
 ];

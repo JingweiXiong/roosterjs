@@ -6,16 +6,25 @@ export const MarginFormatRenderers: FormatRenderer<MarginFormat>[] = [
     createTextFormatRenderer<MarginFormat>(
         'Margin-top',
         format => format.marginTop,
-        (format, value) => (format.marginTop = value)
+        (format, value) => {
+            format.marginTop = value;
+            return undefined;
+        }
     ),
     createTextFormatRenderer<MarginFormat>(
         'Margin-bottom',
         format => format.marginBottom,
-        (format, value) => (format.marginBottom = value)
+        (format, value) => {
+            format.marginBottom = value;
+            return undefined;
+        }
     ),
     createTextFormatRenderer<MarginFormat>(
         'Margin-left',
         format => format.marginLeft,
-        (format, value) => (format.marginLeft = value)
+        (format, value) => {
+            format.marginLeft = value;
+            return undefined;
+        }
     ),
 ];

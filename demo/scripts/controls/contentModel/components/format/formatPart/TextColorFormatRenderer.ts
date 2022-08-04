@@ -8,6 +8,9 @@ export const TextColorFormatRenderer: FormatRenderer<TextColorFormat> = createTe
 >(
     'Text color',
     format => (format.textColor ? Color(format.textColor).hex() : ''),
-    (format, value) => (format.textColor = value),
+    (format, value) => {
+        format.textColor = value;
+        return undefined;
+    },
     'color'
 );

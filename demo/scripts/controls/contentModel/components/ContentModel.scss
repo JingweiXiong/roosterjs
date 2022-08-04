@@ -54,4 +54,6 @@
 .expandedBody {
     background-color: #fff;
     padding: 4px;
+    display: flex;
+    flex-direction: column;
 }

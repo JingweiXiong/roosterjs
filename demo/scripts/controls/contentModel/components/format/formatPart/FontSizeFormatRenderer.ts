@@ -7,5 +7,8 @@ export const FontSizeFormatRenderer: FormatRenderer<FontSizeFormat> = createText
 >(
     'Font size',
     format => format.fontSize,
-    (format, value) => (format.fontSize = value)
+    (format, value) => {
+        format.fontSize = value;
+        return undefined;
+    }
 );

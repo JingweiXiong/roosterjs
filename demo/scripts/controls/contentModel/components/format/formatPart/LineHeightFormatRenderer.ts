@@ -7,5 +7,8 @@ export const LineHeightFormatRenderer: FormatRenderer<LineHeightFormat> = create
 >(
     'Line height',
     format => format.lineHeight,
-    (format, value) => (format.lineHeight = value)
+    (format, value) => {
+        format.lineHeight = value;
+        return undefined;
+    }
 );

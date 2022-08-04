@@ -7,5 +7,8 @@ export const IndentationFormatRenderer: FormatRenderer<IndentationFormat> = crea
 >(
     'Indentation',
     format => format.indentation,
-    (format, value) => (format.indentation = value)
+    (format, value) => {
+        format.indentation = value;
+        return undefined;
+    }
 );
