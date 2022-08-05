@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ContentModel } from '../ContentModel';
 import { ContentModelImage } from 'roosterjs-content-model';
+import { ContentModelView } from '../ContentModelView';
 import { SegmentFormatView } from '../format/SegmentFormatView';
 
 const styles = require('./ContentModelImageView.scss');
@@ -21,12 +21,10 @@ export function ContentModelImageView(props: { image: ContentModelImage }) {
     }, [image.format]);
 
     return (
-        <ContentModel
+        <ContentModelView
             title="Image"
             subTitle={image.src}
-            isExpanded={false}
             className={styles.modelImage}
-            hasSelection={false}
             isSelected={image.isSelected}
             jsonSource={image}
             getContent={getContent}

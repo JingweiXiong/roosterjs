@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { BackgroundColorFormatRenderer } from '../format/formatPart/BackgroundColorFormatRenderer';
-import { ContentModel } from '../ContentModel';
 import { ContentModelBlockView } from './ContentModelBlockView';
+import { ContentModelView } from '../ContentModelView';
 import { createMetadataFormatRenderer } from '../format/formatPart/MetadataFormatRenderer';
 import { FormatRenderer } from '../format/utils/FormatRenderer';
 import { FormatView } from '../format/FormatView';
@@ -29,10 +29,10 @@ export function ContentModelTableView(props: { table: ContentModelTable }) {
     const getContent = React.useCallback(() => {
         return (
             <>
-                {table.cells.map(row => (
-                    <div className={styles.tableRow}>
-                        {row.map(cell => (
-                            <ContentModelBlockView block={cell} />
+                {table.cells.map((row, i) => (
+                    <div className={styles.tableRow} key={i}>
+                        {row.map((cell, j) => (
+                            <ContentModelBlockView block={cell} key={j} />
                         ))}
                     </div>
                 ))}
@@ -45,13 +45,12 @@ export function ContentModelTableView(props: { table: ContentModelTable }) {
     }, [table.format]);
 
     return (
-        <ContentModel
+        <ContentModelView
             title="Table"
             subTitle={`${table.cells.length} x ${table.cells[0]?.length || 0}`}
-            isExpanded={false}
+            isExpanded={true}
             className={styles.modelTable}
             hasSelection={hasSelectionInBlock(table)}
-            isSelected={false}
             jsonSource={table}
             getContent={getContent}
             getFormat={getFormat}

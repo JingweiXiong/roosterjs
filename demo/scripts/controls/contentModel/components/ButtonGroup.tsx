@@ -5,23 +5,26 @@ const styles = require('./ButtonGroup.scss');
 
 export function ButtonGroup(props: {
     hasFormat: boolean;
+    hasContent: boolean;
     bodyState: 'children' | 'format' | 'json' | 'collapsed';
     toggleVisual: () => void;
     toggleFormat: () => void;
     toggleJson: () => void;
 }) {
-    const { hasFormat, bodyState, toggleFormat, toggleJson, toggleVisual } = props;
+    const { hasContent, hasFormat, bodyState, toggleFormat, toggleJson, toggleVisual } = props;
 
     return (
         <div>
-            <button
-                onClick={toggleVisual}
-                title="Content"
-                className={css(styles.button, {
-                    [styles.buttonChecked]: bodyState == 'children',
-                })}>
-                🔎
-            </button>
+            {hasContent ? (
+                <button
+                    onClick={toggleVisual}
+                    title="Content"
+                    className={css(styles.button, {
+                        [styles.buttonChecked]: bodyState == 'children',
+                    })}>
+                    🔎
+                </button>
+            ) : null}
             {hasFormat ? (
                 <button
                     onClick={toggleFormat}

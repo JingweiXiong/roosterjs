@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ContentModel } from '../ContentModel';
 import { ContentModelSelectionMarker } from 'roosterjs-content-model';
+import { ContentModelView } from '../ContentModelView';
 import { SegmentFormatView } from '../format/SegmentFormatView';
 
 const styles = require('./ContentModelSelectionMarkerView.scss');
@@ -13,15 +13,11 @@ export function ContentModelSelectionMarkerView(props: { marker: ContentModelSel
     }, [marker.format]);
 
     return (
-        <ContentModel
+        <ContentModelView
             title="SelectionMarker"
-            subTitle=""
-            isExpanded={false}
             className={styles.modelSelectionMarker}
-            hasSelection={false}
             isSelected={true}
             jsonSource={marker}
-            getContent={null}
             getFormat={getFormat}
         />
     );

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FormatRenderer } from './FormatRenderer';
+import { useProperty } from '../../../hooks/useProperty';
 
 const styles = require('../FormatView.scss');
 
@@ -11,7 +12,7 @@ function CheckboxFormatItem<TFormat>(props: {
 }) {
     const { name, getter, setter, format } = props;
     const checkbox = React.useRef<HTMLInputElement>(null);
-    const [value, setValue] = React.useState<boolean>(getter(format));
+    const [value, setValue] = useProperty<boolean>(getter(format));
 
     const onChange = React.useCallback(() => {
         const newValue = checkbox.current.checked;
@@ -23,7 +24,7 @@ function CheckboxFormatItem<TFormat>(props: {
         <div className={styles.formatRow}>
             <div className={styles.formatName}>{name}</div>
             <div className={styles.formatValue}>
-                <input type="checkbox" ref={checkbox} checked={value} onClick={onChange} />
+                <input type="checkbox" ref={checkbox} checked={value} onChange={onChange} />
             </div>
         </div>
     );
@@ -35,6 +36,12 @@ export function createCheckboxFormatRenderer<T>(
     setter?: (format: T, newValue: boolean) => void
 ): FormatRenderer<T> {
     return (format: T) => (
-        <CheckboxFormatItem name={name} getter={getter} setter={setter} format={format} />
+        <CheckboxFormatItem
+            name={name}
+            getter={getter}
+            setter={setter}
+            format={format}
+            key={name}
+        />
     );
 }

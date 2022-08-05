@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ContentModelBlockGroup, ContentModelBlockGroupType } from 'roosterjs-content-model';
 import { ContentModelDocumentView } from './ContentModelDocumentView';
+import { ContentModelGeneralView } from './ContentModelGeneralView';
 import { ContentModelTableCellView } from './ContentModelTableCellView';
 
 export function ContentModelBlockGroupView(props: { group: ContentModelBlockGroup }) {
@@ -14,7 +15,7 @@ export function ContentModelBlockGroupView(props: { group: ContentModelBlockGrou
             return <ContentModelDocumentView doc={group} />;
 
         case ContentModelBlockGroupType.General:
-            return null;
+            return <ContentModelGeneralView model={group} />;
 
         case ContentModelBlockGroupType.Header:
             return null;

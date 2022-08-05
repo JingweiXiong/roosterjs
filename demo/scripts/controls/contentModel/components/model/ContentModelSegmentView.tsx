@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ContentModelBrView } from './ContentModelBrView';
+import { ContentModelGeneralView } from './ContentModelGeneralView';
 import { ContentModelImageView } from './ContentModelImageView';
 import { ContentModelSegment, ContentModelSegmentType } from 'roosterjs-content-model';
 import { ContentModelSelectionMarkerView } from './ContentModelSelectionMarkerView';
@@ -16,7 +17,7 @@ export function ContentModelSegmentView(props: { segment: ContentModelSegment })
             return null;
 
         case ContentModelSegmentType.General:
-            return null;
+            return <ContentModelGeneralView model={segment} />;
 
         case ContentModelSegmentType.Image:
             return <ContentModelImageView image={segment} />;

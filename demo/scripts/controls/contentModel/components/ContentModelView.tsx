@@ -2,19 +2,20 @@ import * as React from 'react';
 import { ButtonGroup } from './ButtonGroup';
 import { ContentModelJson } from './model/ContentModelJson';
 import { css } from '@fluentui/react/lib/Utilities';
+import { useProperty } from '../hooks/useProperty';
 
-const styles = require('./ContentModel.scss');
+const styles = require('./ContentModelView.scss');
 
-export function ContentModel(props: {
+export function ContentModelView(props: {
     className: string;
     title: string;
-    subTitle: string;
-    hasSelection: boolean;
-    isSelected: boolean;
+    subTitle?: string;
+    hasSelection?: boolean;
+    isSelected?: boolean;
     jsonSource: Object;
-    getContent: (() => JSX.Element) | null;
-    getFormat: (() => JSX.Element) | null;
-    isExpanded: boolean;
+    getContent?: (() => JSX.Element) | null;
+    getFormat?: (() => JSX.Element) | null;
+    isExpanded?: boolean;
 }) {
     const {
         title,
@@ -27,7 +28,7 @@ export function ContentModel(props: {
         getContent,
         getFormat,
     } = props;
-    const [bodyState, setBodyState] = React.useState<'collapsed' | 'children' | 'format' | 'json'>(
+    const [bodyState, setBodyState] = useProperty<'collapsed' | 'children' | 'format' | 'json'>(
         isExpanded ? 'children' : 'collapsed'
     );
 
@@ -58,6 +59,7 @@ export function ContentModel(props: {
                 </div>
                 <div className={styles.buttonGroup}>
                     <ButtonGroup
+                        hasContent={!!getContent}
                         hasFormat={!!getFormat}
                         bodyState={bodyState}
                         toggleJson={toggleJson}
@@ -69,7 +71,7 @@ export function ContentModel(props: {
                     className={css(styles.subTitle, {
                         [styles.titleWithBorder]: bodyState != 'collapsed',
                     })}
-                    title={subTitle}>
+                    title={subTitle || ''}>
                     {subTitle || '\u00a0'}
                 </div>
             </div>

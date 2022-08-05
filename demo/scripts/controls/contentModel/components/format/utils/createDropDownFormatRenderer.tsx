@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FormatRenderer } from './FormatRenderer';
+import { useProperty } from '../../../hooks/useProperty';
 
 const styles = require('../FormatView.scss');
 
@@ -12,7 +13,7 @@ function DropDownFormatItem<TFormat, TOption extends string>(props: {
 }) {
     const { name, getter, setter, format, options } = props;
     const dropDown = React.useRef<HTMLSelectElement>(null);
-    const [value, setValue] = React.useState<TOption>(getter(format));
+    const [value, setValue] = useProperty(getter(format));
 
     const onChange = React.useCallback(() => {
         const newValue =
@@ -28,7 +29,9 @@ function DropDownFormatItem<TFormat, TOption extends string>(props: {
                 <select ref={dropDown} value={value === undefined ? '' : value} onChange={onChange}>
                     <option value=""></option>
                     {options.map(o => (
-                        <option value={o}>{o}</option>
+                        <option value={o} key={o}>
+                            {o}
+                        </option>
                     ))}
                 </select>
             </div>
@@ -49,6 +52,7 @@ export function createDropDownFormatRenderer<T, O extends string>(
             setter={setter}
             format={format}
             options={options}
+            key={name}
         />
     );
 }

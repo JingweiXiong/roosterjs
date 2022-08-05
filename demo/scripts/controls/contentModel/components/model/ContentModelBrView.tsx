@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ContentModel } from '../ContentModel';
 import { ContentModelBr } from 'roosterjs-content-model';
+import { ContentModelView } from '../ContentModelView';
 import { SegmentFormatView } from '../format/SegmentFormatView';
 
 const styles = require('./ContentModelBrView.scss');
@@ -12,15 +12,11 @@ export function ContentModelBrView(props: { br: ContentModelBr }) {
     }, [br.format]);
 
     return (
-        <ContentModel
+        <ContentModelView
             title="BR"
-            subTitle=""
-            isExpanded={false}
             className={styles.modelBr}
-            hasSelection={false}
             isSelected={br.isSelected}
             jsonSource={br}
-            getContent={null}
             getFormat={getFormat}
         />
     );

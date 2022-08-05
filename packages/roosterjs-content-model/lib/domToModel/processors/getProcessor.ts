@@ -36,10 +36,10 @@ const ProcessorMap: Record<string, ElementProcessor> = {
     H6: generalProcessor, // TODO
     HEADER: generalProcessor, // TODO
     HR: generalProcessor, // TODO
-    LI: generalProcessor, // TODO
+    // LI: generalProcessor, // TODO
     MAIN: generalProcessor, // TODO
     NAV: generalProcessor, // TODO
-    OL: generalProcessor, // TODO
+    // OL: generalProcessor, // TODO
     P: generalProcessor,
     PRE: generalProcessor,
     S: generalProcessor,
@@ -55,7 +55,7 @@ const ProcessorMap: Record<string, ElementProcessor> = {
     TFOOT: generalProcessor, // TODO
     TH: generalProcessor, // TODO
     U: generalProcessor,
-    UL: generalProcessor, // TODO
+    // UL: generalProcessor, // TODO
     VIDEO: generalProcessor, // TODO
 };
 
