@@ -16,4 +16,9 @@ export interface MarginFormat {
      * Margin on left
      */
     marginLeft?: string;
+
+    /**
+     * Margin on right
+     */
+    marginRight?: string;
 }

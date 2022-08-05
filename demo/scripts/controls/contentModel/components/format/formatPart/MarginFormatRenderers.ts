@@ -27,4 +27,12 @@ export const MarginFormatRenderers: FormatRenderer<MarginFormat>[] = [
             return undefined;
         }
     ),
+    createTextFormatRenderer<MarginFormat>(
+        'Margin-right',
+        format => format.marginRight,
+        (format, value) => {
+            format.marginRight = value;
+            return undefined;
+        }
+    ),
 ];

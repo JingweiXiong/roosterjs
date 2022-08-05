@@ -9,6 +9,7 @@ export const marginFormatHandler: FormatHandler<MarginFormat> = {
         const marginTop = element.style.marginTop || defaultStyle.marginTop;
         const marginBottom = element.style.marginBottom || defaultStyle.marginBottom;
         const marginLeft = element.style.marginLeft || defaultStyle.marginLeft;
+        const marginRight = element.style.marginRight || defaultStyle.marginRight;
 
         if (marginTop) {
             format.marginTop = marginTop;
@@ -18,6 +19,9 @@ export const marginFormatHandler: FormatHandler<MarginFormat> = {
         }
         if (marginLeft) {
             format.marginLeft = marginLeft; // TODO merge with parent margin
+        }
+        if (marginRight) {
+            format.marginRight = marginRight; // TODO merge with parent margin
         }
     },
     apply: (format, element) => {
@@ -29,6 +33,9 @@ export const marginFormatHandler: FormatHandler<MarginFormat> = {
         }
         if (format.marginLeft) {
             element.style.marginLeft = format.marginLeft;
+        }
+        if (format.marginRight) {
+            element.style.marginRight = format.marginRight;
         }
     },
 };
