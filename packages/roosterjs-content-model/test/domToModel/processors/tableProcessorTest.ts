@@ -22,7 +22,7 @@ describe('tableProcessor', () => {
         const div = document.createElement('div');
         div.innerHTML = tableHTML;
 
-        tableProcessor(doc, div.firstChild as HTMLTableElement, context, {});
+        tableProcessor(doc, div.firstChild as HTMLTableElement, context);
 
         expect(doc.blocks[0]).toEqual(expectedModel);
     }
@@ -150,7 +150,7 @@ describe('tableProcessor', () => {
             },
         };
 
-        tableProcessor(doc, div.firstChild as HTMLTableElement, context, {});
+        tableProcessor(doc, div.firstChild as HTMLTableElement, context);
 
         expect(doc.blocks[0]).toEqual({
             blockType: ContentModelBlockType.Table,

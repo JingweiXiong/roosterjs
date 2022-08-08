@@ -31,7 +31,7 @@ describe('generalSegmentProcessor', () => {
 
         spyOn(createGeneralSegment, 'createGeneralSegment').and.returnValue(segment);
 
-        generalSegmentProcessor(doc, span, context, {});
+        generalSegmentProcessor(doc, span, context);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,

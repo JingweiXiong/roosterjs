@@ -92,8 +92,7 @@ describe('containerProcessor', () => {
         expect(generalSegmentProcessor.generalSegmentProcessor).toHaveBeenCalledWith(
             doc,
             span,
-            context,
-            {}
+            context
         );
         expect(textProcessor.textProcessor).not.toHaveBeenCalled();
     });
@@ -119,15 +118,13 @@ describe('containerProcessor', () => {
         expect(generalBlockProcessor.generalBlockProcessor).toHaveBeenCalledWith(
             doc,
             innerDiv,
-            context,
-            {}
+            context
         );
         expect(generalSegmentProcessor.generalSegmentProcessor).toHaveBeenCalledTimes(1);
         expect(generalSegmentProcessor.generalSegmentProcessor).toHaveBeenCalledWith(
             doc,
             span,
-            context,
-            {}
+            context
         );
         expect(textProcessor.textProcessor).toHaveBeenCalledTimes(1);
         expect(textProcessor.textProcessor).toHaveBeenCalledWith(doc, 'test', context);

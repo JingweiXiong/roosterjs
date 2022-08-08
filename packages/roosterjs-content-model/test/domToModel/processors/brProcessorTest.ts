@@ -17,7 +17,7 @@ describe('brProcessor', () => {
         const doc = createContentModelDocument(document);
         const br = document.createElement('br');
 
-        brProcessor(doc, br, context, {});
+        brProcessor(doc, br, context);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,

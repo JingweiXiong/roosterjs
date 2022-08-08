@@ -27,7 +27,7 @@ describe('generalBlockProcessor', () => {
         };
 
         spyOn(createGeneralBlock, 'createGeneralBlock').and.returnValue(block);
-        generalBlockProcessor(doc, div, context, {});
+        generalBlockProcessor(doc, div, context);
 
         expect(doc).toEqual({
             blockType: ContentModelBlockType.BlockGroup,
