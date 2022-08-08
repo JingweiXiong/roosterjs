@@ -1,8 +1,4 @@
-import { BlockDisplay } from '../defaultStyles/BlockDisplay';
 import { ElementProcessor } from './ElementProcessor';
-import { generalBlockProcessor } from './generalBlockProcessor';
-import { generalSegmentProcessor } from './generalSegmentProcessor';
-import { getDefaultStyle } from '../defaultStyles/getDefaultStyle';
 import { getProcessor } from './getProcessor';
 
 /**
@@ -12,11 +8,6 @@ import { getProcessor } from './getProcessor';
  * @param context
  */
 export const singleElementProcessor: ElementProcessor = (group, element, context) => {
-    const processor =
-        getProcessor(element.tagName) ||
-        (BlockDisplay.indexOf(element.style.display || getDefaultStyle(element).display || '') >= 0
-            ? generalBlockProcessor
-            : generalSegmentProcessor);
-
+    const processor = getProcessor(element);
     processor(group, element, context);
 };
