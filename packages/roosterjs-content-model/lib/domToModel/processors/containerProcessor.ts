@@ -33,7 +33,7 @@ export function containerProcessor(
         }
 
         if (isNodeOfType(child, NodeType.Element)) {
-            singleElementProcessor(group, child, context, {});
+            singleElementProcessor(group, child, context);
         } else if (isNodeOfType(child, NodeType.Text)) {
             textNodeProcessor(group, child, context);
         }

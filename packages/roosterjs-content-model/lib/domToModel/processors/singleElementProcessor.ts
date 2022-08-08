@@ -12,12 +12,11 @@ import { getProcessor } from './getProcessor';
  * @param context
  */
 export const singleElementProcessor: ElementProcessor = (group, element, context) => {
-    const defaultStyle = getDefaultStyle(element);
     const processor =
         getProcessor(element.tagName) ||
-        (BlockDisplay.indexOf(element.style.display || defaultStyle.display || '') >= 0
+        (BlockDisplay.indexOf(element.style.display || getDefaultStyle(element).display || '') >= 0
             ? generalBlockProcessor
             : generalSegmentProcessor);
 
-    processor(group, element, context, defaultStyle);
+    processor(group, element, context);
 };

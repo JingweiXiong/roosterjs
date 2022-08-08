@@ -7,6 +7,5 @@ import { DomToModelContext } from '../context/DomToModelContext';
 export type ElementProcessor = (
     group: ContentModelBlockGroup,
     element: HTMLElement,
-    context: DomToModelContext,
-    defaultStyle: Partial<CSSStyleDeclaration>
+    context: DomToModelContext
 ) => void;

@@ -1,12 +1,14 @@
 import { containerProcessor } from './containerProcessor';
 import { ElementProcessor } from './ElementProcessor';
+import { getDefaultStyle } from '../defaultStyles/getDefaultStyle';
 import { SegmentFormatHandlers } from '../../formatHandlers/SegmentFormatHandlers';
 
 /**
  * @internal
  */
-export const knownSegmentProcessor: ElementProcessor = (group, element, context, defaultStyle) => {
+export const knownSegmentProcessor: ElementProcessor = (group, element, context) => {
     const originalSegmentFormat = context.segmentFormat;
+    const defaultStyle = getDefaultStyle(element);
 
     context.segmentFormat = { ...originalSegmentFormat };
     SegmentFormatHandlers.forEach(handler =>

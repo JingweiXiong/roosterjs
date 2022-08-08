@@ -1,15 +1,17 @@
 import { addSegment } from '../../modelApi/common/addSegment';
 import { createImage } from '../../modelApi/creators/createImage';
 import { ElementProcessor } from './ElementProcessor';
+import { getDefaultStyle } from '../defaultStyles/getDefaultStyle';
 import { SegmentFormatHandlers } from '../../formatHandlers/SegmentFormatHandlers';
 
 /**
  * @internal
  */
-export const imageProcessor: ElementProcessor = (group, element, context, defaultStyle) => {
+export const imageProcessor: ElementProcessor = (group, element, context) => {
     const imageElement = element as HTMLImageElement;
-
     const originalSegmentFormat = context.segmentFormat;
+    const defaultStyle = getDefaultStyle(element);
+
     context.segmentFormat = { ...originalSegmentFormat };
 
     SegmentFormatHandlers.forEach(handler =>

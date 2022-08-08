@@ -1,16 +1,17 @@
 import { BlockDisplay } from '../defaultStyles/BlockDisplay';
 import { ElementProcessor } from './ElementProcessor';
+import { getDefaultStyle } from '../defaultStyles/getDefaultStyle';
 import { knownBlockProcessor } from './knownBlockProcessor';
 import { knownSegmentProcessor } from './knownSegmentProcessor';
 
 /**
  * @internal
  */
-export const generalProcessor: ElementProcessor = (group, element, context, defaultStyle) => {
+export const generalProcessor: ElementProcessor = (group, element, context) => {
     const processor =
-        BlockDisplay.indexOf(element.style.display || defaultStyle.display!) >= 0
+        BlockDisplay.indexOf(element.style.display || getDefaultStyle(element).display!) >= 0
             ? knownBlockProcessor
             : knownSegmentProcessor;
 
-    processor(group, element, context, defaultStyle);
+    processor(group, element, context);
 };

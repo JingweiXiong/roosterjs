@@ -7,7 +7,6 @@ import { createModelToDomContext } from '../modelToDom/context/createModelToDomC
 import { Editor } from 'roosterjs-editor-core';
 import { EditorOptions, NodeType } from 'roosterjs-editor-types';
 import { getComputedStyles } from 'roosterjs-editor-dom';
-import { getDefaultStyle } from '../domToModel/defaultStyles/getDefaultStyle';
 import { getSelectionPosition } from '../modelToDom/utils/getSelectionPosition';
 import { handleBlock } from '../modelToDom/handlers/handleBlock';
 import { IExperimentalContentModelEditor } from '../publicTypes/IExperimentalContentModelEditor';
@@ -63,8 +62,7 @@ export default class ExperimentalContentModelEditor extends Editor
         );
 
         if (startNode) {
-            const defaultStyle = getDefaultStyle(startNode);
-            singleElementProcessor(model, startNode, domToModelContext, defaultStyle);
+            singleElementProcessor(model, startNode, domToModelContext);
         } else {
             containerProcessor(model, this.contentDiv, domToModelContext);
         }
