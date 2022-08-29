@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PendingFormatStatePluginState | RoosterJs API Reference - v8.28.1</title>
-	<meta name="description" content="Documentation for RoosterJs API Reference - v8.28.1">
+	<title>PendingFormatStatePluginState | RoosterJs API Reference</title>
+	<meta name="description" content="Documentation for RoosterJs API Reference">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script async src="../assets/js/search.js" id="search-script"></script>
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">RoosterJs API Reference - v8.28.1</a>
+					<a href="../index.html" class="title">RoosterJs API Reference</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -50,7 +50,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../modules.html">RoosterJs API Reference - v8.28.1</a>
+					<a href="../modules.html">RoosterJs API Reference</a>
 				</li>
 				<li>
 					<a href="../modules/roosterjs_editor_types.html">roosterjs-editor-types</a>
@@ -89,6 +89,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="roosterjs_editor_types.pendingformatstatepluginstate.html#pendableformatposition" class="tsd-kind-icon">pendable<wbr>Format<wbr>Position</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="roosterjs_editor_types.pendingformatstatepluginstate.html#pendableformatspan" class="tsd-kind-icon">pendable<wbr>Format<wbr>Span</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="roosterjs_editor_types.pendingformatstatepluginstate.html#pendableformatstate" class="tsd-kind-icon">pendable<wbr>Format<wbr>State</a></li>
 							</ul>
 						</section>
@@ -103,7 +104,7 @@
 					<div class="tsd-signature tsd-kind-icon">pendable<wbr>Format<wbr>Position<span class="tsd-signature-symbol">:</span> <a href="roosterjs_editor_types.nodeposition.html" class="tsd-signature-type" data-tsd-kind="Interface">NodePosition</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/microsoft/roosterjs/blob/167f05c/packages/roosterjs-editor-types/lib/corePluginState/PendingFormatStatePluginState.ts#L16">packages/roosterjs-editor-types/lib/corePluginState/PendingFormatStatePluginState.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/JingweiXiong/roosterjs/blob/3b95a5c/packages/roosterjs-editor-types/lib/corePluginState/PendingFormatStatePluginState.ts#L16">packages/roosterjs-editor-types/lib/corePluginState/PendingFormatStatePluginState.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -113,12 +114,28 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="pendableformatspan" class="tsd-anchor"></a>
+					<h3>pendable<wbr>Format<wbr>Span</h3>
+					<div class="tsd-signature tsd-kind-icon">pendable<wbr>Format<wbr>Span<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/JingweiXiong/roosterjs/blob/3b95a5c/packages/roosterjs-editor-types/lib/corePluginState/PendingFormatStatePluginState.ts#L22">packages/roosterjs-editor-types/lib/corePluginState/PendingFormatStatePluginState.ts:22</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A temporary SPAN element to hold pending format change. it will be inserted into content when user type something,
+							or discard if focus position is moved</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="pendableformatstate" class="tsd-anchor"></a>
 					<h3>pendable<wbr>Format<wbr>State</h3>
 					<div class="tsd-signature tsd-kind-icon">pendable<wbr>Format<wbr>State<span class="tsd-signature-symbol">:</span> <a href="roosterjs_editor_types.pendableformatstate.html" class="tsd-signature-type" data-tsd-kind="Interface">PendableFormatState</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/microsoft/roosterjs/blob/167f05c/packages/roosterjs-editor-types/lib/corePluginState/PendingFormatStatePluginState.ts#L11">packages/roosterjs-editor-types/lib/corePluginState/PendingFormatStatePluginState.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/JingweiXiong/roosterjs/blob/3b95a5c/packages/roosterjs-editor-types/lib/corePluginState/PendingFormatStatePluginState.ts#L11">packages/roosterjs-editor-types/lib/corePluginState/PendingFormatStatePluginState.ts:11</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -173,6 +190,9 @@
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="roosterjs_editor_types.pendingformatstatepluginstate.html#pendableformatposition" class="tsd-kind-icon">pendable<wbr>Format<wbr>Position</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="roosterjs_editor_types.pendingformatstatepluginstate.html#pendableformatspan" class="tsd-kind-icon">pendable<wbr>Format<wbr>Span</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="roosterjs_editor_types.pendingformatstatepluginstate.html#pendableformatstate" class="tsd-kind-icon">pendable<wbr>Format<wbr>State</a>

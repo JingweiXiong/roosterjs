@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CompatibleExperimentalFeatures | RoosterJs API Reference - v8.28.1</title>
-	<meta name="description" content="Documentation for RoosterJs API Reference - v8.28.1">
+	<title>CompatibleExperimentalFeatures | RoosterJs API Reference</title>
+	<meta name="description" content="Documentation for RoosterJs API Reference">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script async src="../assets/js/search.js" id="search-script"></script>
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">RoosterJs API Reference - v8.28.1</a>
+					<a href="../index.html" class="title">RoosterJs API Reference</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -50,7 +50,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../modules.html">RoosterJs API Reference - v8.28.1</a>
+					<a href="../modules.html">RoosterJs API Reference</a>
 				</li>
 				<li>
 					<a href="../modules/roosterjs_editor_types_compatible.html">roosterjs-editor-types-compatible</a>
@@ -93,7 +93,9 @@
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#newbullet" class="tsd-kind-icon">New<wbr>Bullet</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#newindentation" class="tsd-kind-icon">New<wbr>Indentation</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#newnumbering" class="tsd-kind-icon">New<wbr>Numbering</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#normalizelist" class="tsd-kind-icon">Normalize<wbr>List</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#pastewithlinkpreview" class="tsd-kind-icon">Paste<wbr>With<wbr>Link<wbr>Preview</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#pendingstylebasedformat" class="tsd-kind-icon">Pending<wbr>Style<wbr>Based<wbr>Format</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#singledirectionresize" class="tsd-kind-icon">Single<wbr>Direction<wbr>Resize</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#tabkeytextfeatures" class="tsd-kind-icon">Tab<wbr>Key<wbr>Text<wbr>Features</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#tablealignment" class="tsd-kind-icon">Table<wbr>Alignment</a></li>
@@ -210,9 +212,11 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Rotate an inline image (requires ImageEdit plugin)</p>
-						</div>
+						<dl class="tsd-comment-tags">
+							<dt>deprecated</dt>
+							<dd><p>This feature is always enabled</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
@@ -316,6 +320,22 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="normalizelist" class="tsd-anchor"></a>
+					<h3>Normalize<wbr>List</h3>
+					<div class="tsd-signature tsd-kind-icon">Normalize<wbr>List<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;NormalizeList&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:104</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Normalize list to make sure it can be displayed correctly in other client
+							e.g. We will move list items with &quot;display: block&quot; into previous list item and change tag to be DIV</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="pastewithlinkpreview" class="tsd-anchor"></a>
 					<h3>Paste<wbr>With<wbr>Link<wbr>Preview</h3>
 					<div class="tsd-signature tsd-kind-icon">Paste<wbr>With<wbr>Link<wbr>Preview<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;PasteWithLinkPreview&quot;</span></div>
@@ -325,8 +345,27 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>deprecated</dt>
+							<dd><p>This feature is always enabled</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="pendingstylebasedformat" class="tsd-anchor"></a>
+					<h3>Pending<wbr>Style<wbr>Based<wbr>Format</h3>
+					<div class="tsd-signature tsd-kind-icon">Pending<wbr>Style<wbr>Based<wbr>Format<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;PendingStyleBasedFormat&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:98</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Try retrieve link preview information when paste</p>
+							<p>Use pending format strategy to do style based format, e.g. Font size, Color.
+								With this feature enabled, we don&#39;t need to insert temp ZeroWidthSpace character to hold pending format
+							when selection is collapsed. Instead, we will hold the pending format in memory and only apply it when type something</p>
 						</div>
 					</div>
 				</section>
@@ -340,9 +379,11 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Resize an image horizontally or vertically</p>
-						</div>
+						<dl class="tsd-comment-tags">
+							<dt>deprecated</dt>
+							<dd><p>This feature is always enabled</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
@@ -507,7 +548,13 @@
 								<a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#newnumbering" class="tsd-kind-icon">New<wbr>Numbering</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#normalizelist" class="tsd-kind-icon">Normalize<wbr>List</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#pastewithlinkpreview" class="tsd-kind-icon">Paste<wbr>With<wbr>Link<wbr>Preview</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#pendingstylebasedformat" class="tsd-kind-icon">Pending<wbr>Style<wbr>Based<wbr>Format</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#singledirectionresize" class="tsd-kind-icon">Single<wbr>Direction<wbr>Resize</a>
