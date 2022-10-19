@@ -1,8 +1,8 @@
 import { addBlock } from '../../modelApi/common/addBlock';
-import { containerProcessor } from './containerProcessor';
 import { createTable } from '../../modelApi/creators/createTable';
 import { createTableCell } from '../../modelApi/creators/createTableCell';
-import { ElementProcessor } from './ElementProcessor';
+import { ElementProcessor } from '../../publicTypes/context/ElementProcessor';
+import { normalizeTable } from '../../modelApi/table/normalizeTable';
 import { parseFormat } from '../utils/parseFormat';
 import { SegmentFormatHandlers } from '../../formatHandlers/SegmentFormatHandlers';
 import { stackFormat } from '../utils/stackFormat';
@@ -23,25 +23,23 @@ import { TableFormatHandlers } from '../../formatHandlers/TableFormatHandlers';
  * 5. When write back to DOM, we create TD/TH elements for those non-spanned cells, and mark its colSpan/rowSpan value according
  * its neighbour cell's spanLeft/spanAbove attribute
  */
-export const tableProcessor: ElementProcessor = (group, element, context) => {
-    const tableElement = element as HTMLTableElement;
+export const tableProcessor: ElementProcessor<HTMLTableElement> = (
+    group,
+    tableElement,
+    context
+) => {
     const table = createTable(tableElement.rows.length);
     const { table: selectedTable, firstCell, lastCell } = context.tableSelection || {};
     const hasTableSelection = selectedTable == tableElement && !!firstCell && !!lastCell;
 
     stackFormat(context, { segment: 'shallowClone' }, () => {
-        parseFormat(tableElement, TableFormatHandlers, table.format, context.contentModelContext);
-        parseFormat(
-            tableElement,
-            SegmentFormatHandlers,
-            context.segmentFormat,
-            context.contentModelContext
-        );
+        parseFormat(tableElement, TableFormatHandlers, table.format, context);
+        parseFormat(tableElement, SegmentFormatHandlers, context.segmentFormat, context);
         addBlock(group, table);
 
         const columnPositions: number[] = [0];
         const rowPositions: number[] = [0];
-        const zoomScale = context.contentModelContext.zoomScale;
+        const zoomScale = context.zoomScale;
 
         for (let row = 0; row < tableElement.rows.length; row++) {
             const tr = tableElement.rows[row];
@@ -86,20 +84,25 @@ export const tableProcessor: ElementProcessor = (group, element, context) => {
 
                         if (hasTd) {
                             stackFormat(context, { segment: 'shallowClone' }, () => {
-                                parseFormat(
-                                    td,
-                                    TableCellFormatHandlers,
-                                    cell.format,
-                                    context.contentModelContext
-                                );
+                                parseFormat(td, TableCellFormatHandlers, cell.format, context);
                                 parseFormat(
                                     td,
                                     SegmentFormatHandlers,
                                     context.segmentFormat,
-                                    context.contentModelContext
+                                    context
                                 );
 
-                                containerProcessor(cell, td, context);
+                                const { listParent, levels } = context.listFormat;
+
+                                context.listFormat.listParent = undefined;
+                                context.listFormat.levels = [];
+
+                                try {
+                                    context.elementProcessors.child(cell, td, context);
+                                } finally {
+                                    context.listFormat.listParent = listParent;
+                                    context.listFormat.levels = levels;
+                                }
                             });
                         }
                     }
@@ -109,6 +112,10 @@ export const tableProcessor: ElementProcessor = (group, element, context) => {
 
         table.widths = calcSizes(columnPositions);
         table.heights = calcSizes(rowPositions);
+
+        if (context.alwaysNormalizeTable) {
+            normalizeTable(table);
+        }
     });
 };
 

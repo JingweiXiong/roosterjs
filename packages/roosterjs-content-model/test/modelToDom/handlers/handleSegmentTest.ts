@@ -1,16 +1,22 @@
-import * as handleBlock from '../../../lib/modelToDom/handlers/handleBlock';
+import { ContentModelBlock } from '../../../lib/publicTypes/block/ContentModelBlock';
+import { ContentModelHandler } from '../../../lib/publicTypes/context/ContentModelHandler';
 import { ContentModelSegment } from '../../../lib/publicTypes/segment/ContentModelSegment';
 import { createModelToDomContext } from '../../../lib/modelToDom/context/createModelToDomContext';
 import { handleSegment } from '../../../lib/modelToDom/handlers/handleSegment';
-import { ModelToDomContext } from '../../../lib/modelToDom/context/ModelToDomContext';
+import { ModelToDomContext } from '../../../lib/publicTypes/context/ModelToDomContext';
 
 describe('handleSegment', () => {
     let parent: HTMLElement;
     let context: ModelToDomContext;
+    let handleBlock: jasmine.Spy<ContentModelHandler<ContentModelBlock>>;
 
     beforeEach(() => {
-        spyOn(handleBlock, 'handleBlock');
-        context = createModelToDomContext();
+        handleBlock = jasmine.createSpy('handleBlock');
+        context = createModelToDomContext(undefined, {
+            modelHandlerOverride: {
+                block: handleBlock,
+            },
+        });
     });
 
     function runTest(
@@ -23,9 +29,7 @@ describe('handleSegment', () => {
         handleSegment(document, parent, segment, context);
 
         expect(parent.innerHTML).toBe(expectedInnerHTML);
-        expect(handleBlock.handleBlock).toHaveBeenCalledTimes(
-            expectedCreateBlockFromContentModelCalledTimes
-        );
+        expect(handleBlock).toHaveBeenCalledTimes(expectedCreateBlockFromContentModelCalledTimes);
     }
 
     it('Text segment', () => {
@@ -61,6 +65,31 @@ describe('handleSegment', () => {
             format: {},
         };
         runTest(segment, '', 1);
-        expect(handleBlock.handleBlock).toHaveBeenCalledWith(document, parent, segment, context);
+        expect(handleBlock).toHaveBeenCalledWith(document, parent, segment, context);
+    });
+
+    it('entity segment', () => {
+        const div = document.createElement('div');
+        const segment: ContentModelSegment = {
+            segmentType: 'Entity',
+            blockType: 'Entity',
+            format: {},
+            type: 'entity',
+            id: 'entity_1',
+            wrapper: div,
+            isReadonly: true,
+        };
+        runTest(segment, '<!--Entity:entity_1-->', 0);
+
+        expect(context.entityPairs).toEqual([
+            {
+                entityWrapper: div,
+                placeholder: document.createComment('Entity:entity_1'),
+            },
+        ]);
+
+        expect(div.outerHTML).toBe(
+            '<div class="_Entity _EType_entity _EId_entity_1 _EReadonly_1" contenteditable="false"></div>'
+        );
     });
 });

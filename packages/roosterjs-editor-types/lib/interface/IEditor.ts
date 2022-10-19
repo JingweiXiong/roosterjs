@@ -5,6 +5,7 @@ import DefaultFormat from './DefaultFormat';
 import IContentTraverser from './IContentTraverser';
 import IPositionContentSearcher from './IPositionContentSearcher';
 import NodePosition from './NodePosition';
+import Rect from './Rect';
 import Region from './Region';
 import SelectionPath from './SelectionPath';
 import TableSelection from './TableSelection';
@@ -90,7 +91,7 @@ export default interface IEditor {
      * @param node The node to check
      * @returns True if the given node is in editor content, otherwise false
      */
-    contains(node: Node): boolean;
+    contains(node: Node | null): boolean;
 
     /**
      * Check if the range falls in the editor content
@@ -260,7 +261,7 @@ export default interface IEditor {
      * @param position The position to select
      * @returns True if content is selected, otherwise false
      */
-    select(position: NodePosition): boolean;
+    select(position: NodePosition | null): boolean;
 
     /**
      * Select content by a start and end position
@@ -511,7 +512,7 @@ export default interface IEditor {
      * @param name Name of the attribute
      * @param value Value of the attribute
      */
-    setEditorDomAttribute(name: string, value: string): void;
+    setEditorDomAttribute(name: string, value: string | null): void;
 
     /**
      * Get DOM attribute of editor content DIV, null if there is no such attribute.
@@ -520,6 +521,8 @@ export default interface IEditor {
     getEditorDomAttribute(name: string): string | null;
 
     /**
+     * @deprecated Use getVisibleViewport() instead
+     *
      * Get current relative distance from top-left corner of the given element to top-left corner of editor content DIV.
      * @param element The element to calculate from. If the given element is not in editor, return value will be null
      * @param addScroll When pass true, The return value will also add scrollLeft and scrollTop if any. So the value
@@ -533,6 +536,12 @@ export default interface IEditor {
      * @param feature The feature to add
      */
     addContentEditFeature(feature: GenericContentEditFeature<PluginEvent>): void;
+
+    /**
+     * Remove a Content Edit feature.
+     * @param feature The feature to remove
+     */
+    removeContentEditFeature(feature: GenericContentEditFeature<PluginEvent>): void;
 
     /**
      * Get style based format state from current selection, including font name/size and colors
@@ -629,6 +638,10 @@ export default interface IEditor {
      */
     getSizeTransformer(): SizeTransformer;
 
+    /**
+     * Retrieves the rect of the visible viewport of the editor.
+     */
+    getVisibleViewport(): Rect | null;
     //#endregion
 }
 

@@ -63,6 +63,7 @@ describe('Editor', () => {
             stopPrintableKeyboardEventPropagation: true,
             contextMenuProviders: [],
             tableSelectionRange: null,
+            imageSelectionRange: null,
         });
         if (!Browser.isChrome) {
             expect(core.edit).toEqual({
@@ -75,7 +76,7 @@ describe('Editor', () => {
         });
         expect(core.lifecycle.customData).toEqual({});
         expect(core.lifecycle.isDarkMode).toBeFalse();
-        expect(core.lifecycle.onExternalContentTransform).toBeUndefined();
+        expect(core.lifecycle.onExternalContentTransform).toBeNull();
         expect(core.lifecycle.defaultFormat).toBeDefined();
         expect(core.pendingFormatState).toEqual({
             pendableFormatPosition: null,
@@ -171,6 +172,7 @@ describe('Editor', () => {
             stopPrintableKeyboardEventPropagation: false,
             contextMenuProviders: [],
             tableSelectionRange: null,
+            imageSelectionRange: null,
         });
         if (!Browser.isChrome) {
             expect(core.edit).toEqual({

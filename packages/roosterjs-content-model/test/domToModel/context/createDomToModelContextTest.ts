@@ -1,39 +1,59 @@
-import { ContentModelContext } from '../../../lib/publicTypes/ContentModelContext';
 import { createDomToModelContext } from '../../../lib/domToModel/context/createDomToModelContext';
+import { defaultProcessorMap } from '../../../lib/domToModel/context/defaultProcessors';
+import { defaultStyleMap } from '../../../lib/domToModel/context/defaultStyles';
+import { DomToModelListFormat } from '../../../lib/publicTypes/context/DomToModelFormatContext';
+import { EditorContext } from '../../../lib/publicTypes/context/EditorContext';
+import { getFormatParsers } from '../../../lib/formatHandlers/defaultFormatHandlers';
 import { SelectionRangeTypes } from 'roosterjs-editor-types';
 
 describe('createDomToModelContext', () => {
-    const defaultContentModelContext: ContentModelContext = {
+    const editorContext: EditorContext = {
         isDarkMode: false,
         zoomScale: 1,
         isRightToLeft: false,
         getDarkColor: undefined,
     };
-
+    const listFormat: DomToModelListFormat = {
+        threadItemCounts: [],
+        levels: [],
+    };
+    const contextOptions = {
+        elementProcessors: defaultProcessorMap,
+        defaultStyles: defaultStyleMap,
+        formatParsers: getFormatParsers(),
+    };
     it('no param', () => {
         const context = createDomToModelContext();
 
         expect(context).toEqual({
-            contentModelContext: defaultContentModelContext,
+            ...editorContext,
             segmentFormat: {},
+            blockFormat: {},
             isInSelection: false,
+            listFormat,
+            ...contextOptions,
         });
     });
 
     it('with content model context', () => {
-        const contentModelContext: ContentModelContext = {
+        const editorContext: EditorContext = {
             isDarkMode: true,
             zoomScale: 2,
             isRightToLeft: true,
             getDarkColor: () => '',
         };
 
-        const context = createDomToModelContext(contentModelContext);
+        const context = createDomToModelContext(editorContext);
 
         expect(context).toEqual({
-            contentModelContext: contentModelContext,
+            ...editorContext,
             segmentFormat: {},
+            blockFormat: {
+                direction: 'rtl',
+            },
             isInSelection: false,
+            listFormat,
+            ...contextOptions,
         });
     });
 
@@ -46,14 +66,17 @@ describe('createDomToModelContext', () => {
             collapsed: false,
         } as any) as Range;
         const context = createDomToModelContext(undefined, {
-            type: SelectionRangeTypes.Normal,
-            ranges: [mockedRange],
-            areAllCollapsed: false,
+            selectionRange: {
+                type: SelectionRangeTypes.Normal,
+                ranges: [mockedRange],
+                areAllCollapsed: false,
+            },
         });
 
         expect(context).toEqual({
-            contentModelContext: defaultContentModelContext,
+            ...editorContext,
             segmentFormat: {},
+            blockFormat: {},
             isInSelection: false,
             regularSelection: {
                 startContainer: 'DIV 1' as any,
@@ -62,30 +85,37 @@ describe('createDomToModelContext', () => {
                 endOffset: 1,
                 isSelectionCollapsed: false,
             },
+            listFormat,
+            ...contextOptions,
         });
     });
 
     it('with table selection', () => {
         const context = createDomToModelContext(undefined, {
-            type: SelectionRangeTypes.TableSelection,
-            ranges: [],
-            areAllCollapsed: false,
-            table: 'TABLE' as any,
-            coordinates: {
-                firstCell: { x: 1, y: 2 },
-                lastCell: { x: 3, y: 4 },
+            selectionRange: {
+                type: SelectionRangeTypes.TableSelection,
+                ranges: [],
+                areAllCollapsed: false,
+                table: 'TABLE' as any,
+                coordinates: {
+                    firstCell: { x: 1, y: 2 },
+                    lastCell: { x: 3, y: 4 },
+                },
             },
         });
 
         expect(context).toEqual({
-            contentModelContext: defaultContentModelContext,
+            ...editorContext,
             segmentFormat: {},
+            blockFormat: {},
             isInSelection: false,
             tableSelection: {
                 table: 'TABLE' as any,
                 firstCell: { x: 1, y: 2 },
                 lastCell: { x: 3, y: 4 },
             },
+            listFormat,
+            ...contextOptions,
         });
     });
 });

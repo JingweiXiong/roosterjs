@@ -2,7 +2,7 @@ import getAutoBulletListStyle from '../utils/getAutoBulletListStyle';
 import getAutoNumberingListStyle from '../utils/getAutoNumberingListStyle';
 import {
     blockFormat,
-    experimentCommitListChains,
+    commitListChains,
     setIndentation,
     toggleBullet,
     toggleNumbering,
@@ -18,6 +18,9 @@ import {
     createVListFromRegion,
     isBlockElement,
     cacheGetEventData,
+    createObjectDefinition,
+    createNumberDefinition,
+    getMetadata,
 } from 'roosterjs-editor-dom';
 import {
     BuildInEditFeature,
@@ -30,7 +33,33 @@ import {
     RegionBase,
     ListType,
     ExperimentalFeatures,
+    NumberingListType,
+    BulletListType,
 } from 'roosterjs-editor-types';
+
+interface ListStyleMetadata {
+    orderedStyleType?: NumberingListType;
+    unorderedStyleType?: BulletListType;
+}
+
+const ListStyleDefinitionMetadata = createObjectDefinition<ListStyleMetadata>(
+    {
+        orderedStyleType: createNumberDefinition(
+            true /** isOptional */,
+            undefined /** value **/,
+            NumberingListType.Min,
+            NumberingListType.Max
+        ),
+        unorderedStyleType: createNumberDefinition(
+            true /** isOptional */,
+            undefined /** value **/,
+            BulletListType.Min,
+            BulletListType.Max
+        ),
+    },
+    true /** isOptional */,
+    true /** allowNull */
+);
 
 /**
  * IndentWhenTab edit feature, provides the ability to indent current list when user press TAB
@@ -75,7 +104,9 @@ const MergeInNewLine: BuildInEditFeature<PluginKeyboardEvent> = {
             blockFormat(editor, (region, start, end) => {
                 const vList = createVListFromRegion(region, false /*includeSiblingList*/, li);
                 vList.setIndentation(start, end, Indentation.Decrease, true /*softOutdent*/);
-                vList.writeBack();
+                vList.writeBack(
+                    editor.isFeatureEnabled(ExperimentalFeatures.ReuseAllAncestorListElements)
+                );
                 event.rawEvent.preventDefault();
             });
         } else {
@@ -116,7 +147,7 @@ const MaintainListChainWhenDelete: BuildInEditFeature<PluginKeyboardEvent> = {
     },
     handleEvent: (event, editor) => {
         const chains = getListChains(editor);
-        editor.runAsync(editor => experimentCommitListChains(editor, chains));
+        editor.runAsync(editor => commitListChains(editor, chains));
     },
 };
 
@@ -159,7 +190,10 @@ function isAListPattern(textBeforeCursor: string) {
 const AutoBullet: BuildInEditFeature<PluginKeyboardEvent> = {
     keys: [Keys.SPACE],
     shouldHandleEvent: (event, editor) => {
-        if (!cacheGetListElement(event, editor)) {
+        if (
+            !cacheGetListElement(event, editor) &&
+            !editor.isFeatureEnabled(ExperimentalFeatures.AutoFormatList)
+        ) {
             let searcher = editor.getContentSearcherOfCursor(event);
             let textBeforeCursor = searcher.getSubStringBefore(4);
 
@@ -215,7 +249,7 @@ const AutoBulletList: BuildInEditFeature<PluginKeyboardEvent> = {
             !cacheGetListElement(event, editor) &&
             editor.isFeatureEnabled(ExperimentalFeatures.AutoFormatList)
         ) {
-            return shouldTriggerList(event, editor, getAutoBulletListStyle);
+            return shouldTriggerList(event, editor, getAutoBulletListStyle, ListType.Unordered);
         }
         return false;
     },
@@ -252,7 +286,7 @@ const AutoNumberingList: BuildInEditFeature<PluginKeyboardEvent> = {
             !cacheGetListElement(event, editor) &&
             editor.isFeatureEnabled(ExperimentalFeatures.AutoFormatList)
         ) {
-            return shouldTriggerList(event, editor, getAutoNumberingListStyle);
+            return shouldTriggerList(event, editor, getAutoNumberingListStyle, ListType.Ordered);
         }
         return false;
     },
@@ -261,29 +295,21 @@ const AutoNumberingList: BuildInEditFeature<PluginKeyboardEvent> = {
         event.rawEvent.preventDefault();
         editor.addUndoSnapshot(
             () => {
-                let regions: RegionBase[];
-                let searcher = editor.getContentSearcherOfCursor();
-                let textBeforeCursor = searcher.getSubStringBefore(5);
-                let textRange = searcher.getRangeFromText(textBeforeCursor, true /*exactMatch*/);
+                const searcher = editor.getContentSearcherOfCursor();
+                const textBeforeCursor = searcher.getSubStringBefore(5);
+                const textRange = searcher.getRangeFromText(textBeforeCursor, true /*exactMatch*/);
 
-                if (!textRange) {
-                    // no op if the range can't be found
-                } else if ((regions = editor.getSelectedRegions()) && regions.length == 1) {
-                    const num = parseInt(textBeforeCursor);
-                    const listStyle = getAutoNumberingListStyle(textBeforeCursor, num);
-                    prepareAutoBullet(editor, textRange);
-                    toggleNumbering(
-                        editor,
-                        num,
-                        listStyle,
-                        'autoToggleList' /** apiNameOverride */
-                    );
-                } else {
+                if (textRange) {
+                    const number = isFirstItemOfAList(textBeforeCursor)
+                        ? 1
+                        : parseInt(textBeforeCursor);
+
+                    const isLi = getPreviousList(editor, textRange);
                     const listStyle = getAutoNumberingListStyle(textBeforeCursor);
                     prepareAutoBullet(editor, textRange);
                     toggleNumbering(
                         editor,
-                        undefined /* startNumber*/,
+                        isLi && number !== 1 ? undefined : number /** startNumber */,
                         listStyle,
                         'autoToggleList' /** apiNameOverride */
                     );
@@ -294,6 +320,33 @@ const AutoNumberingList: BuildInEditFeature<PluginKeyboardEvent> = {
             true /*canUndoByBackspace*/
         );
     },
+};
+
+const getPreviousList = (editor: IEditor, textRange: Range) => {
+    const previousNode = editor
+        .getBodyTraverser(textRange?.startContainer)
+        .getPreviousBlockElement()
+        ?.collapseToSingleElement();
+    return getTagOfNode(previousNode) === 'LI' ? previousNode : undefined;
+};
+
+const getPreviousListType = (editor: IEditor, textRange: Range, listType: ListType) => {
+    const type = listType === ListType.Ordered ? 'orderedStyleType' : 'unorderedStyleType';
+    const previousNode = getPreviousList(editor, textRange);
+
+    return previousNode && getTagOfNode(previousNode) === 'LI'
+        ? getMetadata(previousNode.parentElement, ListStyleDefinitionMetadata)[type]
+        : null;
+};
+
+const isFirstItemOfAList = (item: string) => {
+    const number = parseInt(item);
+    if (number && number === 1) {
+        return 1;
+    } else {
+        const letter = item.replace(/\(|\)|\-|\./g, '').trim();
+        return letter.length === 1 && ['i', 'a', 'I', 'A'].indexOf(letter) > -1 ? 1 : undefined;
+    }
 };
 
 /**
@@ -309,7 +362,7 @@ const MaintainListChain: BuildInEditFeature<PluginKeyboardEvent> = {
         editor.queryElements('li', QueryScope.OnSelection).length > 0,
     handleEvent: (event, editor) => {
         const chains = getListChains(editor);
-        editor.runAsync(editor => experimentCommitListChains(editor, chains));
+        editor.runAsync(editor => commitListChains(editor, chains));
     },
 };
 
@@ -374,14 +427,32 @@ function cacheGetListElement(event: PluginKeyboardEvent, editor: IEditor) {
 function shouldTriggerList(
     event: PluginKeyboardEvent,
     editor: IEditor,
-    getListStyle: (text: string) => number
+    getListStyle: (
+        text: string,
+        previousListChain?: VListChain[],
+        previousListStyle?: NumberingListType | BulletListType
+    ) => number,
+    listType: ListType
 ) {
     const searcher = editor.getContentSearcherOfCursor(event);
     const textBeforeCursor = searcher.getSubStringBefore(4);
     const itHasSpace = /\s/g.test(textBeforeCursor);
+    const listChains = getListChains(editor);
+    const textRange = searcher.getRangeFromText(textBeforeCursor, true /*exactMatch*/);
+    const previousListType = getPreviousListType(editor, textRange, listType);
+    const isFirstItem = isFirstItemOfAList(textBeforeCursor);
+    const listStyle = getListStyle(textBeforeCursor, listChains, previousListType);
+    const shouldTriggerNewListStyle =
+        isFirstItem ||
+        !previousListType ||
+        previousListType === listStyle ||
+        listType === ListType.Unordered;
 
     return (
-        !itHasSpace && !searcher.getNearestNonTextInlineElement() && getListStyle(textBeforeCursor)
+        !itHasSpace &&
+        !searcher.getNearestNonTextInlineElement() &&
+        listStyle &&
+        shouldTriggerNewListStyle
     );
 }
 

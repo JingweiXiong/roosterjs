@@ -1,4 +1,5 @@
 import { NumberingListType } from 'roosterjs-editor-types';
+import { VListChain } from 'roosterjs-editor-dom';
 
 const enum NumberingTypes {
     Decimal = 1,
@@ -21,27 +22,43 @@ const characters: Record<string, number> = {
     ')': Character.Parenthesis,
 };
 
-const numberingTriggers: Record<string, number> = {
-    '1': NumberingTypes.Decimal,
-    i: NumberingTypes.LowerRoman,
-    I: NumberingTypes.UpperRoman,
-    a: NumberingTypes.LowerAlpha,
-    A: NumberingTypes.UpperAlpha,
-};
+const lowerRomanTypes = [
+    NumberingListType.LowerRoman,
+    NumberingListType.LowerRomanDash,
+    NumberingListType.LowerRomanDoubleParenthesis,
+    NumberingListType.LowerRomanParenthesis,
+];
+const upperRomanTypes = [
+    NumberingListType.UpperRoman,
+    NumberingListType.UpperRomanDash,
+    NumberingListType.UpperRomanDoubleParenthesis,
+    NumberingListType.UpperRomanParenthesis,
+];
+const numberingTriggers = ['1', 'a', 'A', 'I', 'i'];
+const lowerRomanNumbers = ['i', 'v', 'x', 'l', 'c', 'd', 'm'];
+const upperRomanNumbers = ['I', 'V', 'X', 'L', 'C', 'D', 'M'];
 
-const identifyNumberingType = (text: string) => {
+const identifyNumberingType = (text: string, previousListStyle?: NumberingListType) => {
     if (!isNaN(parseInt(text))) {
         return NumberingTypes.Decimal;
     } else if (/[a-z]+/g.test(text)) {
-        if (text === 'i') {
+        if (
+            (lowerRomanTypes.indexOf(previousListStyle) > -1 &&
+                lowerRomanNumbers.indexOf(text[0]) > -1) ||
+            (!previousListStyle && text === 'i')
+        ) {
             return NumberingTypes.LowerRoman;
-        } else {
+        } else if (previousListStyle || (!previousListStyle && text === 'a')) {
             return NumberingTypes.LowerAlpha;
         }
     } else if (/[A-Z]+/g.test(text)) {
-        if (text === 'I') {
+        if (
+            (upperRomanTypes.indexOf(previousListStyle) > -1 &&
+                upperRomanNumbers.indexOf(text[0]) > -1) ||
+            (!previousListStyle && text === 'I')
+        ) {
             return NumberingTypes.UpperRoman;
-        } else {
+        } else if (previousListStyle || (!previousListStyle && text === 'A')) {
             return NumberingTypes.UpperAlpha;
         }
     }
@@ -93,17 +110,15 @@ const DecimalsTypes: Record<number, number> = {
 const identifyNumberingListType = (
     numbering: string,
     isDoubleParenthesis: boolean,
-    startNumber?: number
+    previousListStyle?: NumberingListType
 ): NumberingListType | null => {
     const separatorCharacter = isDoubleParenthesis
         ? Character.DoubleParenthesis
-        : characters[numbering[1]];
+        : characters[numbering[numbering.length - 1]];
     // if separator is not valid, no need to check if the number is valid.
     if (separatorCharacter) {
-        const number = numbering.length === 3 ? numbering[1] : numbering[0];
-        const numberingType = startNumber
-            ? identifyNumberingType(number)
-            : numberingTriggers[number];
+        const number = isDoubleParenthesis ? numbering.slice(1, -1) : numbering.slice(0, -1);
+        const numberingType = identifyNumberingType(number, previousListStyle);
         return numberingType ? numberingListTypes[numberingType](separatorCharacter) : null;
     }
     return null;
@@ -112,20 +127,36 @@ const identifyNumberingListType = (
 /**
  * @internal
  * @param textBeforeCursor The trigger character
- * @param startNumber (Optional) Start number of the list
+ * @param previousListChain @optional This parameters is used to keep the list chain, if the is not a new list
+ * @param previousListStyle @optional The list style of the previous list
  * @returns The style of a numbering list triggered by a string
  */
 export default function getAutoNumberingListStyle(
     textBeforeCursor: string,
-    startNumber?: number
+    previousListChain?: VListChain[],
+    previousListStyle?: NumberingListType
 ): NumberingListType {
     const trigger = textBeforeCursor.trim();
-    // the marker must be a combination of 2 or 3 characters, so if the length is less than 2, no need to check
-    // If the marker length is 3, the marker style is double parenthesis such as (1), (A).
-    const isDoubleParenthesis = trigger.length === 3 && trigger[0] === '(' && trigger[2] === ')';
-    const numberingType =
-        trigger.length === 2 || isDoubleParenthesis
-            ? identifyNumberingListType(trigger, isDoubleParenthesis, startNumber)
-            : null;
+    //Only the staring items ['1', 'a', 'A', 'I', 'i'] must trigger a new list. All the other triggers is used to keep the list chain.
+    //The index is always the character before the last character
+    const listIndex = trigger[trigger.length - 2];
+    const index = parseInt(listIndex);
+
+    if (previousListChain && index > 1) {
+        if (
+            (previousListChain.length < 1 && numberingTriggers.indexOf(listIndex) < 0) ||
+            (previousListChain?.length > 0 &&
+                !previousListChain[previousListChain.length - 1]?.canAppendAtCursor(index))
+        ) {
+            return null;
+        }
+    }
+
+    const isDoubleParenthesis = trigger[0] === '(' && trigger[trigger.length - 1] === ')';
+    const numberingType = identifyNumberingListType(
+        trigger,
+        isDoubleParenthesis,
+        previousListStyle
+    );
     return numberingType;
 }

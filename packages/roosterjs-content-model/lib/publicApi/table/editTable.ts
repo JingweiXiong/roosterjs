@@ -12,6 +12,7 @@ import { mergeTableCells } from '../../modelApi/table/mergeTableCells';
 import { mergeTableColumn } from '../../modelApi/table/mergeTableColumn';
 import { mergeTableRow } from '../../modelApi/table/mergeTableRow';
 import { normalizeTable } from '../../modelApi/table/normalizeTable';
+import { preprocessEntitiesFromContentModel } from '../mergeFragmentWithEntity';
 import { splitTableCellHorizontally } from '../../modelApi/table/splitTableCellHorizontally';
 import { splitTableCellVertically } from '../../modelApi/table/splitTableCellVertically';
 
@@ -97,7 +98,12 @@ export default function editTable(
             () => {
                 editor.focus();
                 if (model && table) {
-                    editor.setContentModel(model, fragment => editor.replaceNode(table, fragment));
+                    editor.setContentModel(model, {
+                        mergingCallback: (target, fragment, entityPairs) => {
+                            preprocessEntitiesFromContentModel(entityPairs);
+                            editor.replaceNode(table, fragment);
+                        },
+                    });
                 }
             },
             ChangeSource.Format,

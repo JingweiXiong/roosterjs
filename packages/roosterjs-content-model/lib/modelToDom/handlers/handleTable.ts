@@ -1,27 +1,28 @@
 import { applyFormat } from '../utils/applyFormat';
+import { ContentModelHandler } from '../../publicTypes/context/ContentModelHandler';
 import { ContentModelTable } from '../../publicTypes/block/ContentModelTable';
-import { handleBlock } from './handleBlock';
-import { ModelToDomContext } from '../context/ModelToDomContext';
+import { isBlockEmpty } from '../../modelApi/common/isEmpty';
+import { ModelToDomContext } from '../../publicTypes/context/ModelToDomContext';
 import { TableCellFormatHandlers } from '../../formatHandlers/TableCellFormatHandler';
 import { TableFormatHandlers } from '../../formatHandlers/TableFormatHandlers';
 
 /**
  * @internal
  */
-export function handleTable(
+export const handleTable: ContentModelHandler<ContentModelTable> = (
     doc: Document,
     parent: Node,
     table: ContentModelTable,
     context: ModelToDomContext
-) {
-    if (table.cells.length == 0 || table.cells.every(c => c.length == 0)) {
+) => {
+    if (isBlockEmpty(table)) {
         // Empty table, do not create TABLE element and just return
         return;
     }
 
     const tableNode = doc.createElement('table');
     parent.appendChild(tableNode);
-    applyFormat(tableNode, TableFormatHandlers, table.format, context.contentModelContext);
+    applyFormat(tableNode, TableFormatHandlers, table.format, context);
 
     const tbody = doc.createElement('tbody');
     tableNode.appendChild(tbody);
@@ -56,7 +57,7 @@ export function handleTable(
             if (!cell.spanAbove && !cell.spanLeft) {
                 const td = doc.createElement(cell.isHeader ? 'th' : 'td');
                 tr.appendChild(td);
-                applyFormat(td, TableCellFormatHandlers, cell.format, context.contentModelContext);
+                applyFormat(td, TableCellFormatHandlers, cell.format, context);
 
                 let rowSpan = 1;
                 let colSpan = 1;
@@ -81,8 +82,8 @@ export function handleTable(
                     td.colSpan = colSpan;
                 }
 
-                handleBlock(doc, td, cell, context);
+                context.modelHandlers.blockGroup(doc, td, cell, context);
             }
         }
     }
-}
+};

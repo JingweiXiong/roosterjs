@@ -14,7 +14,6 @@ describe('addSegment', () => {
         addSegment(doc, segment);
 
         expect(doc).toEqual({
-            blockType: 'BlockGroup',
             blockGroupType: 'Document',
             blocks: [
                 {
@@ -27,6 +26,7 @@ describe('addSegment', () => {
                             format: {},
                         },
                     ],
+                    format: {},
                 },
             ],
             document: document,
@@ -42,7 +42,6 @@ describe('addSegment', () => {
         addSegment(doc, segment);
 
         expect(doc).toEqual({
-            blockType: 'BlockGroup',
             blockGroupType: 'Document',
             blocks: [
                 {
@@ -54,6 +53,7 @@ describe('addSegment', () => {
                             format: {},
                         },
                     ],
+                    format: {},
                 },
             ],
             document: document,
@@ -71,6 +71,7 @@ describe('addSegment', () => {
                     format: {},
                 },
             ],
+            format: {},
         };
         addBlock(doc, block);
 
@@ -79,7 +80,6 @@ describe('addSegment', () => {
         addSegment(doc, segment);
 
         expect(doc).toEqual({
-            blockType: 'BlockGroup',
             blockGroupType: 'Document',
             blocks: [
                 {
@@ -96,6 +96,7 @@ describe('addSegment', () => {
                             format: {},
                         },
                     ],
+                    format: {},
                 },
             ],
             document: document,
@@ -110,6 +111,7 @@ describe('addSegment', () => {
             blockGroupType: 'General',
             blocks: [],
             element: div,
+            format: {},
         };
         addBlock(doc, block);
 
@@ -118,7 +120,6 @@ describe('addSegment', () => {
         addSegment(doc, segment);
 
         expect(doc).toEqual({
-            blockType: 'BlockGroup',
             blockGroupType: 'Document',
             blocks: [
                 block,
@@ -132,6 +133,7 @@ describe('addSegment', () => {
                             format: {},
                         },
                     ],
+                    format: {},
                 },
             ],
             document: document,

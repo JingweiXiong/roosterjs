@@ -1,25 +1,57 @@
-import { ContentModelContext } from '../../publicTypes/ContentModelContext';
-import { DomToModelContext } from './DomToModelContext';
-import { SelectionRangeEx, SelectionRangeTypes } from 'roosterjs-editor-types';
+import { defaultProcessorMap } from './defaultProcessors';
+import { defaultStyleMap } from './defaultStyles';
+import { DomToModelContext } from '../../publicTypes/context/DomToModelContext';
+import { DomToModelOption } from '../../publicTypes/IExperimentalContentModelEditor';
+import { EditorContext } from '../../publicTypes/context/EditorContext';
+import { getFormatParsers } from '../../formatHandlers/defaultFormatHandlers';
+import { SelectionRangeTypes } from 'roosterjs-editor-types';
 
 /**
  * @internal
  */
 export function createDomToModelContext(
-    contentModelContext?: ContentModelContext,
-    range?: SelectionRangeEx
+    editorContext?: EditorContext,
+    options?: DomToModelOption
 ): DomToModelContext {
     const context: DomToModelContext = {
-        contentModelContext: contentModelContext || {
+        ...(editorContext || {
             isDarkMode: false,
             zoomScale: 1,
             isRightToLeft: false,
             getDarkColor: undefined,
-        },
+        }),
 
+        blockFormat: {},
         segmentFormat: {},
         isInSelection: false,
+
+        listFormat: {
+            levels: [],
+            threadItemCounts: [],
+        },
+
+        elementProcessors: {
+            ...defaultProcessorMap,
+            ...(options?.processorOverride || {}),
+        },
+
+        defaultStyles: {
+            ...defaultStyleMap,
+            ...(options?.defaultStyleOverride || {}),
+        },
+
+        formatParsers: getFormatParsers(options?.formatParserOverride),
     };
+
+    if (editorContext?.isRightToLeft) {
+        context.blockFormat.direction = 'rtl';
+    }
+
+    if (options?.alwaysNormalizeTable) {
+        context.alwaysNormalizeTable = true;
+    }
+
+    const range = options?.selectionRange;
 
     switch (range?.type) {
         case SelectionRangeTypes.Normal:

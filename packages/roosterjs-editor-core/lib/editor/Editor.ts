@@ -28,10 +28,12 @@ import {
     PluginEventType,
     PositionType,
     QueryScope,
+    Rect,
     Region,
     RegionType,
     SelectionPath,
     SelectionRangeEx,
+    SelectionRangeTypes,
     SizeTransformer,
     StyleBasedFormatState,
     TableSelection,
@@ -59,6 +61,7 @@ import {
     arrayPush,
     toArray,
     getObjectKeys,
+    getIntersectedRect,
 } from 'roosterjs-editor-dom';
 import type {
     CompatibleChangeSource,
@@ -115,6 +118,18 @@ export default class Editor implements IEditor {
             trustedHTMLHandler: options.trustedHTMLHandler || ((html: string) => html),
             zoomScale: zoomScale,
             sizeTransformer: options.sizeTransformer || ((size: number) => size / zoomScale),
+            getVisibleViewport:
+                options.getVisibleViewport ||
+                (() => {
+                    const scrollContainer = this.getScrollContainer();
+
+                    return getIntersectedRect(
+                        scrollContainer == contentDiv
+                            ? [scrollContainer]
+                            : [scrollContainer, contentDiv]
+                    );
+                }),
+            imageSelectionBorderColor: options.imageSelectionBorderColor,
         };
 
         // 3. Initialize plugins
@@ -218,7 +233,10 @@ export default class Editor implements IEditor {
         return getBlockElementAtNode(this.getCore().contentDiv, node);
     }
 
-    public contains(arg: Node | Range): boolean {
+    public contains(arg: Node | Range | null): boolean {
+        if (!arg) {
+            return false;
+        }
         return contains(this.getCore().contentDiv, <Node>arg);
     }
 
@@ -439,20 +457,40 @@ export default class Editor implements IEditor {
     }
 
     public select(
-        arg1: Range | NodePosition | Node | SelectionPath | HTMLTableElement | null,
+        arg1:
+            | Range
+            | NodePosition
+            | Node
+            | SelectionPath
+            | HTMLTableElement
+            | HTMLImageElement
+            | null,
         arg2?: NodePosition | number | PositionType | TableSelection,
         arg3?: Node,
         arg4?: number | PositionType
     ): boolean {
         const core = this.getCore();
+
         if (arg1 && 'rows' in arg1) {
             const selection = core.api.selectTable(core, arg1, <TableSelection>arg2);
             core.domEvent.tableSelectionRange = selection;
-
+            this.triggerSelectionChanged(selection);
             return !!selection;
         } else {
             core.api.selectTable(core, null);
             core.domEvent.tableSelectionRange = null;
+        }
+
+        if (
+            this.isFeatureEnabled(ExperimentalFeatures.ImageSelection) &&
+            safeInstanceOf(arg1, 'HTMLImageElement') &&
+            !arg2
+        ) {
+            const selection = core.api.selectImage(core, arg1);
+            this.triggerSelectionChanged(selection);
+            return !!selection;
+        } else {
+            core.api.selectImage(core, null);
         }
 
         let range = !arg1
@@ -467,7 +505,24 @@ export default class Editor implements IEditor {
                   <Node>arg3,
                   <number | PositionType>arg4
               );
+
+        this.triggerSelectionChanged({
+            type: SelectionRangeTypes.Normal,
+            ranges: range ? [range] : [],
+            areAllCollapsed: range ? range.collapsed : true,
+        });
+
         return !!range && this.contains(range) && core.api.selectRange(core, range);
+    }
+
+    private triggerSelectionChanged(selection: SelectionRangeEx | null) {
+        this.triggerPluginEvent(
+            PluginEventType.SelectionChanged,
+            {
+                selectionRangeEx: selection,
+            },
+            true /** broadcast **/
+        );
     }
 
     /**
@@ -706,7 +761,7 @@ export default class Editor implements IEditor {
      * @returns Default format object of this editor
      */
     public getDefaultFormat(): DefaultFormat {
-        return this.getCore().lifecycle.defaultFormat;
+        return this.getCore().lifecycle.defaultFormat ?? {};
     }
 
     /**
@@ -781,7 +836,7 @@ export default class Editor implements IEditor {
      * @param name Name of the attribute
      * @param value Value of the attribute
      */
-    public setEditorDomAttribute(name: string, value: string) {
+    public setEditorDomAttribute(name: string, value: string | null) {
         if (value === null) {
             this.getCore().contentDiv.removeAttribute(name);
         } else {
@@ -798,6 +853,8 @@ export default class Editor implements IEditor {
     }
 
     /**
+     * @deprecated Use getVisibleViewport() instead.
+     *
      * Get current relative distance from top-left corner of the given element to top-left corner of editor content DIV.
      * @param element The element to calculate from. If the given element is not in editor, return value will be null
      * @param addScroll When pass true, The return value will also add scrollLeft and scrollTop if any. So the value
@@ -836,6 +893,24 @@ export default class Editor implements IEditor {
             let array = core.edit.features[key] || [];
             array.push(feature);
             core.edit.features[key] = array;
+        });
+    }
+
+    /**
+     * Remove a Content Edit feature.
+     * @param feature The feature to remove
+     */
+    public removeContentEditFeature(feature: GenericContentEditFeature<PluginEvent>) {
+        const core = this.getCore();
+        feature?.keys.forEach(key => {
+            const featureSet = core.edit.features[key];
+            const index = featureSet?.indexOf(feature) ?? -1;
+            if (index >= 0) {
+                core.edit.features[key].splice(index, 1);
+                if (core.edit.features[key].length < 1) {
+                    delete core.edit.features[key];
+                }
+            }
         });
     }
 
@@ -1012,6 +1087,13 @@ export default class Editor implements IEditor {
                 );
             }
         }
+    }
+
+    /**
+     * Retrieves the rect of the visible viewport of the editor.
+     */
+    getVisibleViewport(): Rect | null {
+        return this.getCore().getVisibleViewport();
     }
 
     /**

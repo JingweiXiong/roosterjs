@@ -8,12 +8,12 @@ describe('addBlock', () => {
         const block: ContentModelBlock = {
             blockType: 'Paragraph',
             segments: [],
+            format: {},
         };
 
         addBlock(doc, block);
 
         expect(doc).toEqual({
-            blockType: 'BlockGroup',
             blockGroupType: 'Document',
             blocks: [block],
             document: document,
