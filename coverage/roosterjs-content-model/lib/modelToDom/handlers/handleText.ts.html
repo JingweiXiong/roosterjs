@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for roosterjs-content-model/lib/formatHandlers/utils/createMetadataFormatHandler.ts</title>
+    <title>Code coverage report for roosterjs-content-model/lib/modelToDom/handlers/handleText.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">roosterjs-content-model/lib/formatHandlers/utils</a> createMetadataFormatHandler.ts</h1>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">roosterjs-content-model/lib/modelToDom/handlers</a> handleText.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/12</span>
+                <span class='fraction'>7/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
@@ -91,7 +91,19 @@
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -99,66 +111,75 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">57x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">57x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">156x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ContentModelFormatBase } from '../../publicTypes/format/ContentModelFormatBase';
-import { Definition } from 'roosterjs-editor-types';
-import { FormatHandler } from '../FormatHandler';
-import { getMetadata, getObjectKeys, removeMetadata, setMetadata } from 'roosterjs-editor-dom';
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { applyFormat } from '../utils/applyFormat';
+import { ContentModelHandler } from '../../publicTypes/context/ContentModelHandler';
+import { ContentModelText } from '../../publicTypes/segment/ContentModelText';
+import { ModelToDomContext } from '../../publicTypes/context/ModelToDomContext';
 &nbsp;
 /**
  * @internal
  */
-export function createMetadataFormatHandler&lt;T extends ContentModelFormatBase&gt;(
-    definition: Definition&lt;T&gt;,
-    onApply?: (format: T) =&gt; T
-): FormatHandler&lt;T&gt; {
-    return {
-        parse: (format, element) =&gt; {
-            const metadata = getMetadata(element, definition);
+export const handleText: ContentModelHandler&lt;ContentModelText&gt; = (
+    doc: Document,
+    parent: Node,
+    segment: ContentModelText,
+    context: ModelToDomContext
+) =&gt; {
+    const txt = doc.createTextNode(segment.text);
+    const implicitSegmentFormat = context.implicitSegmentFormat;
+    const element = doc.createElement(segment.link ? 'a' : 'span');
 &nbsp;
-            if (metadata) {
-                Object.assign(format, metadata);
-            }
-        },
-        apply: (format, element) =&gt; {
-            const metadata = onApply<span class="branch-0 cbranch-no" title="branch not covered" >?.(f</span>ormat) || <span class="branch-1 cbranch-no" title="branch not covered" >format;</span>
+    element.appendChild(txt);
+    parent.appendChild(element);
 &nbsp;
-            if (
-                metadata &amp;&amp;
-                !getObjectKeys(metadata).every(key =&gt; typeof metadata[key] === 'undefined')
-            ) {
-                setMetadata(element, metadata, definition);
-            } else {
-                removeMetadata(element);
-            }
-        },
-    };
-}
+    context.regularSelection.current.segment = txt;
+&nbsp;
+    if (segment.link) {
+        context.implicitSegmentFormat = {
+            ...implicitSegmentFormat,
+            ...(context.defaultImplicitSegmentFormatMap.a || <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>,
+        };
+    }
+&nbsp;
+    try {
+        applyFormat(element, context.formatAppliers.segment, segment.format, context);
+&nbsp;
+        if (segment.link) {
+            applyFormat(element, context.formatAppliers.link, segment.link.format, context);
+            applyFormat(element, context.formatAppliers.dataset, segment.link.dataset, context);
+        }
+    } finally {
+        context.implicitSegmentFormat = implicitSegmentFormat;
+    }
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -166,7 +187,7 @@ export function createMetadataFormatHandler&lt;T extends ContentModelFormatBase&
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Oct 19 2022 07:18:40 GMT+0000 (Coordinated Universal Time)
+                at Mon Nov 14 2022 06:59:45 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../../../prettify.js"></script>

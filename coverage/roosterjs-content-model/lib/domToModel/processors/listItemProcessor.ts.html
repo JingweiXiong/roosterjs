@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/19</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.21% </span>
+                <span class="strong">88% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>25/29</span>
+                <span class='fraction'>22/25</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/18</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
@@ -109,10 +109,10 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -128,7 +128,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -136,6 +135,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -163,10 +167,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { createListItem } from '../../modelApi/creators/createListItem';
 import { ElementProcessor } from '../../publicTypes/context/ElementProcessor';
-import { getTagOfNode } from 'roosterjs-editor-dom';
-import { ListItemFormatHandlers } from '../../formatHandlers/ListItemFormatHandlers';
+import { getDefaultStyle } from '../utils/getDefaultStyle';
 import { parseFormat } from '../utils/parseFormat';
-import { SegmentFormatHandlers } from '../../formatHandlers/SegmentFormatHandlers';
 import { stackFormat } from '../utils/stackFormat';
 &nbsp;
 /**
@@ -178,8 +180,7 @@ export const listItemProcessor: ElementProcessor&lt;HTMLLIElement&gt; = (group, 
     if (
         listFormat.listParent &amp;&amp;
         listFormat.levels.length &gt; 0 &amp;&amp;
-        (element.style.display || context.defaultStyles[getTagOfNode(element)]<span class="branch-0 cbranch-no" title="branch not covered" >?.d</span>isplay) ==
-            'list-item'
+        (element.style.display || getDefaultStyle(element, context).display) == 'list-item'
     ) {
         stackFormat(
             context,
@@ -187,14 +188,19 @@ export const listItemProcessor: ElementProcessor&lt;HTMLLIElement&gt; = (group, 
                 segment: 'shallowClone',
             },
             () =&gt; {
-                parseFormat(element, SegmentFormatHandlers, context.segmentFormat, context);
+                parseFormat(
+                    element,
+                    context.formatParsers.segmentOnBlock,
+                    context.segmentFormat,
+                    context
+                );
 &nbsp;
                 const listItem = createListItem(listFormat.levels, context.segmentFormat);
                 listFormat.listParent!.blocks.push(listItem);
 &nbsp;
                 parseFormat(
                     element,
-                    ListItemFormatHandlers,
+                    context.formatParsers.listItem,
                     listItem.levels[listItem.levels.length - 1],
                     context
                 );
@@ -220,7 +226,7 @@ export const listItemProcessor: ElementProcessor&lt;HTMLLIElement&gt; = (group, 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Oct 19 2022 07:18:40 GMT+0000 (Coordinated Universal Time)
+                at Mon Nov 14 2022 06:59:45 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../../../prettify.js"></script>

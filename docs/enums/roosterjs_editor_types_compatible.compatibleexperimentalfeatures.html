@@ -85,6 +85,7 @@
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#autoformatlist" class="tsd-kind-icon">Auto<wbr>Format<wbr>List</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#autohyphen" class="tsd-kind-icon">Auto<wbr>Hyphen</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#convertsingleimagebody" class="tsd-kind-icon">Convert<wbr>Single<wbr>Image<wbr>Body</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#defaultformatinspan" class="tsd-kind-icon">Default<wbr>Format<wbr>InSpan</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#imagecrop" class="tsd-kind-icon">Image<wbr>Crop</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#imagerotate" class="tsd-kind-icon">Image<wbr>Rotate</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#imageselection" class="tsd-kind-icon">Image<wbr>Selection</a></li>
@@ -114,13 +115,16 @@
 					<div class="tsd-signature tsd-kind-icon">Adaptive<wbr>Handles<wbr>Resizer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;AdaptiveHandlesResizer&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:75</li>
+							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:77</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Provide a circular resize handles that adaptive the number od handles to the size of the image</p>
-						</div>
+						<dl class="tsd-comment-tags">
+							<dt>deprecated</dt>
+							<dd><p>this feature is always enabled
+								Provide a circular resize handles that adaptive the number od handles to the size of the image</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
@@ -147,7 +151,7 @@
 					<div class="tsd-signature tsd-kind-icon">Auto<wbr>Format<wbr>List<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;AutoFormatList&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:85</li>
+							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:87</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -162,7 +166,7 @@
 					<div class="tsd-signature tsd-kind-icon">Auto<wbr>Hyphen<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;AutoHyphen&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:91</li>
+							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:93</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -186,6 +190,22 @@
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Paste the Html instead of the Img when the Html Body only have one IMG Child node</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="defaultformatinspan" class="tsd-anchor"></a>
+					<h3>Default<wbr>Format<wbr>InSpan</h3>
+					<div class="tsd-signature tsd-kind-icon">Default<wbr>Format<wbr>InSpan<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;DefaultFormatInSpan&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:126</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>When apply default format when initialize or user type, apply the format on a SPAN element rather than
+							the block element (In most case, the DIV element) so keep the block element clean.</p>
 						</div>
 					</div>
 				</section>
@@ -229,13 +249,16 @@
 					<div class="tsd-signature tsd-kind-icon">Image<wbr>Selection<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;ImageSelection&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:109</li>
+							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:112</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>When a html image is selected, the selected image data will be stored by editor core.</p>
-						</div>
+						<dl class="tsd-comment-tags">
+							<dt>deprecated</dt>
+							<dd><p>this feature is always enabled
+								When a html image is selected, the selected image data will be stored by editor core.</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
@@ -261,7 +284,7 @@
 					<div class="tsd-signature tsd-kind-icon">List<wbr>Item<wbr>Alignment<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;ListItemAlignment&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:80</li>
+							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:82</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -344,7 +367,7 @@
 					<div class="tsd-signature tsd-kind-icon">Normalize<wbr>List<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;NormalizeList&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:104</li>
+							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:106</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -377,7 +400,7 @@
 					<div class="tsd-signature tsd-kind-icon">Pending<wbr>Style<wbr>Based<wbr>Format<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;PendingStyleBasedFormat&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:98</li>
+							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:100</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -394,7 +417,7 @@
 					<div class="tsd-signature tsd-kind-icon">Reuse<wbr>All<wbr>Ancestor<wbr>List<wbr>Elements<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;ReuseAllAncestorListElements&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:117</li>
+							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:120</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -429,7 +452,7 @@
 					<div class="tsd-signature tsd-kind-icon">Tab<wbr>Key<wbr>Text<wbr>Features<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;TabKeyTextFeatures&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:70</li>
+							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:71</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -444,13 +467,16 @@
 					<div class="tsd-signature tsd-kind-icon">Table<wbr>Alignment<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;TableAlignment&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:65</li>
+							<li>Defined in packages/roosterjs-editor-types/lib/compatibleEnum/ExperimentalFeatures.ts:66</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Align table elements to left, center and right using setAlignment API</p>
-						</div>
+						<dl class="tsd-comment-tags">
+							<dt>deprecated</dt>
+							<dd><p>This feature is always enabled
+								Align table elements to left, center and right using setAlignment API</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 			</section>
@@ -559,6 +585,9 @@
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#convertsingleimagebody" class="tsd-kind-icon">Convert<wbr>Single<wbr>Image<wbr>Body</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#defaultformatinspan" class="tsd-kind-icon">Default<wbr>Format<wbr>InSpan</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="roosterjs_editor_types_compatible.compatibleexperimentalfeatures.html#imagecrop" class="tsd-kind-icon">Image<wbr>Crop</a>

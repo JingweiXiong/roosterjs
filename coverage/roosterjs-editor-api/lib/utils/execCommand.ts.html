@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">41.67% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/12</span>
+                <span class='fraction'>5/10</span>
             </div>
         
             
@@ -122,16 +122,14 @@
 <a name='L63'></a><a href='#L63'>63</a>
 <a name='L64'></a><a href='#L64'>64</a>
 <a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L66'></a><a href='#L66'>66</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -172,12 +170,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -192,13 +188,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import formatUndoSnapshot from './formatUndoSnapshot';
-import { getObjectKeys, PendableFormatCommandMap, PendableFormatNames } from 'roosterjs-editor-dom';
 import {
     DocumentCommand,
     IEditor,
     PluginEventType,
     SelectionRangeTypes,
 } from 'roosterjs-editor-types';
+import { getObjectKeys, PendableFormatCommandMap, PendableFormatNames } from 'roosterjs-editor-dom';
 import type { CompatibleDocumentCommand } from 'roosterjs-editor-types/lib/compatibleTypes';
 &nbsp;
 /**
@@ -239,19 +235,17 @@ export default function execCommand(
 <span class="cstat-no" title="statement not covered" >        formatUndoSnapshot(</span>
             editor,
 <span class="fstat-no" title="function not covered" >            () =&gt; {</span>
-                let tempRange: Range;
+                const needToSwitchSelection = <span class="cstat-no" title="statement not covered" >selection.type != SelectionRangeTypes.Normal;</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >                selection.ranges.forEach(<span class="fstat-no" title="function not covered" >range </span>=&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                    if (selection.type == SelectionRangeTypes.TableSelection) {</span>
+<span class="cstat-no" title="statement not covered" >                    if (needToSwitchSelection) {</span>
 <span class="cstat-no" title="statement not covered" >                        editor.select(range);</span>
                     }
-&nbsp;
 <span class="cstat-no" title="statement not covered" >                    formatter();</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >                    tempRange = range;</span>
                 });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                if (tempRange &amp;&amp; selection.type == SelectionRangeTypes.TableSelection) {</span>
-<span class="cstat-no" title="statement not covered" >                    editor.select(selection.table, selection.coordinates);</span>
+<span class="cstat-no" title="statement not covered" >                if (needToSwitchSelection) {</span>
+<span class="cstat-no" title="statement not covered" >                    editor.select(selection);</span>
                 }
             },
             apiName
@@ -265,7 +259,7 @@ export default function execCommand(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Oct 19 2022 07:18:40 GMT+0000 (Coordinated Universal Time)
+                at Mon Nov 14 2022 06:59:45 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../../prettify.js"></script>
