@@ -6,9 +6,6 @@ import { createDomToModelContext } from '../../../lib/domToModel/context/createD
 import { createTableCell } from '../../../lib/modelApi/creators/createTableCell';
 import { DomToModelContext } from '../../../lib/publicTypes/context/DomToModelContext';
 import { ElementProcessor } from '../../../lib/publicTypes/context/ElementProcessor';
-import { SegmentFormatHandlers } from '../../../lib/formatHandlers/SegmentFormatHandlers';
-import { TableCellFormatHandlers } from '../../../lib/formatHandlers/TableCellFormatHandler';
-import { TableFormatHandlers } from '../../../lib/formatHandlers/TableFormatHandlers';
 import { tableProcessor } from '../../../lib/domToModel/processors/tableProcessor';
 
 describe('tableProcessor', () => {
@@ -47,12 +44,14 @@ describe('tableProcessor', () => {
                         isHeader: false,
                         blocks: [],
                         format: {},
+                        dataset: {},
                     },
                 ],
             ],
             format: {},
             widths: [0],
             heights: [0],
+            dataset: {},
         });
     });
 
@@ -71,6 +70,7 @@ describe('tableProcessor', () => {
             format: {},
             widths: [0, 0],
             heights: [0, 0],
+            dataset: {},
         });
     });
 
@@ -88,6 +88,7 @@ describe('tableProcessor', () => {
             format: {},
             widths: [0, 0],
             heights: [0, 0],
+            dataset: {},
         });
     });
 
@@ -103,6 +104,7 @@ describe('tableProcessor', () => {
             format: {},
             widths: [0, 0],
             heights: [0, 0],
+            dataset: {},
         });
     });
 
@@ -116,6 +118,7 @@ describe('tableProcessor', () => {
             format: {},
             widths: [0],
             heights: [0],
+            dataset: {},
         });
 
         expect(childProcessor).toHaveBeenCalledTimes(1);
@@ -132,6 +135,7 @@ describe('tableProcessor', () => {
             format: {},
             widths: [0, 0],
             heights: [0],
+            dataset: {},
         });
 
         expect(childProcessor).toHaveBeenCalledTimes(2);
@@ -147,6 +151,7 @@ describe('tableProcessor', () => {
             format: {},
             widths: [0, 0],
             heights: [0],
+            dataset: {},
         });
 
         expect(childProcessor).toHaveBeenCalledTimes(1);
@@ -182,6 +187,7 @@ describe('tableProcessor', () => {
             format: {},
             widths: [0, 0],
             heights: [0, 0],
+            dataset: {},
         });
 
         expect(childProcessor).toHaveBeenCalledTimes(4);
@@ -211,15 +217,15 @@ describe('tableProcessor with format', () => {
         spyOn(stackFormat, 'stackFormat').and.callThrough();
         spyOn(parseFormat, 'parseFormat').and.callFake((element, handlers, format, context) => {
             if (element == table) {
-                if (handlers == TableFormatHandlers) {
+                if (handlers == context.formatParsers.table) {
                     (<any>format).format1 = 'table';
-                } else if (handlers == SegmentFormatHandlers) {
+                } else if (handlers == context.formatParsers.segmentOnBlock) {
                     (<any>format).format2 = 'tableSegment';
                 }
             } else if (element == td) {
-                if (handlers == TableCellFormatHandlers) {
+                if (handlers == context.formatParsers.tableCell) {
                     (<any>format).format3 = 'td';
-                } else if (handlers == SegmentFormatHandlers) {
+                } else if (handlers == context.formatParsers.segmentOnBlock) {
                     (<any>format).format4 = 'tdSegment';
                 }
             }
@@ -228,7 +234,7 @@ describe('tableProcessor with format', () => {
         tableProcessor(doc, table, context);
 
         expect(stackFormat.stackFormat).toHaveBeenCalledTimes(2);
-        expect(parseFormat.parseFormat).toHaveBeenCalledTimes(4);
+        expect(parseFormat.parseFormat).toHaveBeenCalledTimes(6);
         expect(context.segmentFormat).toEqual({ a: 'b' } as any);
         expect(doc).toEqual({
             blockGroupType: 'Document',
@@ -263,6 +269,7 @@ describe('tableProcessor with format', () => {
                                 format: {
                                     format3: 'td',
                                 } as any,
+                                dataset: {},
                             },
                         ],
                     ],
@@ -271,6 +278,7 @@ describe('tableProcessor with format', () => {
                     format: {
                         format1: 'table',
                     } as any,
+                    dataset: {},
                 },
             ],
         });
@@ -278,6 +286,7 @@ describe('tableProcessor with format', () => {
 
     it('calculate table size with zoom scale', () => {
         const mockedTable = ({
+            tagName: 'table',
             rows: [
                 {
                     cells: [
@@ -324,11 +333,93 @@ describe('tableProcessor with format', () => {
                                 spanAbove: false,
                                 spanLeft: false,
                                 isHeader: false,
+                                dataset: {},
                             },
                         ],
                     ],
+                    dataset: {},
                 },
             ],
+        });
+    });
+
+    it('parse dataset', () => {
+        const mockedTable = ({
+            tagName: 'table',
+            rows: [
+                {
+                    cells: [
+                        {
+                            colSpan: 1,
+                            rowSpan: 1,
+                            tagName: 'TD',
+                            style: {},
+                            dataset: {},
+                            getBoundingClientRect: () => ({
+                                width: 100,
+                                height: 200,
+                            }),
+                            getAttribute: () => '',
+                        },
+                    ],
+                },
+            ],
+            style: {},
+            dataset: {},
+            getAttribute: () => '',
+        } as any) as HTMLTableElement;
+
+        const doc = createContentModelDocument(document);
+        const datasetParser = jasmine.createSpy('datasetParser');
+
+        context.formatParsers.dataset = [datasetParser];
+
+        tableProcessor(doc, mockedTable, context);
+
+        expect(datasetParser).toHaveBeenCalledWith({}, mockedTable, context, {
+            display: 'table',
+            boxSizing: 'border-box',
+        });
+        expect(datasetParser).toHaveBeenCalledWith({}, mockedTable.rows[0].cells[0], context, {
+            display: 'table-cell',
+        });
+    });
+
+    it('parse dataset', () => {
+        const mockedTable = ({
+            tagName: 'table',
+            rows: [
+                {
+                    cells: [
+                        {
+                            colSpan: 1,
+                            rowSpan: 1,
+                            tagName: 'TD',
+                            style: {},
+                            dataset: {},
+                            getBoundingClientRect: () => ({
+                                width: 100,
+                                height: 200,
+                            }),
+                            getAttribute: () => '',
+                        },
+                    ],
+                },
+            ],
+            style: {},
+            dataset: {},
+            getAttribute: () => '',
+        } as any) as HTMLTableElement;
+
+        const doc = createContentModelDocument(document);
+        const datasetParser = jasmine.createSpy('datasetParser');
+
+        context.formatParsers.dataset = [datasetParser];
+
+        tableProcessor(doc, mockedTable, context);
+
+        expect(datasetParser).toHaveBeenCalledWith({}, mockedTable.rows[0].cells[0], context, {
+            display: 'table-cell',
         });
     });
 });
@@ -363,6 +454,7 @@ describe('tableProcessor', () => {
 
         const group = createContentModelDocument(document);
         const mockedTable = ({
+            tagName: 'table',
             rows: [
                 {
                     cells: [

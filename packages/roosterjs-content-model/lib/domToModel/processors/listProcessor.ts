@@ -1,9 +1,10 @@
 import { ContentModelListItemLevelFormat } from '../../publicTypes/format/ContentModelListItemLevelFormat';
+import { DatasetFormat } from '../../publicTypes/format/formatParts/DatasetFormat';
+import { DomToModelContext } from '../../publicTypes/context/DomToModelContext';
 import { ElementProcessor } from '../../publicTypes/context/ElementProcessor';
-import { ListLevelFormatHandlers } from '../../formatHandlers/ListLevelFormatHandlers';
 import { parseFormat } from '../utils/parseFormat';
-import { SegmentFormatHandlers } from '../../formatHandlers/SegmentFormatHandlers';
 import { stackFormat } from '../utils/stackFormat';
+import { updateListMetadata } from '../../modelApi/metadata/updateListMetadata';
 
 /**
  * @internal
@@ -22,8 +23,9 @@ export const listProcessor: ElementProcessor<HTMLOListElement | HTMLUListElement
             segment: 'shallowClone',
         },
         () => {
-            parseFormat(element, ListLevelFormatHandlers, level, context);
-            parseFormat(element, SegmentFormatHandlers, context.segmentFormat, context);
+            processMetadata(element, context, level);
+            parseFormat(element, context.formatParsers.listLevel, level, context);
+            parseFormat(element, context.formatParsers.segment, context.segmentFormat, context);
 
             const originalListParent = listFormat.listParent;
 
@@ -39,3 +41,16 @@ export const listProcessor: ElementProcessor<HTMLOListElement | HTMLUListElement
         }
     );
 };
+
+function processMetadata(
+    element: HTMLOListElement | HTMLUListElement,
+    context: DomToModelContext,
+    level: ContentModelListItemLevelFormat
+) {
+    const dataset: DatasetFormat = {};
+    parseFormat(element, context.formatParsers.dataset, dataset, context);
+    updateListMetadata({ dataset }, metadata => {
+        Object.assign(level, metadata || {});
+        return null;
+    });
+}

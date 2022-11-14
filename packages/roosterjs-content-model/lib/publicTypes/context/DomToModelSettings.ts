@@ -1,4 +1,5 @@
 import { ContentModelFormatBase } from '../format/ContentModelFormatBase';
+import { ContentModelFormatMap } from '../format/ContentModelFormatMap';
 import { DomToModelContext } from './DomToModelContext';
 import { ElementProcessor } from './ElementProcessor';
 import { FormatHandlerTypeMap, FormatKey } from '../format/FormatHandlerTypeMap';
@@ -6,7 +7,16 @@ import { FormatHandlerTypeMap, FormatKey } from '../format/FormatHandlerTypeMap'
 /**
  * A type of Default style map, from tag name string (in upper case) to a static style object
  */
-export type DefaultStyleMap = Record<string, Partial<CSSStyleDeclaration>>;
+export type DefaultStyleMap = {
+    [key in keyof HTMLElementDeprecatedTagNameMap]?: Readonly<Partial<CSSStyleDeclaration>>;
+} &
+    {
+        [key in keyof HTMLElementTagNameMap]?: Readonly<Partial<CSSStyleDeclaration>>;
+    } & {
+        // Workaround typescript 4.4.4 which does not have these elements in its declaration file
+        center?: Partial<CSSStyleDeclaration>;
+        strike?: Partial<CSSStyleDeclaration>;
+    };
 
 /**
  * Parse format from the given HTML element and default style
@@ -27,6 +37,13 @@ export type FormatParser<TFormat extends ContentModelFormatBase> = (
  */
 export type FormatParsers = {
     [Key in FormatKey]: FormatParser<FormatHandlerTypeMap[Key]> | null;
+};
+
+/**
+ * A map from format parser category name to an array of parsers
+ */
+export type FormatParsersPerCategory = {
+    [Key in keyof ContentModelFormatMap]: (FormatParser<ContentModelFormatMap[Key]> | null)[];
 };
 
 /**
@@ -88,5 +105,17 @@ export interface DomToModelSettings {
     /**
      * Map of format parsers
      */
-    formatParsers: FormatParsers;
+    formatParsers: FormatParsersPerCategory;
+
+    /**
+     * Default DOM to Content Model processors before overriding.
+     * This provides a way to call original processor from an overridden processor function
+     */
+    defaultElementProcessors: Readonly<ElementProcessorMap>;
+
+    /**
+     * Default format parsers before overriding.
+     * This provides a way to call original format parser from an overridden parser function
+     */
+    defaultFormatParsers: Readonly<FormatParsers>;
 }

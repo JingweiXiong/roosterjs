@@ -1,9 +1,10 @@
 import { addBlock } from '../../modelApi/common/addBlock';
+import { addLink } from '../../modelApi/common/addLink';
 import { addSegment } from '../../modelApi/common/addSegment';
 import { createGeneralBlock } from '../../modelApi/creators/createGeneralBlock';
 import { createGeneralSegment } from '../../modelApi/creators/createGeneralSegment';
 import { ElementProcessor } from '../../publicTypes/context/ElementProcessor';
-import { isBlockElement } from 'roosterjs-editor-dom';
+import { isBlockElement } from '../utils/isBlockElement';
 import { stackFormat } from '../utils/stackFormat';
 
 const generalBlockProcessor: ElementProcessor<HTMLElement> = (group, element, context) => {
@@ -14,6 +15,7 @@ const generalBlockProcessor: ElementProcessor<HTMLElement> = (group, element, co
         {
             segment: 'empty',
             paragraph: 'empty',
+            link: 'empty',
         },
         () => {
             addBlock(group, block);
@@ -29,6 +31,9 @@ const generalSegmentProcessor: ElementProcessor<HTMLElement> = (group, element, 
         segment.isSelected = true;
     }
 
+    addLink(segment, context.link);
+    addSegment(group, segment);
+
     stackFormat(
         context,
         {
@@ -36,7 +41,6 @@ const generalSegmentProcessor: ElementProcessor<HTMLElement> = (group, element, 
                 'empty' /*clearFormat, General segment will include all properties and styles when generate back to HTML, so no need to carry over existing segment format*/,
         },
         () => {
-            addSegment(group, segment);
             context.elementProcessors.child(segment, element, context);
         }
     );
@@ -46,7 +50,9 @@ const generalSegmentProcessor: ElementProcessor<HTMLElement> = (group, element, 
  * @internal
  */
 export const generalProcessor: ElementProcessor<HTMLElement> = (group, element, context) => {
-    const processor = isBlockElement(element) ? generalBlockProcessor : generalSegmentProcessor;
+    const processor = isBlockElement(element, context)
+        ? generalBlockProcessor
+        : generalSegmentProcessor;
 
     processor(group, element, context);
 };
