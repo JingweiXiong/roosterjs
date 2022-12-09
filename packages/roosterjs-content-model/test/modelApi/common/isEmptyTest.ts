@@ -99,6 +99,7 @@ describe('isEmpty', () => {
             blockGroupType: 'Quote',
             format: {},
             blocks: [],
+            quoteSegmentFormat: {},
         });
 
         expect(result).toBeTrue();
@@ -116,6 +117,7 @@ describe('isEmpty', () => {
                     segments: [],
                 },
             ],
+            quoteSegmentFormat: {},
         });
 
         expect(result).toBeTrue();
@@ -190,7 +192,7 @@ describe('isEmpty', () => {
     it('Empty document', () => {
         const result = isEmpty({
             blockGroupType: 'Document',
-            document: document,
+
             blocks: [],
         });
 
@@ -200,7 +202,7 @@ describe('isEmpty', () => {
     it('Document with empty block', () => {
         const result = isEmpty({
             blockGroupType: 'Document',
-            document: document,
+
             blocks: [
                 {
                     blockType: 'Paragraph',
@@ -216,7 +218,7 @@ describe('isEmpty', () => {
     it('Document with content', () => {
         const result = isEmpty({
             blockGroupType: 'Document',
-            document: document,
+
             blocks: [
                 {
                     blockType: 'Paragraph',
