@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for roosterjs-content-model/lib/modelApi/selection/findParentGroup.ts</title>
+    <title>Code coverage report for roosterjs-content-model/lib/publicApi/table/setTableCellShade.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">roosterjs-content-model/lib/modelApi/selection</a> findParentGroup.ts</h1>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">roosterjs-content-model/lib/publicApi/table</a> setTableCellShade.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/10</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
@@ -90,7 +90,12 @@
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -98,63 +103,58 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ContentModelBlock } from '../../publicTypes/block/ContentModelBlock';
-import { ContentModelBlockGroup } from '../../publicTypes/group/ContentModelBlockGroup';
-import { ContentModelSelection } from './getSelections';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import hasSelectionInBlockGroup from '../selection/hasSelectionInBlockGroup';
+import { formatWithContentModel } from '../utils/formatWithContentModel';
+import { getFirstSelectedTable } from '../../modelApi/selection/collectSelections';
+import { IExperimentalContentModelEditor } from '../../publicTypes/IExperimentalContentModelEditor';
+import { normalizeTable } from '../../modelApi/table/normalizeTable';
+import { setTableCellBackgroundColor } from '../../modelApi/table/setTableCellBackgroundColor';
 &nbsp;
 /**
- * @internal
+ * Set table cell shade color
+ * @param editor The editor instance
+ * @param color The color to set
  */
-export function findParentGroup(
-    block: ContentModelBlock | ContentModelBlockGroup,
-    selections: ContentModelSelection[]
-): ContentModelBlockGroup | null {
-    for (let i = 0; i &lt; selections.length; i++) {
-        const selection = selections[i];
+export default function setTableCellShade(editor: IExperimentalContentModelEditor, color: string) {
+    formatWithContentModel(editor, 'setTableCellShade', model =&gt; {
+        const table = getFirstSelectedTable(model);
 &nbsp;
-        if (selection.paragraph == block) {
-            return selection.path[0] || <span class="branch-1 cbranch-no" title="branch not covered" >null;</span>
-        } else if (isBlockGroup(block)) {
-            const index = selection.path.indexOf(block);
+        if (table) {
+            normalizeTable(table);
 &nbsp;
-            if (index &gt;= 0) {
-                return selection.path[index + 1] || <span class="branch-1 cbranch-no" title="branch not covered" >null;</span>
-            }
+            table.cells.forEach(row =&gt;
+                row.forEach(cell =&gt; {
+                    if (hasSelectionInBlockGroup(cell)) {
+                        setTableCellBackgroundColor(cell, color, true /*isColorOverride*/);
+                    }
+                })
+            );
+&nbsp;
+            return true;
+        } else {
+            return false;
         }
-    }
-&nbsp;
-    return null;
-}
-&nbsp;
-function isBlockGroup(
-    block: ContentModelBlock | ContentModelBlockGroup
-): block is ContentModelBlockGroup {
-    return !!(&lt;ContentModelBlockGroup&gt;block).blockGroupType;
+    });
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -163,7 +163,7 @@ function isBlockGroup(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Dec 28 2022 13:41:49 GMT+0000 (Coordinated Universal Time)
+                at Sun Jan 29 2023 06:37:20 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../../../prettify.js"></script>
