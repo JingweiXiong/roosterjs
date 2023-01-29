@@ -1,8 +1,7 @@
 import { ContentModelDocument } from '../../publicTypes/group/ContentModelDocument';
 import { ContentModelListItem } from '../../publicTypes/group/ContentModelListItem';
 import { createListItem } from '../creators/createListItem';
-import { getOperationalBlocks } from '../common/getOperationalBlocks';
-import { getSelections } from '../selection/getSelections';
+import { getOperationalBlocks } from '../selection/collectSelections';
 import { isBlockGroupOfType } from '../common/isBlockGroupOfType';
 import { setParagraphNotImplicit } from '../block/setParagraphNotImplicit';
 
@@ -10,55 +9,64 @@ import { setParagraphNotImplicit } from '../block/setParagraphNotImplicit';
  * @internal
  */
 export function setListType(model: ContentModelDocument, listType: 'OL' | 'UL') {
-    const paragraphs = getSelections(model);
     const paragraphOrListItems = getOperationalBlocks<ContentModelListItem>(
-        paragraphs,
+        model,
         ['ListItem'],
         [] // Set stop types to be empty so we can find list items even cross the boundary of table, then we can always operation on the list item if any
     );
     const alreadyInExpectedType = paragraphOrListItems.every(
-        item =>
-            isBlockGroupOfType(item, 'ListItem') &&
-            item.levels[item.levels.length - 1]?.listType == listType
+        ({ block }) =>
+            isBlockGroupOfType<ContentModelListItem>(block, 'ListItem') &&
+            block.levels[block.levels.length - 1]?.listType == listType
     );
 
-    paragraphOrListItems.forEach((item, itemIndex) => {
-        if (isBlockGroupOfType(item, 'ListItem')) {
-            const level = item.levels.pop();
+    paragraphOrListItems.forEach(({ block, parent }, itemIndex) => {
+        if (isBlockGroupOfType<ContentModelListItem>(block, 'ListItem')) {
+            const level = block.levels.pop();
 
             if (!alreadyInExpectedType && level) {
                 level.listType = listType;
-                item.levels.push(level);
-            } else if (item.blocks.length == 1) {
-                setParagraphNotImplicit(item.blocks[0]);
+                block.levels.push(level);
+            } else if (block.blocks.length == 1) {
+                setParagraphNotImplicit(block.blocks[0]);
             }
-        } else if (item.paragraph) {
-            const group = item.path[0];
-            const index = group.blocks.indexOf(item.paragraph);
-            const prevBlock = group.blocks[index - 1];
-            const newListItem = createListItem(
-                [
+        } else if (block.blockType == 'Paragraph') {
+            const index = parent.blocks.indexOf(block);
+
+            if (index >= 0) {
+                const prevBlock = parent.blocks[index - 1];
+                const segmentFormat = block.segments[0]?.format || {};
+                const newListItem = createListItem(
+                    [
+                        {
+                            listType,
+                            startNumberOverride:
+                                itemIndex > 0 ||
+                                (prevBlock?.blockType == 'BlockGroup' &&
+                                    prevBlock.blockGroupType == 'ListItem' &&
+                                    prevBlock.levels[0]?.listType == 'OL')
+                                    ? undefined
+                                    : 1,
+                            direction: block.format.direction,
+                            textAlign: block.format.textAlign,
+                        },
+                    ],
+                    // For list bullet, we only want to carry over these formats from segments:
                     {
-                        listType,
-                        startNumberOverride:
-                            itemIndex > 0 ||
-                            (prevBlock?.blockType == 'BlockGroup' &&
-                                prevBlock.blockGroupType == 'ListItem' &&
-                                prevBlock.levels[0]?.listType == 'OL')
-                                ? undefined
-                                : 1,
-                    },
-                ],
-                item.paragraph.segments[0]?.format
-            );
+                        fontFamily: segmentFormat.fontFamily,
+                        fontSize: segmentFormat.fontSize,
+                        textColor: segmentFormat.textColor,
+                    }
+                );
 
-            // Since there is only one paragraph under the list item, no need to keep its paragraph element (DIV).
-            // TODO: Do we need to keep the CSS styles applied to original DIV?
-            item.paragraph.isImplicit = true;
+                // Since there is only one paragraph under the list item, no need to keep its paragraph element (DIV).
+                // TODO: Do we need to keep the CSS styles applied to original DIV?
+                block.isImplicit = true;
 
-            newListItem.blocks.push(item.paragraph);
+                newListItem.blocks.push(block);
 
-            group.blocks.splice(index, 1, newListItem);
+                parent.blocks.splice(index, 1, newListItem);
+            }
         }
     });
 
