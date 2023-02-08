@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for roosterjs-content-model/lib/modelApi/metadata/updateListMetadata.ts</title>
+    <title>Code coverage report for roosterjs-content-model/lib/domToModel/domToContentModel.ts</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../../../prettify.css" />
-    <link rel="stylesheet" href="../../../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../../../favicon.png" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../../../sort-arrow-sprite.png);
+            background-image: url(../../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">roosterjs-content-model/lib/modelApi/metadata</a> updateListMetadata.ts</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">roosterjs-content-model/lib/domToModel</a> domToContentModel.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
@@ -94,29 +94,16 @@
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -129,44 +116,60 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { BulletListType, NumberingListType } from 'roosterjs-editor-types';
-import { ContentModelWithDataset } from '../../publicTypes/format/ContentModelWithDataset';
-import { createNumberDefinition, createObjectDefinition } from 'roosterjs-editor-dom';
-import { ListMetadataFormat } from '../../publicTypes/format/formatParts/ListMetadataFormat';
-import { updateMetadata } from './updateMetadata';
-&nbsp;
-const ListStyleDefinitionMetadata = createObjectDefinition&lt;ListMetadataFormat&gt;(
-    {
-        orderedStyleType: createNumberDefinition(
-            true /** isOptional */,
-            undefined /** value **/,
-            NumberingListType.Min,
-            NumberingListType.Max
-        ),
-        unorderedStyleType: createNumberDefinition(
-            true /** isOptional */,
-            undefined /** value **/,
-            BulletListType.Min,
-            BulletListType.Max
-        ),
-    },
-    true /** isOptional */,
-    true /** allowNull */
-);
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ContentModelDocument } from '../publicTypes/group/ContentModelDocument';
+import { createContentModelDocument } from '../modelApi/creators/createContentModelDocument';
+import { createDomToModelContext } from './context/createDomToModelContext';
+import { DomToModelOption } from '../publicTypes/IContentModelEditor';
+import { EditorContext } from '../publicTypes/context/EditorContext';
+import { normalizeContentModel } from '../modelApi/common/normalizeContentModel';
+import { parseFormat } from './utils/parseFormat';
+import { rootDirectionFormatHandler } from '../formatHandlers/root/rootDirectionFormatHandler';
+import { zoomScaleFormatHandler } from '../formatHandlers/root/zoomScaleFormatHandler';
 &nbsp;
 /**
- * @internal
- * Update list metadata with a callback
- * @param list The list Content Model (metadata holder)
- * @param callback The callback function used for updating metadata
+ * Create Content Model from DOM tree in this editor
+ * @param root Root element of DOM tree to create Content Model from
+ * @param editorContext Context of content model editor
+ * @param option The option to customize the behavior of DOM to Content Model conversion
+ * @returns A ContentModelDocument object that contains all the models created from the give root element
  */
-export function updateListMetadata(
-    list: ContentModelWithDataset&lt;ListMetadataFormat&gt;,
-    callback?: (format: ListMetadataFormat | null) =&gt; ListMetadataFormat | null
-): ListMetadataFormat | null {
-    return updateMetadata(list, callback, ListStyleDefinitionMetadata);
+export default function domToContentModel(
+    root: HTMLElement,
+    editorContext: EditorContext,
+    option: DomToModelOption
+): ContentModelDocument {
+    const model = createContentModelDocument();
+    const context = createDomToModelContext(editorContext, option);
+&nbsp;
+    parseFormat(root, [rootDirectionFormatHandler.parse], context.blockFormat, context);
+    parseFormat(root, [zoomScaleFormatHandler.parse], context.zoomScaleFormat, context);
+&nbsp;
+    const processor = option.includeRoot
+        ? context.elementProcessors.element
+        : context.elementProcessors.child;
+&nbsp;
+    processor(model, root, context);
+&nbsp;
+    normalizeContentModel(model);
+&nbsp;
+    return model;
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -175,17 +178,17 @@ export function updateListMetadata(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sun Jan 29 2023 06:37:20 GMT+0000 (Coordinated Universal Time)
+                at Wed Feb 08 2023 08:46:22 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
-        <script src="../../../../prettify.js"></script>
+        <script src="../../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../../../sorter.js"></script>
-        <script src="../../../../block-navigation.js"></script>
+        <script src="../../../sorter.js"></script>
+        <script src="../../../block-navigation.js"></script>
     </body>
 </html>
     

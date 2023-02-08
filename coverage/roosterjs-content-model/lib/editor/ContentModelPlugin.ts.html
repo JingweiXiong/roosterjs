@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for roosterjs-content-model/lib/publicPlugin/ContentModelPlugin.ts</title>
+    <title>Code coverage report for roosterjs-content-model/lib/editor/ContentModelPlugin.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">roosterjs-content-model/lib/publicPlugin</a> ContentModelPlugin.ts</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">roosterjs-content-model/lib/editor</a> ContentModelPlugin.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.14% </span>
+                <span class="strong">97.22% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>34/35</span>
+                <span class='fraction'>35/36</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.14% </span>
+                <span class="strong">97.22% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>34/35</span>
+                <span class='fraction'>35/36</span>
             </div>
         
             
@@ -173,9 +173,11 @@
 <a name='L114'></a><a href='#L114'>114</a>
 <a name='L115'></a><a href='#L115'>115</a>
 <a name='L116'></a><a href='#L116'>116</a>
-<a name='L117'></a><a href='#L117'>117</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -292,7 +294,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ContentModelSegmentFormat } from '../publicTypes/format/ContentModelSegmentFormat';
 import { createText } from '../modelApi/creators/createText';
 import { EditorPlugin, IEditor, Keys, PluginEvent, PluginEventType } from 'roosterjs-editor-types';
-import { IExperimentalContentModelEditor } from '../publicTypes/IExperimentalContentModelEditor';
+import { getPendingFormat, setPendingFormat } from '../publicApi/format/pendingFormat';
+import { IContentModelEditor } from '../publicTypes/IContentModelEditor';
 import { iterateSelections } from '../modelApi/selection/iterateSelections';
 &nbsp;
 /**
@@ -301,7 +304,7 @@ import { iterateSelections } from '../modelApi/selection/iterateSelections';
  * 1. Handle pending format changes when selection is collapsed
  */
 export default class ContentModelPlugin implements EditorPlugin {
-    private editor: IExperimentalContentModelEditor | null = null;
+    private editor: IContentModelEditor | null = null;
 &nbsp;
     /**
      * Get name of this plugin
@@ -318,7 +321,7 @@ export default class ContentModelPlugin implements EditorPlugin {
      */
     initialize(editor: IEditor) {
         // TODO: Later we may need a different interface for Content Model editor plugin
-        this.editor = editor as IExperimentalContentModelEditor;
+        this.editor = editor as IContentModelEditor;
     }
 &nbsp;
     /**
@@ -346,10 +349,10 @@ export default class ContentModelPlugin implements EditorPlugin {
                     !this.editor.isInIME()) || // In Safari, isComposing will be undfined but isInIME() works
                     event.eventType == PluginEventType.CompositionEnd) &amp;&amp;
                 event.rawEvent.data &amp;&amp;
-                (format = this.editor.getPendingFormat())
+                (format = getPendingFormat(this.editor))
             ) {
                 applyPendingFormat(this.editor, event.rawEvent.data, format);
-                this.editor.setPendingFormat(null);
+                setPendingFormat(this.editor, null);
             }
 &nbsp;
             if (
@@ -359,14 +362,14 @@ export default class ContentModelPlugin implements EditorPlugin {
                 event.eventType == PluginEventType.MouseDown ||
                 event.eventType == PluginEventType.ContentChanged
             ) {
-                this.editor.setPendingFormat(null);
+                setPendingFormat(this.editor, null);
             }
         }
     }
 }
 &nbsp;
 function applyPendingFormat(
-    editor: IExperimentalContentModelEditor,
+    editor: IContentModelEditor,
     data: string,
     format: ContentModelSegmentFormat
 ) {
@@ -412,7 +415,7 @@ function applyPendingFormat(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sun Jan 29 2023 06:37:20 GMT+0000 (Coordinated Universal Time)
+                at Wed Feb 08 2023 08:46:22 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../../prettify.js"></script>
