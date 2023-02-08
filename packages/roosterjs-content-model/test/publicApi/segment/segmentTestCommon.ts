@@ -1,14 +1,17 @@
+import * as pendingFormat from '../../../lib/publicApi/format/pendingFormat';
 import { ContentModelDocument } from '../../../lib/publicTypes/group/ContentModelDocument';
-import { ContentModelSegmentFormat } from '../../../lib/publicTypes/format/ContentModelSegmentFormat';
-import { IExperimentalContentModelEditor } from '../../../lib/publicTypes/IExperimentalContentModelEditor';
+import { IContentModelEditor } from '../../../lib/publicTypes/IContentModelEditor';
 
 export function segmentTestCommon(
     apiName: string,
-    executionCallback: (editor: IExperimentalContentModelEditor) => void,
+    executionCallback: (editor: IContentModelEditor) => void,
     model: ContentModelDocument,
     result: ContentModelDocument,
     calledTimes: number
 ) {
+    spyOn(pendingFormat, 'setPendingFormat');
+    spyOn(pendingFormat, 'getPendingFormat').and.returnValue(null);
+
     const addUndoSnapshot = jasmine
         .createSpy()
         .and.callFake((callback: () => void, source: string, canUndoByBackspace, param: any) => {
@@ -24,9 +27,8 @@ export function segmentTestCommon(
         addUndoSnapshot,
         focus: jasmine.createSpy(),
         setContentModel,
-        getPendingFormat: (): ContentModelSegmentFormat | null => null,
-        setPendingFormat: () => {},
-    } as any) as IExperimentalContentModelEditor;
+        isDisposed: () => false,
+    } as any) as IContentModelEditor;
 
     executionCallback(editor);
 

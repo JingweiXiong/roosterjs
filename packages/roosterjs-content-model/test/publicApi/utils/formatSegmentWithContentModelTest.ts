@@ -1,3 +1,4 @@
+import * as pendingFormat from '../../../lib/publicApi/format/pendingFormat';
 import { ContentModelDocument } from '../../../lib/publicTypes/group/ContentModelDocument';
 import { ContentModelSegmentFormat } from '../../../lib/publicTypes/format/ContentModelSegmentFormat';
 import { createContentModelDocument } from '../../../lib/modelApi/creators/createContentModelDocument';
@@ -5,10 +6,10 @@ import { createParagraph } from '../../../lib/modelApi/creators/createParagraph'
 import { createSelectionMarker } from '../../../lib/modelApi/creators/createSelectionMarker';
 import { createText } from '../../../lib/modelApi/creators/createText';
 import { formatSegmentWithContentModel } from '../../../lib/publicApi/utils/formatSegmentWithContentModel';
-import { IExperimentalContentModelEditor } from '../../../lib/publicTypes/IExperimentalContentModelEditor';
+import { IContentModelEditor } from '../../../lib/publicTypes/IContentModelEditor';
 
 describe('formatSegmentWithContentModel', () => {
-    let editor: IExperimentalContentModelEditor;
+    let editor: IContentModelEditor;
     let addUndoSnapshot: jasmine.Spy;
     let setContentModel: jasmine.Spy;
     let focus: jasmine.Spy;
@@ -22,17 +23,16 @@ describe('formatSegmentWithContentModel', () => {
         addUndoSnapshot = jasmine.createSpy('addUndoSnapshot').and.callFake(callback => callback());
         setContentModel = jasmine.createSpy('setContentModel');
         focus = jasmine.createSpy('focus');
-        getPendingFormat = jasmine.createSpy('getPendingFormat');
-        setPendingFormat = jasmine.createSpy('setPendingFormat');
+
+        setPendingFormat = spyOn(pendingFormat, 'setPendingFormat');
+        getPendingFormat = spyOn(pendingFormat, 'getPendingFormat');
 
         editor = ({
             focus,
             addUndoSnapshot,
             createContentModel: () => model,
             setContentModel,
-            getPendingFormat: getPendingFormat,
-            setPendingFormat: setPendingFormat,
-        } as any) as IExperimentalContentModelEditor;
+        } as any) as IContentModelEditor;
     });
 
     it('empty doc', () => {
@@ -240,7 +240,7 @@ describe('formatSegmentWithContentModel', () => {
         expect(addUndoSnapshot).toHaveBeenCalledTimes(0);
         expect(getPendingFormat).toHaveBeenCalledTimes(1);
         expect(setPendingFormat).toHaveBeenCalledTimes(1);
-        expect(setPendingFormat).toHaveBeenCalledWith({
+        expect(setPendingFormat).toHaveBeenCalledWith(editor, {
             fontSize: '10px',
             fontFamily: 'test',
         });
