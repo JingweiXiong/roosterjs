@@ -1,5 +1,4 @@
-import * as getComputedStyles from 'roosterjs-editor-dom/lib/utils/getComputedStyles';
-import * as pendingFormat from '../../../lib/publicApi/format/pendingFormat';
+import * as pendingFormat from '../../../lib/modelApi/format/pendingFormat';
 import changeFontSize from '../../../lib/publicApi/segment/changeFontSize';
 import domToContentModel from '../../../lib/domToModel/domToContentModel';
 import { ContentModelDocument } from '../../../lib/publicTypes/group/ContentModelDocument';
@@ -358,12 +357,6 @@ describe('changeFontSize', () => {
             setContentModel,
         } as any) as IContentModelEditor;
 
-        spyOn(getComputedStyles, 'getComputedStyle').and.callFake(
-            (node: HTMLElement, style: string) => {
-                return node.style.fontSize;
-            }
-        );
-
         changeFontSize(editor, 'increase');
 
         expect(setContentModel).toHaveBeenCalledWith({
@@ -386,8 +379,5 @@ describe('changeFontSize', () => {
                 },
             ],
         });
-
-        expect(getComputedStyles.getComputedStyle).toHaveBeenCalledTimes(1);
-        expect(getComputedStyles.getComputedStyle).toHaveBeenCalledWith(div, 'font-size');
     });
 });
